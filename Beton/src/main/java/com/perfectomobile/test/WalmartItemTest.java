@@ -44,7 +44,7 @@ public class WalmartItemTest extends BasicTest {
 		  //String absolutePath = inputWorkbook.getAbsolutePath();
 		  
 		  // Open workbook
-		  ExcelDriver ed = new ExcelDriver("C:\\Users\\AvnerG\\git\\data\\testResults.xlsx", this.deviceDesc, true);
+		  ExcelDriver ed = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\data\\testResults.xlsx", this.deviceDesc, true);
 	 	  ed.setResultColumn(this.testCycle, true);
 	 	  //Reporter.log(String.valueOf(Thread.currentThread().getId()));
 	 	  try{
@@ -93,7 +93,7 @@ public class WalmartItemTest extends BasicTest {
 		  //File inputWorkbook = new File(classLoader.getResource("testData.xlsx").getFile());
 		  //String absolutePath = inputWorkbook.getAbsolutePath();
 		  // Open workbook
-		  ExcelDriver ed = new ExcelDriver("C:\\Users\\AvnerG\\git\\PerfectoCI\\data\\testData.xlsx", "items", false);
+		  ExcelDriver ed = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\data\\testData.xlsx", "items", false);
 		  //ed.setWorkbook(absolutePath);
 		  
 		  // Open sheet

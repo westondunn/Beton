@@ -55,7 +55,7 @@ public abstract class BasicTest {
 		 //File inputWorkbook = new File(classLoader.getResource(capabilitiesFilePath).getFile());
 		 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
-		 listMap = getCapabilitiesListMapFromExcel("C:\\Users\\AvnerG\\git\\PerfectoCI\\data\\testData.xlsx", "devices");
+		 listMap = getCapabilitiesListMapFromExcel("C:\\Users\\AvnerG\\git\\Beton\\data\\testData.xlsx", "devices");
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
 
 		 return s;
