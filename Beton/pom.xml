@@ -7,11 +7,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
-		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
 		<selenium.version>2.45.0</selenium.version>
 		<jxl.version>2.6.12</jxl.version>
 		<testng.version>6.8.8</testng.version>
 		<reportng.version>1.1.4</reportng.version>
+		<skipTests>true</skipTests>
 	</properties>
 
 	<build>
@@ -27,12 +29,14 @@
 		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.17</version>
+				<version>2.16</version>
 				<configuration>
 					<skip>false</skip>
 					<suiteXmlFiles>
-						<suiteXmlFile>${basedir}/${suite}</suiteXmlFile>
+						<suiteXmlFile>${basedir}/testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
+					 <skipTests>${skipTests}</skipTests>
+					<testFailureIgnore>true</testFailureIgnore>
 				</configuration>
 			</plugin>
 			<!-- <plugin>
