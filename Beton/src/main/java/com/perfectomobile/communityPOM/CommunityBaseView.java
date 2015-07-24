@@ -2,6 +2,7 @@ package com.perfectomobile.communityPOM;
 
 import java.awt.peer.MenuPeer;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.ss.formula.functions.T;
@@ -18,12 +19,17 @@ public class CommunityBaseView {
 	protected RemoteWebDriver driver;
 	private String url = "http://community.perfectomobile.com/";
 	protected UpperMenuPageView menuPanel;
+	private HashMap<String, String> deviceProperties;
 	
 	 /**********************************************************************
 	 * 		Constructor
 	 **********************************************************************/
 	public CommunityBaseView(RemoteWebDriver driver){
 		this.driver = driver;
+	}
+	public CommunityBaseView(RemoteWebDriver driver, HashMap<String,String> deviceProperties){
+		this.driver = driver;
+		this.deviceProperties = deviceProperties;
 	}
 	
 		
@@ -49,11 +55,11 @@ public class CommunityBaseView {
 			}
 		}
 		catch(Exception e){
-			
+			/*
 			String errorFile = PerfectoUtils.takeScreenshot(driver);
 			Reporter.log("Error screenshot saved in file: " + errorFile);
 			throw new IllegalStateException();
-				
+			*/
 		}	
 		return this;
 	}
@@ -119,8 +125,8 @@ public class CommunityBaseView {
 			this.menuPanel = menuPanel.logOut();
 			return this;
 		} catch (Exception e) {
-			String errorFile = PerfectoUtils.takeScreenshot(driver);
-			Reporter.log("Error screenshot saved in file: " + errorFile);
+//			String errorFile = PerfectoUtils.takeScreenshot(driver);
+//			Reporter.log("Error screenshot saved in file: " + errorFile);
 			throw new IllegalStateException();
 		}
 		
@@ -135,6 +141,9 @@ public class CommunityBaseView {
 	public String getWelcomeMessage(){
 		
 		return menuPanel.getWelcomeMessage();
+	}
+	public String getDeviceProperty(String key){
+		return deviceProperties.get(key);
 	}
 	
 }

@@ -13,6 +13,7 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.apache.regexp.recompile;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
@@ -46,6 +48,9 @@ import com.google.common.base.Function;
 
 
 
+
+
+
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -56,6 +61,7 @@ public class PerfectoUtils {
 
 
 	private static final String REPOSITORY = "PUBLIC:";
+	//private static Map<String, String> deviceProperties = new HashMap<String, String>();
 
 	public PerfectoUtils() {
 
@@ -109,56 +115,6 @@ public class PerfectoUtils {
 		return null;
 
 	}
-	
-	public static List<DesiredCapabilities> readFromExecl(String inputFile)
-	{
-		ClassLoader classLoader = PerfectoUtils.class.getClassLoader();
-		File inputWorkbook = new File(classLoader.getResource(inputFile).getFile());
-		//File inputWorkbook = new File(inputFile);
-		Workbook w;
-		List<DesiredCapabilities> DCList = new ArrayList<>();
-		//	capabilities.setCapability("platformName", "Android");
-
-		try {
-			String title = "";
-			String cellVal = "";
-			DesiredCapabilities capabilities = null;
-			w = Workbook.getWorkbook(inputWorkbook);
-			// Get the first sheet
-			Sheet sheet = w.getSheet(0);
-			// start from 1 > don't want to run on title raw
-			for (int rowNum = 1; rowNum < sheet.getRows(); rowNum++) {
-				//create DC per line 
-				capabilities = new DesiredCapabilities("", "", Platform.ANY);
-
-				for (int col = 0; col < sheet.getColumns(); col++) { 
-					Cell cell = sheet.getCell(col,rowNum);
-					title = sheet.getCell(col, 0).getContents();
-					cellVal = cell.getContents();
-					if (!cellVal.equals(""))
-					{
-						//	System.out.println("Add " + title + " " + cellVal);
-						capabilities.setCapability(title, cellVal);
-					}
-				}
-				DCList.add(capabilities);
-			}
-
-		} catch (BiffException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return DCList;
-	}
-
-	public static void closeTest(RemoteWebDriver driver)
-	{
-		System.out.println("CloseTest");
-		driver.quit();
-	}
-
 
 //	private void uploadMedia(String resource, String repositoryKey) throws URISyntaxException, IOException {
 //		repositoryKey = REPOSITORY;
@@ -401,43 +357,104 @@ public class PerfectoUtils {
 		  }
 		  return returnArray;
 	  }
+	  public static boolean isDevice(RemoteWebDriver driver){
+          //first check if driver is a mobile device:
+            Capabilities capabilities = driver.getCapabilities();
+            String type = (String) capabilities.getCapability("browserName");
+            if (type.toLowerCase().equals("chrome") || type.toLowerCase().equals("firefox")){
+                  return false;
+            }
+            return true;
+      }
+      public static HashMap<String, String> getDevicePropertiesList(RemoteWebDriver driver) {
+    	  //hashmap to contain device properties
+    	  HashMap<String, String> deviceProperties = new HashMap<String, String>();
+          deviceProperties = new HashMap<String, String>();
+            
+          if (!isDevice(driver))
+        	  return null;
+        
+          Map<String, Object> params = new HashMap<>();
+          params.put("property", "ALL");
+          String properties = (String) driver.executeScript("mobile:handset:info", params);
 
-	  public static DesiredCapabilities getCapabilites(String deviceName, String platformName, String platformVersion, String manufacturer,
-			  String deviceModel, String deviceResolution, String deviceNetwork, String deviceLocation, String deviceDescription, String browserName, String automationName) throws Exception{
-		  
-		  DesiredCapabilities capabilities = new DesiredCapabilities(browserName, "", Platform.ANY);
-		  		  
-		  if(!deviceName.equals("")){
-			  capabilities.setCapability("deviceName", deviceName);
-		  }
-		  if(!platformName.equals("")){
-			  capabilities.setCapability("platformName", platformName);
-		  }
-		  if(!platformVersion.equals("")){
-			  capabilities.setCapability("platformVersion", platformVersion);
-		  }
-		  if(!manufacturer.equals("")){
-			  capabilities.setCapability("manufacturer", manufacturer);
-		  }
-		  if(!deviceModel.equals("")){
-			  capabilities.setCapability("model", deviceModel);
-		  }
-		  if(!deviceResolution.equals("")){
-			  capabilities.setCapability("resolution", deviceResolution);
-		  }
-		  if(!deviceNetwork.equals("")){
-			  capabilities.setCapability("network", deviceNetwork);
-		  }
-		  if(!deviceLocation.equals("")){
-			  capabilities.setCapability("location", deviceLocation);
-		  }
-		  if(!deviceDescription.equals("")){
-			  capabilities.setCapability("description", deviceDescription);
-		  }
-		  if(!automationName.equals("")){
-			  capabilities.setCapability("automationName", automationName);
-		  }
-		  		 
-		  return capabilities;
-	  }
+          List<String> items = Arrays.asList(properties.split(","));
+          String key,value;
+        //build hashmap for all device properties:
+          for (int i = 0; i < items.size(); i=i+2) {
+        	  key=items.get(i);
+        	  if (key.startsWith("[")||key.startsWith(" ")){
+        		  key=key.substring(1);
+        	  }
+          value=items.get(i+1);
+          if(value.startsWith(" ")){
+        	  value=value.substring(1);
+          }
+          if (value.startsWith("[")){
+        	  for (int j = i+2; j < items.size(); j++) {
+        		  value=value+","+items.get(j);
+                  if (value.endsWith("]")){
+                	  value=value.substring(1,value.length()-1);
+                      i=j-1;
+                      break;
+                  }
+              }
+          }
+          if (value.endsWith("]")){
+        	  value=value.substring(0,value.length()-1);
+          }
+          deviceProperties.put(key, value);
+      }
+          return deviceProperties;
+   }
+    /*****************************************************************************
+    * gets a specific device property out of the Dictionary.
+    * returns the value of the property
+    * for example:
+    * getDeviceProperty("Model") will return the model of the device(ie iPhone-6)
+    ******************************************************************************/
+    public static String getDeviceProperty(RemoteWebDriver driver, String Property){
+    	HashMap<String, String> deviceProperties = getDevicePropertiesList(driver);
+        return (deviceProperties.get(Property));
+    }
+
+
+//	  public static DesiredCapabilities getCapabilites(String deviceName, String platformName, String platformVersion, String manufacturer,
+//			  String deviceModel, String deviceResolution, String deviceNetwork, String deviceLocation, String deviceDescription, String browserName, String automationName) throws Exception{
+//		  
+//		  DesiredCapabilities capabilities = new DesiredCapabilities(browserName, "", Platform.ANY);
+//		  		  
+//		  if(!deviceName.equals("")){
+//			  capabilities.setCapability("deviceName", deviceName);
+//		  }
+//		  if(!platformName.equals("")){
+//			  capabilities.setCapability("platformName", platformName);
+//		  }
+//		  if(!platformVersion.equals("")){
+//			  capabilities.setCapability("platformVersion", platformVersion);
+//		  }
+//		  if(!manufacturer.equals("")){
+//			  capabilities.setCapability("manufacturer", manufacturer);
+//		  }
+//		  if(!deviceModel.equals("")){
+//			  capabilities.setCapability("model", deviceModel);
+//		  }
+//		  if(!deviceResolution.equals("")){
+//			  capabilities.setCapability("resolution", deviceResolution);
+//		  }
+//		  if(!deviceNetwork.equals("")){
+//			  capabilities.setCapability("network", deviceNetwork);
+//		  }
+//		  if(!deviceLocation.equals("")){
+//			  capabilities.setCapability("location", deviceLocation);
+//		  }
+//		  if(!deviceDescription.equals("")){
+//			  capabilities.setCapability("description", deviceDescription);
+//		  }
+//		  if(!automationName.equals("")){
+//			  capabilities.setCapability("automationName", automationName);
+//		  }
+//		  		 
+//		  return capabilities;
+//	  }
 }

@@ -33,9 +33,9 @@ public abstract class BasicTest {
 	protected String testName;
 	protected String testCycle;
 	protected String deviceDesc;
-	//protected static String capabilitiesFilePath = "testData.xlsx";
-	//protected static String capabilitiesFilePath;
 	private boolean isFirstRun = true;
+	protected ExcelDriver resultSheet;
+	private HashMap<String,String> deviceProperties;
   
 	protected DesiredCapabilities caps;
   
@@ -86,13 +86,16 @@ public abstract class BasicTest {
 	
 	
 	@BeforeMethod
-	public void beforeMethod(Method method) throws MalformedURLException{
-		this.testName = method.getName();
+	public void beforeMethod(Method method) throws Exception{
+		this.testName = method.getName();		
+		
 		if(!isFirstRun){
 			return;
 		}
 		isFirstRun = false;
-		System.out.println("Run started");		
+		System.out.println("Run started");
+		resultSheet = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\data\\testResults.xlsx", this.deviceDesc, true);
+	 	resultSheet.setResultColumn(this.testCycle, true);
 		
 		if(this.caps.getCapability("deviceName") != null){
 			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
@@ -103,7 +106,17 @@ public abstract class BasicTest {
 			}
 		}
 		this.driver = PerfectoUtils.getDriver(caps, this.driverRetries, retryIntervalSeconds);
-		this.deviceDesc = driver.getCapabilities().getCapability("model").toString();
+		//PerfectoUtils.initDevicePropertiesList(this.driver);
+		if(this.driver != null){
+			deviceProperties = PerfectoUtils.getDevicePropertiesList(driver);
+			deviceDesc = getDeviceProperty("model");
+			deviceDesc += " ";
+			deviceDesc += getDeviceProperty("description");
+//			this.deviceDesc = driver.getCapabilities().getCapability("model").toString();
+//			this.deviceDesc += " ";
+//			this.deviceDesc += driver.getCapabilities().getCapability("description").toString();
+		}
+		
 	}
 	
 
@@ -136,8 +149,19 @@ public abstract class BasicTest {
         
 		driver.quit();
 	}
-	
-	
+	public String getDeviceProperty(String key){
+		return deviceProperties.get(key);
+	}
+	public HashMap<String, String> getDeviceProperties(){
+		return deviceProperties;
+	}
+
+	protected void reportFail(String expectedResult, String actualResult){
+    	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
+    	String errorFile = PerfectoUtils.takeScreenshot(driver);
+		Reporter.log("Error screenshot saved in file: " + errorFile);
+		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
+	}
 	public void switchToContext(RemoteWebDriver driver, String context) {
 		RemoteExecuteMethod executeMethod = new RemoteExecuteMethod(driver);
 		Map<String,String> params = new HashMap<String,String>();
@@ -156,58 +180,4 @@ public abstract class BasicTest {
 		List<String> contexts =  (List<String>) executeMethod.execute(DriverCommand.GET_CONTEXT_HANDLES, null);
 		return contexts;
 	}
-	
-	/* 
-	@Parameters({"testCycle"})
-	@BeforeClass 
-	public void beforeClass(String testCycle) throws Exception{
-		if(!isFirstRun){
-			return;
-		}
-		isFirstRun = false;
-		System.out.println("Run started");
-		this.testCycle = testCycle;
-		
-		
-		if(this.caps.getCapability("deviceName") != null){
-			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
-				DesiredCapabilities dc = DesiredCapabilities.chrome();
-				this.driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),dc);
-				//this.deviceDesc = "Chrome";
-				return;
-			}
-		}
-		this.driver = PerfectoUtils.getDriver(caps, this.driverRetries, retryIntervalSeconds);
-		if(this.driver == null){
-			Assert.fail("Device not found: " + caps);
-		}
-	 }
- */
-//	protected static Object[][] getCapabilitiesArrary(Object[][] s) throws Exception {
-//	
-//	int sSize = s.length;
-//	Object [][] k = new Object[sSize][1];
-//	
-//	for(int i = 0; i < sSize; i++) {
-//		k[i][0] = (Object)PerfectoUtils.getCapabilites((String)s[i][0],(String)s[i][1],(String)s[i][2],(String)s[i][3],(String)s[i][4],
-//				(String)s[i][5],(String)s[i][6],(String)s[i][7],(String)s[i][8],(String)s[i][9],(String)s[i][10]);
-//	}
-//	return k;
-//}
-
-//protected static Object[][] generateArraysFromExcel(File file, String sheetName, int numOfCols) throws Exception{
-//	
-//	// Open workbook
-//	ExcelDriver ed = new ExcelDriver();
-//	
-//	String absolutePath = file.getAbsolutePath();
-//	ed.setWorkbook(absolutePath);
-//	
-//	// Open sheet
-//	ed.setSheet(sheetName, false);
-//				// Read the sheet into 2 dim (String)Object array.
-//	// "3" is the number of columns to read.
-//	Object[][] s = ed.getData(numOfCols);
-//	return s;
-//}
 }

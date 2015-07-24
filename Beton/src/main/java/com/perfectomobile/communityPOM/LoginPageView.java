@@ -40,8 +40,10 @@ public class LoginPageView extends CommunityBaseView {
         	PerfectoUtils.fluentWait(headerPanel, driver, 30);
         }
         catch(Exception e){
+        	/*
         	String errorFile = PerfectoUtils.takeScreenshot(driver);
 			Reporter.log("Error screenshot saved in file: " + errorFile);
+			*/
         	throw new IllegalStateException();
         }
         

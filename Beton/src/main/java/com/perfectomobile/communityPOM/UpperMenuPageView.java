@@ -1,7 +1,10 @@
 package com.perfectomobile.communityPOM;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,10 +14,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Reporter;
 
 import com.perfectomobile.utils.PerfectoUtils;
+import com.perfectomobile.test.BasicTest;
 
-public class UpperMenuPageView {
+public class UpperMenuPageView{
 	
-	private RemoteWebDriver driver;
 	private boolean loggedIn;
 	
 	private By communityLogo	= By.xpath("//img[@class='brand-image']");
@@ -32,6 +35,8 @@ public class UpperMenuPageView {
 	private String searchButton1 = "(//header[1]/div[2]/button[1]/span[1])";
 	private String searchButton2 = "(//header[1]/div[1]/button[1]/div[1]/span[1])";
 	private By searchAreaInput	= By.xpath("//input[contains(@class,'js-search-input')]");
+
+	private RemoteWebDriver driver;
 	
 	
 	/**********************************************************************
@@ -40,12 +45,12 @@ public class UpperMenuPageView {
 	 **********************************************************************/
 	public UpperMenuPageView(RemoteWebDriver driver) throws IOException{
 		this.driver = driver;
-        this.loggedIn = false;
+        //this.loggedIn = false;
            
         
         //validate page loaded successfully before proceeding
         try{
-        	PerfectoUtils.fluentWait(communityLogo, driver, 30);
+        	PerfectoUtils.fluentWait(communityLogo, this.driver, 30);
         	handleAppPopup();
         	try {
         		driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
@@ -59,9 +64,11 @@ public class UpperMenuPageView {
         	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         }
         catch(Exception e){
-        	
+        	/*
         		String errorFile = PerfectoUtils.takeScreenshot(driver);
         		Reporter.log("Error screenshot saved in file: " + errorFile);
+        		
+        		*/
 			   	throw new IllegalStateException();
         }
         
@@ -82,33 +89,67 @@ public class UpperMenuPageView {
 			return new UpperMenuPageView(driver);
 			
 		} catch (Exception e) {
+			/*
 			String errorFile = PerfectoUtils.takeScreenshot(driver);
 			Reporter.log("Error screenshot saved in file: " + errorFile);
+			*/
 			throw new IllegalStateException();
 		}
 		
 		
 	}
-	
 	private void handleAppPopup(){
-		try {
-			//not a must
-			Capabilities capabilities = this.driver.getCapabilities();
-			String os = (String) capabilities.getCapability("platformName");
-			if (!os.equals("iOS"))
-				return;
-			
-			//must
-			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-			this.driver.findElement(popUp).click();
-			Thread.sleep(2000);
-			//PerfectoUtils.fluentWait(popUp, driver, 0);
-		} catch (Exception e) {
-			System.out.println("no popup");
-		}
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
-	}
+        try {
+              //not a must
+              /*Capabilities capabilities = this.driver.getCapabilities();
+              String os = (String) capabilities.getCapability("platformName");
+              if (!os.equals("iOS"))
+                    return;*/
+        	//HashMap<String,String> deviceProperties = PerfectoUtils.getDevicePropertiesList(driver);
+        	//String os = deviceProperties.get("os");
+        	String os = PerfectoUtils.getDeviceProperty(driver, "os");
+        	//System.out.println(os);
+              if (!PerfectoUtils.isDevice(this.driver) || !os.equals("iOS"))
+                    return;
+              
+              //must
+              driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+              this.driver.findElement(popUp).click();
+              Thread.sleep(2000);
+              //PerfectoUtils.fluentWait(popUp, driver, 0);
+        } catch (Exception e) {
+              //System.out.println("no popup");
+        }
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        
+  }
+
+	
+//	private void handleAppPopup(){
+//		try {
+//			//not a must
+//			//Capabilities capabilities = this.driver.getCapabilities();
+//			String os = driver.getCapabilities().asMap().get("os").toString();
+//
+//			//String os = (String) capabilities.getCapability("platformName");
+//			System.out.println("os="+os);
+//			if (!os.equals("iOS")){
+//				System.out.println("No pop up to handle");
+//				return;
+//			}
+//			System.out.println("handle popup iOS");
+//			Thread.sleep(2000);
+//			//must
+//			//driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+//			this.driver.findElement(popUp).click();
+//			Thread.sleep(2000);
+//			//PerfectoUtils.fluentWait(popUp, driver, 0);
+//		} catch (Exception e) {
+//			//System.out.println("no popup");
+//		}
+//		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//		
+//	}
 	
 	public UpperMenuPageView login(String username,String password) throws IOException{
 		try {
@@ -120,8 +161,10 @@ public class UpperMenuPageView {
 			return new UpperMenuPageView(driver);
 			
 		} catch (Exception e) {
+			/*
 			String errorFile = PerfectoUtils.takeScreenshot(driver);
 			Reporter.log("Error screenshot saved in file: " + errorFile);
+			*/
 			return null;
 		}
 		
@@ -150,8 +193,10 @@ public SearchResultsPageView searchItem(String text) throws IOException{
 			return new SearchResultsPageView(this.driver);
 			
 		} catch (Exception e) {
+			/*
 			String errorFile = PerfectoUtils.takeScreenshot(driver);
 			Reporter.log("Error screenshot saved in file: " + errorFile);
+			*/
 			return null;
 		}
 		
