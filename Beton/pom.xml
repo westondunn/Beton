@@ -5,7 +5,7 @@
 	<groupId>com.perfectomobile</groupId>
 	<artifactId>PerfectoCI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
+ 
 	<properties>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
