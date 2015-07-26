@@ -14,6 +14,7 @@ import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteExecuteMethod;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
@@ -36,17 +37,23 @@ public abstract class BasicTest {
 	private boolean isFirstRun = true;
 	protected ExcelDriver resultSheet;
 	private HashMap<String,String> deviceProperties;
-  
 	protected DesiredCapabilities caps;
-  
 	protected int retryIntervalSeconds = 30;
 	protected int driverRetries = 5;
-
-  
-	//@Factory(dataProvider="factoryData")
+	protected static String inputDataSheet = "data/testData.xlsx";
+	protected static String outputResultSheet = "data/testResults.xlsx";
+	
+	/**
+	 * @param caps
+	 * @description constructor
+	 */
 	public BasicTest(DesiredCapabilities caps){
 		this.caps = caps;
+		
+	
 	}
+	
+	
 	
 	@DataProvider(name="factoryData", parallel=true)
 	public static Object[][] factoryData() throws Exception {
@@ -55,7 +62,11 @@ public abstract class BasicTest {
 		 //File inputWorkbook = new File(classLoader.getResource(capabilitiesFilePath).getFile());
 		 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
-		 listMap = getCapabilitiesListMapFromExcel("C:\\Users\\AvnerG\\git\\Beton\\data\\testData.xlsx", "devices");
+		 listMap = getCapabilitiesListMapFromExcel("C:\\Users\\AvnerG\\git\\Beton\\Beton\\data\\testData.xlsx", "devices");
+		 
+		 
+		 
+		 listMap = getCapabilitiesListMapFromExcel(inputDataSheet, "devices");
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
 
 		 return s;
@@ -77,11 +88,16 @@ public abstract class BasicTest {
 	}
 
 	
-
-	@Parameters({"testCycle"})
-	@ BeforeClass
-	public void beforeClass(String testCycle){
-		this.testCycle = testCycle;
+	
+	/**@author rajp
+	 * @ChangeLog: Changed from variable to context.
+	 * @param testCycle
+	 * @param context
+	 */
+	@BeforeClass
+	public void beforeClass(String testCycle, ITestContext context){
+		//this.testCycle = testCycle;
+		this.testCycle = context.getCurrentXmlTest().getParameter("testCycle");
 	}
 	
 	
@@ -94,8 +110,6 @@ public abstract class BasicTest {
 		}
 		isFirstRun = false;
 		System.out.println("Run started");
-		resultSheet = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\data\\testResults.xlsx", this.deviceDesc, true);
-	 	resultSheet.setResultColumn(this.testCycle, true);
 		
 		if(this.caps.getCapability("deviceName") != null){
 			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
@@ -116,7 +130,8 @@ public abstract class BasicTest {
 //			this.deviceDesc += " ";
 //			this.deviceDesc += driver.getCapabilities().getCapability("description").toString();
 		}
-		
+		resultSheet = new ExcelDriver(outputResultSheet, this.deviceDesc, true);
+	 	resultSheet.setResultColumn(this.testCycle, true);
 	}
 	
 
@@ -149,19 +164,23 @@ public abstract class BasicTest {
         
 		driver.quit();
 	}
+	
 	public String getDeviceProperty(String key){
 		return deviceProperties.get(key);
 	}
+	
 	public HashMap<String, String> getDeviceProperties(){
 		return deviceProperties;
 	}
 
-	protected void reportFail(String expectedResult, String actualResult){
+	protected String reportFail(String expectedResult, String actualResult){
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
     	String errorFile = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + errorFile);
 		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
+		return errorFile;
 	}
+	
 	public void switchToContext(RemoteWebDriver driver, String context) {
 		RemoteExecuteMethod executeMethod = new RemoteExecuteMethod(driver);
 		Map<String,String> params = new HashMap<String,String>();

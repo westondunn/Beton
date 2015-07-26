@@ -10,6 +10,7 @@ import java.util.HashMap;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.WorkbookUtil;
@@ -546,6 +547,41 @@ public class ExcelDriver {
 			listMap.add(map);
 		}
 		return listMap;
+	}
+	
+	public void addScreenshotByRowAndColumnIndexesAsLink(int row, int col, String scrLink){
+		//link to a file in the file system
+		
+	    if(this.createHelper == null){
+	    	createHelper = this.workbook.getCreationHelper();
+	    }
+	    this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
+	    Hyperlink link = this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
+	    link.setAddress(scrLink);
+	    this.sheet.getRow(row).getCell(col).setHyperlink(link);
+	    //cell.setCellStyle(hlink_style);
+	}
+	
+	public void addScreenshotByRowNameAsLink(String scrLink, String... params) throws Exception{
+		//link to a file in the file system
+		
+	    if(this.createHelper == null){
+	    	createHelper = this.workbook.getCreationHelper();
+	    }
+	    String stepParams = "";
+	    for(String s : params){
+			stepParams += s + ", ";
+		}
+		stepParams = stepParams.substring(0, stepParams.lastIndexOf(","));
+		
+		lock.lock();
+		this.refreshSheet();
+	    int row = findCellRowByValue(stepParams);
+	    this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
+	    Hyperlink link = this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
+	    link.setAddress(scrLink);
+	    this.sheet.getRow(row).getCell(this.testCycleColumnNumber).setHyperlink(link);
+	    //cell.setCellStyle(hlink_style);
 	}
 	
 	// Returns a string from cell (row,col).
