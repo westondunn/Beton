@@ -14,6 +14,7 @@ import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteExecuteMethod;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
@@ -78,10 +79,18 @@ public abstract class BasicTest {
 
 	
 
-	@Parameters({"testCycle"})
-	@ BeforeClass
-	public void beforeClass(String testCycle){
-		this.testCycle = testCycle;
+	//@Parameters({"testCycle"})
+	
+	
+	/**@author rajp
+	 * @ChangeLog: Changed from variable to context.
+	 * @param testCycle
+	 * @param context
+	 */
+	@BeforeClass
+	public void beforeClass(String testCycle, ITestContext context){
+		//this.testCycle = testCycle;
+		this.testCycle = context.getCurrentXmlTest().getParameter("testCycle");
 	}
 	
 	
