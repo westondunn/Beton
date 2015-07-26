@@ -27,11 +27,10 @@ public class WebSearchResultsPageView extends WebCommunityBaseView {
 	
 	
 	/**
-	 * ********************************************************************
-	 * 		Constructor.
+	 * 	Constructor.
 	 *
 	 * @param driver the driver
-	 * @throws IOException ********************************************************************
+	 * @throws IOException 
 	 */
 	public WebSearchResultsPageView(RemoteWebDriver driver) throws IOException{
         super(driver);
@@ -52,7 +51,6 @@ public class WebSearchResultsPageView extends WebCommunityBaseView {
 	 *
 	 * @return the complete results count
 	 */
-	//total results:
 	public int getResultsCount(){
 		try {
 			return this.driver.findElementsByXPath(searchResults).size();
@@ -67,7 +65,6 @@ public class WebSearchResultsPageView extends WebCommunityBaseView {
 	 *
 	 * @return the posts count 
 	 */
-	//get number of posts found:
 	public int getPostsCount(){
 		
 		try {
@@ -115,7 +112,6 @@ public class WebSearchResultsPageView extends WebCommunityBaseView {
 	 *
 	 * @param index the index of the series to click on
 	 */
-	//click series number index
 	public void clickSeries(int index){
 		By xpath = By.xpath(seriesResults + "[" + index + "]") ;
 		try {

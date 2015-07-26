@@ -26,11 +26,10 @@ public class WebPostPageView extends WebCommunityBaseView {
 	
 		
 	/**
-	 * ********************************************************************
 	 * 		Constructor.
 	 *
 	 * @param driver the driver
-	 * @throws IOException ********************************************************************
+	 * @throws IOException 
 	 */
 	public WebPostPageView(RemoteWebDriver driver) throws IOException{
         super(driver);
@@ -51,7 +50,6 @@ public class WebPostPageView extends WebCommunityBaseView {
 	 *
 	 * @return the post title
 	 */
-	//gets the title of the post
 	public String getPostTitle(){
 		try {
 			return this.driver.findElement(postTitle).getText();
@@ -65,7 +63,6 @@ public class WebPostPageView extends WebCommunityBaseView {
 	 *
 	 * @return the post description
 	 */
-	//gets the description of the post
 	public String getPostDescription(){
 		try {
 			return this.driver.findElement(postDescription).getText();
@@ -79,7 +76,6 @@ public class WebPostPageView extends WebCommunityBaseView {
 	 *
 	 * @return the post published date
 	 */
-	//gets the date the post was published
 	public String getPostPublishedDate(){
 		String text;
 		int start;

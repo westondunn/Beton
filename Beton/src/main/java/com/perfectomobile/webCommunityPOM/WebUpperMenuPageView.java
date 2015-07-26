@@ -48,11 +48,10 @@ public class WebUpperMenuPageView{
 	
 	
 	/**
-	 * ********************************************************************
 	 * 		Constructor.
 	 *
 	 * @param driver the driver
-	 * @throws IOException ********************************************************************
+	 * @throws IOException 
 	 */
 	public WebUpperMenuPageView(RemoteWebDriver driver) throws IOException{
 		this.driver = driver;
@@ -169,14 +168,14 @@ public class WebUpperMenuPageView{
 //	}
 	
 	/**
- * Login to the Community.
- *
- * @param username the username
- * @param password the password
- * @return the web upper menu page view
- * @throws IOException Signals that an I/O exception has occurred.
- */
-public WebUpperMenuPageView login(String username,String password) throws IOException{
+	 * Login to the Community.
+	 *
+	 * @param username the username
+	 * @param password the password
+	 * @return the web upper menu page view
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public WebUpperMenuPageView login(String username,String password) throws IOException{
 		try {
 			
 			jsExecute("clickLogin");
@@ -210,14 +209,14 @@ public WebUpperMenuPageView login(String username,String password) throws IOExce
 		}
 	}
 	
-/**
- * Search item.
- *
- * @param text the text to search for in search bar
- * @return the web search results page view
- * @throws IOException Signals that an I/O exception has occurred.
- */
-public WebSearchResultsPageView searchItem(String text) throws IOException{
+	/**
+	 * Search item.
+	 *
+	 * @param text the text to search for in search bar
+	 * @return the web search results page view
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public WebSearchResultsPageView searchItem(String text) throws IOException{
 		
 		try {
 			

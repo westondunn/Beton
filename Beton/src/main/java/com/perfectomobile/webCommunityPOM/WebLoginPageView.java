@@ -32,11 +32,10 @@ public class WebLoginPageView extends WebCommunityBaseView {
 	
 		
 	/**
-	 * ********************************************************************
-	 * 		Constructor.
+	 *		Constructor.
 	 *
 	 * @param driver the driver
-	 * @throws IOException ********************************************************************
+	 * @throws IOException 
 	 */
 	public WebLoginPageView(RemoteWebDriver driver) throws IOException{
         super(driver);
@@ -56,7 +55,6 @@ public class WebLoginPageView extends WebCommunityBaseView {
 	
 
 	/**
-	 * ***
 	 * login
 	 * 	gets a username and password and logins to the community.
 	 *

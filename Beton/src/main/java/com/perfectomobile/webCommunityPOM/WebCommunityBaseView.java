@@ -23,8 +23,7 @@ public class WebCommunityBaseView {
 	/** The device properties. */
 	private HashMap<String, String> deviceProperties;
 	
-	 /**
- 	 * ********************************************************************
+	 /**********************************************************************
  	 * 		Constructor
  	 * ********************************************************************.
  	 *
@@ -46,15 +45,15 @@ public class WebCommunityBaseView {
 	}
 	
 		
-	/**
-	 * ********************************************************************
+	
+	/** 
 	 * 		init: initializes the driver.
 	 * 		Navigates to community url and validates page is logged out.
 	 * 		in case its not, logs out to reach the log in screen.
 	 *
 	 * @return the web community base view
 	 * @throws IOException 
-	 * ********************************************************************
+	 * 
 	 */
 	public WebCommunityBaseView init() throws IOException{
 				
@@ -113,7 +112,7 @@ public class WebCommunityBaseView {
 	}
 	
 	/**
-	 * ****
+	 * 
 	 * logout
 	 * performs a logout from the system.
 	 *
@@ -133,7 +132,7 @@ public class WebCommunityBaseView {
 	}
 	
 	/**
-	 * ***
+	 * 
 	 * getWelcomeMessage
 	 * gets the welcome message after login.
 	 *
