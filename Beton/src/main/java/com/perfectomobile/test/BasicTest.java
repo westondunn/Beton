@@ -55,7 +55,7 @@ public abstract class BasicTest {
 		 //File inputWorkbook = new File(classLoader.getResource(capabilitiesFilePath).getFile());
 		 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
-		 listMap = getCapabilitiesListMapFromExcel("C:\\Users\\AvnerG\\git\\Beton\\data\\testData.xlsx", "devices");
+		 listMap = getCapabilitiesListMapFromExcel("C:\\Users\\AvnerG\\git\\Beton\\Beton\\data\\testData.xlsx", "devices");
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
 
 		 return s;
@@ -94,8 +94,6 @@ public abstract class BasicTest {
 		}
 		isFirstRun = false;
 		System.out.println("Run started");
-		resultSheet = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\data\\testResults.xlsx", this.deviceDesc, true);
-	 	resultSheet.setResultColumn(this.testCycle, true);
 		
 		if(this.caps.getCapability("deviceName") != null){
 			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
@@ -116,7 +114,8 @@ public abstract class BasicTest {
 //			this.deviceDesc += " ";
 //			this.deviceDesc += driver.getCapabilities().getCapability("description").toString();
 		}
-		
+		resultSheet = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\Beton\\data\\testResults.xlsx", this.deviceDesc, true);
+	 	resultSheet.setResultColumn(this.testCycle, true);
 	}
 	
 
@@ -156,11 +155,12 @@ public abstract class BasicTest {
 		return deviceProperties;
 	}
 
-	protected void reportFail(String expectedResult, String actualResult){
+	protected String reportFail(String expectedResult, String actualResult){
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
     	String errorFile = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + errorFile);
 		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
+		return errorFile;
 	}
 	public void switchToContext(RemoteWebDriver driver, String context) {
 		RemoteExecuteMethod executeMethod = new RemoteExecuteMethod(driver);

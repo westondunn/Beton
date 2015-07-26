@@ -42,7 +42,8 @@ public class CommunitySignIn extends BasicTest{
 	        }
 			else{
 				resultSheet.setResultByColumnName(false, this.testName, username, password, message);
-				reportFail(message, welcomeMessage);
+				String errorFile = reportFail(message, welcomeMessage);
+				ed.addScreenshotByRowNameAsLink(errorFile, username, password, message);
 				testFail = true;
 			}
 	 	}
@@ -50,6 +51,7 @@ public class CommunitySignIn extends BasicTest{
 	 		resultSheet.setResultByColumnName(false, this.testName, username, password, message);
 			testFail = true;
         	String errorFile = PerfectoUtils.takeScreenshot(driver);
+        	ed.addScreenshotByRowNameAsLink(errorFile, username, password, message);
     		Reporter.log(e.toString());
     		Reporter.log("Error screenshot saved in file: " + errorFile);
     		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
@@ -63,7 +65,7 @@ public class CommunitySignIn extends BasicTest{
 	}
 	@DataProvider (name = "logInData", parallel = false)
 	public Object[][] searchItemsData() throws Exception{
-		  ExcelDriver ed = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\data\\testData.xlsx", "signIn", false);
+		  ExcelDriver ed = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\Beton\\data\\testData.xlsx", "signIn", false);
 		  Object[][] s = ed.getData(3);
 
 		  return s;

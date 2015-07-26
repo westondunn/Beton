@@ -2,10 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="testList" parallel="instances" thread-count="5">	
 	<test name="Test">
-	    <parameter name="testCycle" value="Avner 2.9" />
+	    <parameter name="testCycle" value="Avner 3.01" />
 		<classes>
-			<class name="com.perfectomobile.test.WalmartItemTest" />
-		<!-- 	<class name="com.perfectomobile.test.WalmartAddressTest" />  -->
+			<class name="com.perfectomobile.test.CommunitySignIn" />
 		</classes>
 
 
