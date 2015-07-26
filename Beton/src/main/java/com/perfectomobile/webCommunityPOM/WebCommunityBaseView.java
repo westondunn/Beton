@@ -1,43 +1,62 @@
-package com.perfectomobile.communityPOM;
+package com.perfectomobile.webCommunityPOM;
 
-import java.awt.peer.MenuPeer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.poi.ss.formula.functions.T;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Reporter;
 
-import com.perfectomobile.utils.PerfectoUtils;
 
-public class CommunityBaseView {
+/**
+ * The Class WebCommunityBaseView.
+ */
+public class WebCommunityBaseView {
 	
+	/** The driver. */
 	protected RemoteWebDriver driver;
+	
+	/** The url of the community. */
 	private String url = "http://community.perfectomobile.com/";
-	protected UpperMenuPageView menuPanel;
+	
+	/** The menu panel at the top of the page. */
+	protected WebUpperMenuPageView menuPanel;
+	
+	/** The device properties. */
 	private HashMap<String, String> deviceProperties;
 	
-	 /**********************************************************************
-	 * 		Constructor
-	 **********************************************************************/
-	public CommunityBaseView(RemoteWebDriver driver){
+	 /**
+ 	 * ********************************************************************
+ 	 * 		Constructor
+ 	 * ********************************************************************.
+ 	 *
+ 	 * @param driver the driver
+ 	 */
+	public WebCommunityBaseView(RemoteWebDriver driver){
 		this.driver = driver;
 	}
-	public CommunityBaseView(RemoteWebDriver driver, HashMap<String,String> deviceProperties){
+	
+	/**
+	 * Instantiates a new web community base view.
+	 *
+	 * @param driver the driver
+	 * @param deviceProperties the device properties
+	 */
+	public WebCommunityBaseView(RemoteWebDriver driver, HashMap<String,String> deviceProperties){
 		this.driver = driver;
 		this.deviceProperties = deviceProperties;
 	}
 	
 		
-	/**********************************************************************
+	/**
+	 * ********************************************************************
 	 * 		init: initializes the driver.
+	 * 		Navigates to community url and validates page is logged out.
+	 * 		in case its not, logs out to reach the log in screen.
+	 *
+	 * @return the web community base view
 	 * @throws IOException 
-	 **********************************************************************/
-	public CommunityBaseView init() throws IOException{
+	 * ********************************************************************
+	 */
+	public WebCommunityBaseView init() throws IOException{
 				
 		//set timeouts
 		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
@@ -49,7 +68,7 @@ public class CommunityBaseView {
 		//validate page opened	
 		try{
 			//PerfectoUtils.fluentWait(communityLogo, driver, 20);
-			menuPanel = new UpperMenuPageView(this.driver);
+			menuPanel = new WebUpperMenuPageView(this.driver);
 			if (menuPanel.isLoggedIn()){
 				menuPanel = menuPanel.logOut();
 			}
@@ -67,81 +86,70 @@ public class CommunityBaseView {
 	
 	/**********************************************************************
 	 * 	searchItem	
-	 * 		This method searches a given product in the walmart site.
+	 * 		This method searches a given text in the search bar of the community site.
 	 * 		
 	 * 		@param text	the text to search for
 	 * 		@return	new instance of the view to the searched results page
 	 * @throws IOException 
 	 **********************************************************************/
-	public SearchResultsPageView searchItem(String text) throws IOException{
+	public WebSearchResultsPageView searchItem(String text) throws IOException{
 		return menuPanel.searchItem(text);
 	}
 	
 	
-	/**********************************************************************
-	 * 	clickHomePage	
-	 * 		This method clicks on the Walmart image link to navigate site to its 
-	 * 		home page
-	 * 		
-	 * 		@return	new instance of the search stores page
-	 **********************************************************************//*
-	public CommunityBaseView clickHomePage(){
-		try {
-			//click on locate stores button
-			this.driver.findElement(communityLogo).click();
-			return new CommunityBaseView(this.driver);
-			
-		} catch (Exception e) {
-			System.out.println(e.toString());
-			return null;
-		}
-		
-	}
-	*/
-	
 	/*****
-	 * login
+	 * login to the Community
 	 * 	gets a username and password and logins to the community
 	 * @param username username
 	 * @param password password
 	 * @return the same page only this time the upper menu is logged in
 	 * @throws IOException
 	 */
-	public CommunityBaseView login(String username,String password) throws IOException{
+	public WebCommunityBaseView login(String username,String password) throws IOException{
 		
 		this.menuPanel= menuPanel.login(username, password);
 		return this;
 		
 	}
 	
-	/******
+	/**
+	 * ****
 	 * logout
-	 * performs a logout of the system
+	 * performs a logout from the system.
+	 *
 	 * @return same page only this time the upper menu is logged out
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public CommunityBaseView logOut() throws IOException{
+	public WebCommunityBaseView logOut() throws IOException{
 		try {
 			this.menuPanel = menuPanel.logOut();
 			return this;
 		} catch (Exception e) {
-//			String errorFile = PerfectoUtils.takeScreenshot(driver);
-//			Reporter.log("Error screenshot saved in file: " + errorFile);
+
 			throw new IllegalStateException();
 		}
 		
 		
 	}
 	
-	/*****
+	/**
+	 * ***
 	 * getWelcomeMessage
-	 * gets the welcome message after login
+	 * gets the welcome message after login.
+	 *
 	 * @return the welcome message after login
 	 */
 	public String getWelcomeMessage(){
 		
 		return menuPanel.getWelcomeMessage();
 	}
+	
+	/**
+	 * Gets the device property.
+	 *
+	 * @param key the key
+	 * @return the device property
+	 */
 	public String getDeviceProperty(String key){
 		return deviceProperties.get(key);
 	}

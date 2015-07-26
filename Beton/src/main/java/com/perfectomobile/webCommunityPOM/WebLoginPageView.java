@@ -1,36 +1,44 @@
-package com.perfectomobile.communityPOM;
+package com.perfectomobile.webCommunityPOM;
 
 import java.io.IOException;
-
-
-
-
-import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Reporter;
-
 import com.perfectomobile.utils.PerfectoUtils;
 
-public class LoginPageView extends CommunityBaseView {
+/**
+ * The Class WebLoginPageView.
+ */
+public class WebLoginPageView extends WebCommunityBaseView {
 	
+	/** The username. */
 	String username;
+	
+	/** The password. */
 	String password;
 	
+	/** The header panel. */
 	//page elements:
 	private By headerPanel = By.xpath("//*[@class='page__wrapper']");
+	
+	/** The username text field. */
 	private By usernameTextField = By.xpath("//input[@id='user_email']");
+	
+	/** The password text field. */
 	private By passwordTextField = By.xpath("//input[@id='user_password']");
+	
+	/** The submit button. */
 	private By submitButton = By.xpath("//input[@type='submit']");
 	
-	private By loginError = By.xpath("//div[contains(@class,'alert-error')]");
-	
-	/**********************************************************************
-	 * 		Constructor
-	 * @throws IOException 
-	 **********************************************************************/
-	public LoginPageView(RemoteWebDriver driver) throws IOException{
+		
+	/**
+	 * ********************************************************************
+	 * 		Constructor.
+	 *
+	 * @param driver the driver
+	 * @throws IOException ********************************************************************
+	 */
+	public WebLoginPageView(RemoteWebDriver driver) throws IOException{
         super(driver);
         this.username="";
         this.password="";
@@ -40,10 +48,6 @@ public class LoginPageView extends CommunityBaseView {
         	PerfectoUtils.fluentWait(headerPanel, driver, 30);
         }
         catch(Exception e){
-        	/*
-        	String errorFile = PerfectoUtils.takeScreenshot(driver);
-			Reporter.log("Error screenshot saved in file: " + errorFile);
-			*/
         	throw new IllegalStateException();
         }
         
@@ -51,15 +55,17 @@ public class LoginPageView extends CommunityBaseView {
     }
 	
 
-	/*****
+	/**
+	 * ***
 	 * login
-	 * 	gets a username and password and logins to the community
+	 * 	gets a username and password and logins to the community.
+	 *
 	 * @param username username
 	 * @param password password
 	 * @return the same page only this time the upper menu is logged in
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public LoginPageView login(String username, String password) throws IOException{
+	public WebLoginPageView login(String username, String password) throws IOException{
 		try {
 			WebElement element = this.driver.findElement(this.usernameTextField);
 			//element.clear();

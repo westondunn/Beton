@@ -1,52 +1,61 @@
-package com.perfectomobile.communityPOM;
+package com.perfectomobile.webCommunityPOM;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Reporter;
-
 import com.perfectomobile.utils.PerfectoUtils;
-import com.perfectomobile.test.BasicTest;
 
-public class UpperMenuPageView{
+/**
+ * The Class WebUpperMenuPageView.
+ */
+public class WebUpperMenuPageView{
 	
+	/** The logged in. */
 	private boolean loggedIn;
 	
+	/** The community logo. */
 	private By communityLogo	= By.xpath("//img[@class='brand-image']");
-	
-	
-	
+		
+	/** The welcome message. */
 	private By welcomeMessage = By.xpath("//span[@class='greeting']");
+	
+	/** The pop up. */
 	private By popUp = By.xpath("//*[@class='no-thanks']");
 	
 	//login fields	
+	/** The login button. */
 	private String loginButton = "//*[text()='Log In']";
+	
+	/** The logout button. */
 	private String logoutButton = "//*[@href='/logout']";
 	
 	//search fields
+	/** The search button1. */
 	private String searchButton1 = "(//header[1]/div[2]/button[1]/span[1])";
+	
+	/** The search button2. */
 	private String searchButton2 = "(//header[1]/div[1]/button[1]/div[1]/span[1])";
+	
+	/** The search area input. */
 	private By searchAreaInput	= By.xpath("//input[contains(@class,'js-search-input')]");
 
+	/** The driver. */
 	private RemoteWebDriver driver;
 	
 	
-	/**********************************************************************
-	 * 		Constructor
-	 * @throws IOException 
-	 **********************************************************************/
-	public UpperMenuPageView(RemoteWebDriver driver) throws IOException{
+	/**
+	 * ********************************************************************
+	 * 		Constructor.
+	 *
+	 * @param driver the driver
+	 * @throws IOException ********************************************************************
+	 */
+	public WebUpperMenuPageView(RemoteWebDriver driver) throws IOException{
 		this.driver = driver;
-        //this.loggedIn = false;
-           
         
         //validate page loaded successfully before proceeding
         try{
@@ -64,59 +73,67 @@ public class UpperMenuPageView{
         	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         }
         catch(Exception e){
-        	/*
-        		String errorFile = PerfectoUtils.takeScreenshot(driver);
-        		Reporter.log("Error screenshot saved in file: " + errorFile);
-        		
-        		*/
-			   	throw new IllegalStateException();
+        	
+        	throw new IllegalStateException();
         }
         
        
     }
 
+	/**
+	 * Checks if a user is already logged in.
+	 *
+	 * @return true, if is logged in
+	 */
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
 
+	/**
+	 * Sets the logged in flag.
+	 *
+	 * @param loggedIn the new logged in
+	 */
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
-	public UpperMenuPageView logOut() throws IOException{
+	
+	/**
+	 * Performs a log out of the community.
+	 *
+	 * @return the web upper menu page view
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public WebUpperMenuPageView logOut() throws IOException{
 		try {
 			//this.driver.findElement(By.xpath(logoutButton)).click();
 			jsExecute("clickLogout");
-			return new UpperMenuPageView(driver);
+			return new WebUpperMenuPageView(driver);
 			
 		} catch (Exception e) {
-			/*
-			String errorFile = PerfectoUtils.takeScreenshot(driver);
-			Reporter.log("Error screenshot saved in file: " + errorFile);
-			*/
+			
 			throw new IllegalStateException();
 		}
 		
 		
 	}
+	
+	/**
+	 * Handle optional pop ups the community might have on load.
+	 */
 	private void handleAppPopup(){
         try {
-              //not a must
-              /*Capabilities capabilities = this.driver.getCapabilities();
-              String os = (String) capabilities.getCapability("platformName");
-              if (!os.equals("iOS"))
-                    return;*/
-        	//HashMap<String,String> deviceProperties = PerfectoUtils.getDevicePropertiesList(driver);
-        	//String os = deviceProperties.get("os");
+             
         	String os = PerfectoUtils.getDeviceProperty(driver, "os");
-        	//System.out.println(os);
+        	
               if (!PerfectoUtils.isDevice(this.driver) || !os.equals("iOS"))
                     return;
               
-              //must
+             
               driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
               this.driver.findElement(popUp).click();
               Thread.sleep(2000);
-              //PerfectoUtils.fluentWait(popUp, driver, 0);
+              
         } catch (Exception e) {
               //System.out.println("no popup");
         }
@@ -151,14 +168,22 @@ public class UpperMenuPageView{
 //		
 //	}
 	
-	public UpperMenuPageView login(String username,String password) throws IOException{
+	/**
+ * Login to the Community.
+ *
+ * @param username the username
+ * @param password the password
+ * @return the web upper menu page view
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+public WebUpperMenuPageView login(String username,String password) throws IOException{
 		try {
-			//this.driver.findElement(loginButton).click();
+			
 			jsExecute("clickLogin");
-			Object loginView = new LoginPageView(this.driver).login(username, password);
+			new WebLoginPageView(this.driver).login(username, password);
 			
 			
-			return new UpperMenuPageView(driver);
+			return new WebUpperMenuPageView(driver);
 			
 		} catch (Exception e) {
 			/*
@@ -170,6 +195,12 @@ public class UpperMenuPageView{
 		
 	
 	}
+	
+	/**
+	 * Gets the welcome message after Login
+	 *
+	 * @return the welcome message
+	 */
 	public String getWelcomeMessage(){
 		
 		try {
@@ -179,7 +210,14 @@ public class UpperMenuPageView{
 		}
 	}
 	
-public SearchResultsPageView searchItem(String text) throws IOException{
+/**
+ * Search item.
+ *
+ * @param text the text to search for in search bar
+ * @return the web search results page view
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+public WebSearchResultsPageView searchItem(String text) throws IOException{
 		
 		try {
 			
@@ -190,18 +228,21 @@ public SearchResultsPageView searchItem(String text) throws IOException{
 			element.sendKeys(text);
 			this.driver.getKeyboard().pressKey(Keys.ENTER);
 						
-			return new SearchResultsPageView(this.driver);
+			return new WebSearchResultsPageView(this.driver);
 			
 		} catch (Exception e) {
-			/*
-			String errorFile = PerfectoUtils.takeScreenshot(driver);
-			Reporter.log("Error screenshot saved in file: " + errorFile);
-			*/
+			
 			return null;
 		}
 		
 	}
-	public void jsExecute(String action){
+	
+	/**
+	 * Js execute.
+	 *
+	 * @param action the action
+	 */
+	private void jsExecute(String action){
 		
 		
 		//define the findElementByXpath(path) function:

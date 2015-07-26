@@ -1,4 +1,4 @@
-package com.perfectomobile.communityPOM;
+package com.perfectomobile.webCommunityPOM;
 
 import java.io.IOException;
 import org.openqa.selenium.By;
@@ -7,19 +7,32 @@ import org.testng.Reporter;
 
 import com.perfectomobile.utils.PerfectoUtils;
 
-public class PostPageView extends CommunityBaseView {
+/**
+ * The Class WebPostPageView.
+ */
+public class WebPostPageView extends WebCommunityBaseView {
 	
+	/** The post page. */
 	private By postPage = By.xpath("//div[@class='post-head-main']");
+	
+	/** The post title. */
 	private By postTitle = By.xpath("//h2[@class='title']");
+	
+	/** The post description. */
 	private By postDescription = By.xpath("//h4[starts-with(@class,'description')]");
+	
+	/** The post update date. */
 	private By postUpdateDate = By.xpath("//div[starts-with(@class,'updated-at')]");
 	
 		
-	/**********************************************************************
-	 * 		Constructor
-	 * @throws IOException 
-	 **********************************************************************/
-	public PostPageView(RemoteWebDriver driver) throws IOException{
+	/**
+	 * ********************************************************************
+	 * 		Constructor.
+	 *
+	 * @param driver the driver
+	 * @throws IOException ********************************************************************
+	 */
+	public WebPostPageView(RemoteWebDriver driver) throws IOException{
         super(driver);
         
         //validate page loaded successfully before proceeding
@@ -33,6 +46,11 @@ public class PostPageView extends CommunityBaseView {
         }
     }
 	
+	/**
+	 * Gets the post title.
+	 *
+	 * @return the post title
+	 */
 	//gets the title of the post
 	public String getPostTitle(){
 		try {
@@ -42,6 +60,11 @@ public class PostPageView extends CommunityBaseView {
 		}
 	}
 	
+	/**
+	 * Gets the post description.
+	 *
+	 * @return the post description
+	 */
 	//gets the description of the post
 	public String getPostDescription(){
 		try {
@@ -51,10 +74,15 @@ public class PostPageView extends CommunityBaseView {
 		}
 	}
 	
+	/**
+	 * Gets the post published date.
+	 *
+	 * @return the post published date
+	 */
 	//gets the date the post was published
 	public String getPostPublishedDate(){
 		String text;
-		int start,end;
+		int start;
 		try {
 			text =  this.driver.findElement(postUpdateDate).getText();
 			start = text.indexOf("Published")+9;

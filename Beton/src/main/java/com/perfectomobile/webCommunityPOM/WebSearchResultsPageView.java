@@ -1,4 +1,4 @@
-package com.perfectomobile.communityPOM;
+package com.perfectomobile.webCommunityPOM;
 
 import java.io.IOException;
 
@@ -8,27 +8,32 @@ import org.testng.Reporter;
 
 import com.perfectomobile.utils.PerfectoUtils;
 
-public class SearchResultsPageView extends CommunityBaseView {
+/**
+ * The Class WebSearchResultsPageView.
+ */
+public class WebSearchResultsPageView extends WebCommunityBaseView {
 	
-	//
+	/** The search page. */
 	private By searchPage = By.xpath("//*[@class='search-results']|//*[contains(text(),'No results to display')]");
 	
+	/** The search results. */
 	private String searchResults = "//li[starts-with(@class,'contribution-card')]";
+	
+	/** The posts results. */
 	private String postsResults = "(//li[starts-with(@class,'contribution-card')]/a[starts-with(@href,'/posts/')])";
+	
+	/** The series results. */
 	private String seriesResults = "(//li[starts-with(@class,'contribution-card')]/a[starts-with(@href,'/series/')])";
 	
 	
-	
-	// Page elements
-	private String itemPrice = "(//*[@class='price' or @class='price price-display' or @class='item-price'])";
-	private String itemName	= "(//*[@class='name' or @class='js-product-title'] | //div[@class='item-page-header ']/h2)";
-	
-		
-	/**********************************************************************
-	 * 		Constructor
-	 * @throws IOException 
-	 **********************************************************************/
-	public SearchResultsPageView(RemoteWebDriver driver) throws IOException{
+	/**
+	 * ********************************************************************
+	 * 		Constructor.
+	 *
+	 * @param driver the driver
+	 * @throws IOException ********************************************************************
+	 */
+	public WebSearchResultsPageView(RemoteWebDriver driver) throws IOException{
         super(driver);
         
         //validate page loaded successfully before proceeding
@@ -42,6 +47,11 @@ public class SearchResultsPageView extends CommunityBaseView {
         }
     }
 	
+	/**
+	 * Gets the complete results count after a search action.
+	 *
+	 * @return the complete results count
+	 */
 	//total results:
 	public int getResultsCount(){
 		try {
@@ -51,6 +61,12 @@ public class SearchResultsPageView extends CommunityBaseView {
 			return 0;
 		}
 	}
+	
+	/**
+	 * Gets the posts count found after a search.
+	 *
+	 * @return the posts count 
+	 */
 	//get number of posts found:
 	public int getPostsCount(){
 		
@@ -62,7 +78,11 @@ public class SearchResultsPageView extends CommunityBaseView {
 		}
 	}
 	
-	//get number of series found:
+	/**
+	 * Gets the series count after a search action.
+	 *
+	 * @return the series count
+	 */
 	public int getSeriesCount(){
 		
 		try {
@@ -73,18 +93,28 @@ public class SearchResultsPageView extends CommunityBaseView {
 		}
 	}
 	
-	//clicks post number index
-	public PostPageView clickPost(int index){
+	/**
+	 * Click post by index.
+	 *
+	 * @param index the index of the post to click on
+	 * @return the web post page view of the post clicked or null if post# index was not found
+	 */
+	public WebPostPageView clickPost(int index){
 		By xpath = By.xpath(postsResults + "[" + index + "]") ;
 		try {
 			this.driver.findElement(xpath).click();
-			return new PostPageView(driver);
+			return new WebPostPageView(driver);
 		} catch (Exception e) {
 			System.out.println("didnt find post number " + index);
 			return null;
 		}
 	}
 	
+	/**
+	 * Click series by index.
+	 *
+	 * @param index the index of the series to click on
+	 */
 	//click series number index
 	public void clickSeries(int index){
 		By xpath = By.xpath(seriesResults + "[" + index + "]") ;
