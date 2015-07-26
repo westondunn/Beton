@@ -95,7 +95,7 @@ public abstract class BasicTest {
 	 * @param context
 	 */
 	@BeforeClass
-	public void beforeClass(String testCycle, ITestContext context){
+	public void beforeClass(ITestContext context){
 		//this.testCycle = testCycle;
 		this.testCycle = context.getCurrentXmlTest().getParameter("testCycle");
 	}
