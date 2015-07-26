@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="testList" parallel="instances" thread-count="5">	
+	
 	<test name="Test">
 	    <parameter name="testCycle" value="Avner 2.9" />
 		<classes>
-			<class name="com.perfectomobile.test.WalmartItemTest" />
+			<class name="com.perfectomobile.test.CommunitySignIn" />
 		<!-- 	<class name="com.perfectomobile.test.WalmartAddressTest" />  -->
 		</classes>
 
 
 	</test> <!-- Test -->
+	
 </suite> <!-- Suite -->
  

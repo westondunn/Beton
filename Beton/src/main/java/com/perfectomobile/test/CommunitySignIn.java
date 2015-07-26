@@ -1,8 +1,5 @@
 package com.perfectomobile.test;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -10,18 +7,13 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
-import com.perfectomobile.webCommunityPOM.WebCommunityBaseView;
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
 import com.perfectomobile.utils.PerfectoUtils;
+import com.perfectomobile.webCommunityPOM.WebCommunityBaseView;
 
 public class CommunitySignIn extends BasicTest{
 
-	@Factory(dataProvider="factoryData")
-	public CommunitySignIn(DesiredCapabilities caps) {
-		super(caps);
-		// TODO Auto-generated constructor stub
-	}
-	
+
 	@Test (dataProvider="logInData")
 	public void testSignIn(String username, String password, String message) throws Exception{
 		boolean testFail = false;
@@ -61,11 +53,17 @@ public class CommunitySignIn extends BasicTest{
         }
 
 	}
+
 	@DataProvider (name = "logInData", parallel = false)
 	public Object[][] searchItemsData() throws Exception{
-		  ExcelDriver ed = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\data\\testData.xlsx", "signIn", false);
+		  ExcelDriver ed = new ExcelDriver(inputDataSheet, "signIn", false);
 		  Object[][] s = ed.getData(3);
 
 		  return s;
+	}
+	
+	@Factory(dataProvider="factoryData")
+	public CommunitySignIn(DesiredCapabilities caps) {
+		super(caps);
 	}
 }
