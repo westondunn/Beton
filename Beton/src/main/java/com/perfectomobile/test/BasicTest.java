@@ -96,6 +96,8 @@ public abstract class BasicTest {
 				DesiredCapabilities dc = DesiredCapabilities.chrome();
 				this.driver = new RemoteWebDriver(new URL(Init.getRemoteDriverURL()),dc);
 				this.deviceDesc = "Chrome";
+				resultSheet = new ExcelDriver(Init.getOutputResultSheet(), this.deviceDesc, true);
+			 	resultSheet.setResultColumn(this.testCycle, true);
 				return;
 			}
 		}
@@ -106,9 +108,9 @@ public abstract class BasicTest {
 			deviceDesc = getDeviceProperty("model");
 			deviceDesc += " ";
 			deviceDesc += getDeviceProperty("description");
-//			this.deviceDesc = driver.getCapabilities().getCapability("model").toString();
-//			this.deviceDesc += " ";
-//			this.deviceDesc += driver.getCapabilities().getCapability("description").toString();
+			
+			resultSheet = new ExcelDriver(Init.getOutputResultSheet(), this.deviceDesc, true);
+		 	resultSheet.setResultColumn(this.testCycle, true);
 		}
 		resultSheet = new ExcelDriver(Init.getOutputResultSheet(), this.deviceDesc, true);
 	 	resultSheet.setResultColumn(this.testCycle, true);

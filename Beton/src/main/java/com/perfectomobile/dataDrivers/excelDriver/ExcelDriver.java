@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.poi.hssf.usermodel.HSSFHyperlink;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -14,6 +16,10 @@ import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFHyperlink;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -577,11 +583,41 @@ public class ExcelDriver {
 		lock.lock();
 		this.refreshSheet();
 	    int row = findCellRowByValue(stepParams);
-	    this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
+	    if(row == -1){
+	    	System.out.println("Result row isn't found");
+	    	throw new NoSuchFieldException();
+	    }
+	    CreationHelper createHelper = workbook.getCreationHelper();
+//	    XSSFCellStyle hlinkstyle = workbook.createCellStyle();
+//	    XSSFFont hlinkfont = workbook.createFont();
+//	    hlinkfont.setUnderline(XSSFFont.DEFAULT_CHARSET);
+//	    hlinkfont.setColor(HSSFColor.BLACK.index);
+//	    hlinkstyle.setFont(hlinkfont);
+	      
+	    String content = this.sheet.getRow(row).getCell(this.testCycleColumnNumber).toString();
+	    XSSFCell cell = this.sheet.getRow(row).getCell(this.testCycleColumnNumber);
+	    cell.setCellValue(content);
+	    XSSFHyperlink link = (XSSFHyperlink)createHelper.createHyperlink(Hyperlink.LINK_FILE);
+	    //link.setAddress("C:\\Users\\AvnerG\\git\\Beton\\Beton\\test-output\\screenshots\\2015-07-27-02-04-41-IDT.png.png");
+	    scrLink = scrLink.replace("\\", "/");
+	    //link.setAddress("C:/Users/AvnerG/git/Beton/Beton/test-output/screenshots/2015-07-27-02-04-41-IDT.png.png");
+	    link.setAddress(scrLink + ".png");
+	    cell.setHyperlink(link);
+//	    cell.setCellStyle(hlinkstyle);
+	    this.flushWorkbook();
+	    lock.unlock();
+	      
+	      
+	   /*  
+	    //this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
 	    Hyperlink link = this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
-	    link.setAddress(scrLink);
+	    //XSSFHyperlink link=new XSSFHyperlink(XSSFHyperlink.LINK_FILE);
+	    link.setAddress("file:///c://test.csv");
+	    //link.setAddress("file:///" + scrLink);
 	    this.sheet.getRow(row).getCell(this.testCycleColumnNumber).setHyperlink(link);
 	    //cell.setCellStyle(hlink_style);
+	     * 
+	     * */
 	}
 	
 	// Returns a string from cell (row,col).
