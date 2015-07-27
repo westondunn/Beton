@@ -116,6 +116,8 @@ public abstract class BasicTest {
 				DesiredCapabilities dc = DesiredCapabilities.chrome();
 				this.driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),dc);
 				this.deviceDesc = "Chrome";
+				resultSheet = new ExcelDriver(outputResultSheet, this.deviceDesc, true);
+			 	resultSheet.setResultColumn(this.testCycle, true);
 				return;
 			}
 		}
@@ -126,12 +128,10 @@ public abstract class BasicTest {
 			deviceDesc = getDeviceProperty("model");
 			deviceDesc += " ";
 			deviceDesc += getDeviceProperty("description");
-//			this.deviceDesc = driver.getCapabilities().getCapability("model").toString();
-//			this.deviceDesc += " ";
-//			this.deviceDesc += driver.getCapabilities().getCapability("description").toString();
+			
+			resultSheet = new ExcelDriver(outputResultSheet, this.deviceDesc, true);
+		 	resultSheet.setResultColumn(this.testCycle, true);
 		}
-		resultSheet = new ExcelDriver(outputResultSheet, this.deviceDesc, true);
-	 	resultSheet.setResultColumn(this.testCycle, true);
 	}
 	
 
