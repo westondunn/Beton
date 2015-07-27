@@ -129,8 +129,7 @@
 			<groupId>io.appium</groupId>
 			<artifactId>java-client</artifactId>
 			<version>3.0.0</version>
-		</dependency>
-		
+		</dependency>		
 	</dependencies>
 
 </project>

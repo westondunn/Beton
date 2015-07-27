@@ -18,6 +18,7 @@ public class ANDROID_CommunityBaseView {
 	
 	AndroidDriver driver;
 	
+		
 	// Page elements
 	By actionBarTitle = By.id("android:id/action_bar_title");
 	By dashboardTitle = By.xpath("//*[@text='Perfecto Mobile Community']");
