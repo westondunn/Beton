@@ -58,17 +58,10 @@ import jxl.read.biff.BiffException;
 
 public class PerfectoUtils {
 
-
-
 	private static final String REPOSITORY = "PUBLIC:";
 	//private static Map<String, String> deviceProperties = new HashMap<String, String>();
 
-	public PerfectoUtils() {
-
-
-	}
-
-	public static RemoteWebDriver getDriver(DesiredCapabilities cap,int retries, int retryIntervalSeconds)
+	public static RemoteWebDriver getDriver(DesiredCapabilities cap, int retries, int retryIntervalSeconds)
 	{
 		System.out.println("Current capabilities " + cap.toString());
 
