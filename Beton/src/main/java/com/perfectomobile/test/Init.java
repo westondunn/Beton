@@ -8,6 +8,8 @@ public class Init {
 
 	protected static Properties prop;	
 	
+	private Init(){}
+	
 	public static Properties Prop() {
 		prop = new Properties();
 		try {
