@@ -1,8 +1,6 @@
 package com.perfectomobile.test;
 
-import java.io.File;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,14 +11,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteExecuteMethod;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Factory;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.DataProvider;
 
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
@@ -62,10 +57,6 @@ public abstract class BasicTest {
 		 //File inputWorkbook = new File(classLoader.getResource(capabilitiesFilePath).getFile());
 		 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
-		 listMap = getCapabilitiesListMapFromExcel("C:\\Users\\AvnerG\\git\\Beton\\Beton\\data\\testData.xlsx", "devices");
-		 
-		 
-		 
 		 listMap = getCapabilitiesListMapFromExcel(inputDataSheet, "devices");
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
 
@@ -89,8 +80,7 @@ public abstract class BasicTest {
 
 	
 	
-	/**@author rajp
-	 * @ChangeLog: Changed from variable to context.
+	/**@ChangeLog: Changed from variable to context.
 	 * @param testCycle
 	 * @param context
 	 */
