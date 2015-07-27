@@ -11,7 +11,7 @@ import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
 import com.perfectomobile.utils.PerfectoUtils;
 import com.perfectomobile.webCommunityPOM.WebCommunityBaseView;
 
-public class CommunitySignIn extends BasicTest{
+public class CommunitySignIn extends BasicTest {
 
 
 	@Test (dataProvider="logInData")
@@ -57,8 +57,7 @@ public class CommunitySignIn extends BasicTest{
 
 	@DataProvider (name = "logInData", parallel = false)
 	public Object[][] searchItemsData() throws Exception{
-		 // ExcelDriver ed = new ExcelDriver("C:\\Users\\AvnerG\\git\\Beton\\Beton\\data\\testData.xlsx", "signIn", false);
-		  ExcelDriver ed = new ExcelDriver(inputDataSheet, "signIn", false);
+		  ExcelDriver ed = new ExcelDriver(Init.getInputDataSheet(), "signIn", false);
 		  Object[][] s = ed.getData(3);
 
 		  return s;
