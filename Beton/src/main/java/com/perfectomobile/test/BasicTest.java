@@ -33,7 +33,7 @@ public abstract class BasicTest {
 	protected ExcelDriver resultSheet;
 	private HashMap<String,String> deviceProperties;
 	protected DesiredCapabilities caps;
-	private static Init init; 
+//	private static Init init; 
 	
 	
 	/**
@@ -99,7 +99,7 @@ public abstract class BasicTest {
 				return;
 			}
 		}
-		this.driver = PerfectoUtils.getDriver(caps, init.getDriverRetries(), init.getRetryIntervalSeconds());
+		this.driver = PerfectoUtils.getDriver(caps, Init.getDriverRetries(), Init.getRetryIntervalSeconds());
 		//PerfectoUtils.initDevicePropertiesList(this.driver);
 		if(this.driver != null){
 			deviceProperties = PerfectoUtils.getDevicePropertiesList(driver);
