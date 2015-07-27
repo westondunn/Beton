@@ -32,7 +32,7 @@ import com.perfectomobile.dataDrivers.*;
 * 
 * <P>Running data-driven tests from Excel files.
 *  
-* @author Avner Gershtansky
+* @author Avner Gershtansky.
 * @version 1.1
 */
 
