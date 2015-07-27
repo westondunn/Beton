@@ -1,46 +1,30 @@
 package com.perfectomobile.test;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class Init {
 
-	protected static String inputDataSheet = "data/testData.xlsx";
-	protected static String outputResultSheet = "data/testResults.xlsx";
-	protected static String remoteDriverURL = "http://localhost:4444/wd/hub";
-	protected static int retryIntervalSeconds = 30;
-	protected static int driverRetries = 5;
-		
-	 
-	public static String getInputDataSheet() {
-		return inputDataSheet;
+	protected static Properties prop;	
+	
+	public static Properties Prop() {
+		prop = new Properties();
+		try {
+			prop.load(new FileInputStream("src/main/resources/beton.properties"));
+			return prop;
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return prop;
 	}
-	public static void setInputDataSheet(String inputDataSheet) {
-		Init.inputDataSheet = inputDataSheet;
+	
+
+	public static Properties getProp() {
+		return prop;
 	}
-	public static String getOutputResultSheet() {
-		return outputResultSheet;
-	}
-	public static void setOutputResultSheet(String outputResultSheet) {
-		Init.outputResultSheet = outputResultSheet;
-	}
-	public static String getRemoteDriverURL() {
-		return remoteDriverURL;
-	}
-	public static void setRemoteDriverURL(String remoteDriverURL) {
-		Init.remoteDriverURL = remoteDriverURL;
-	}	
-	public static int getRetryIntervalSeconds() {
-		return retryIntervalSeconds;
-	}
-	public static void setRetryIntervalSeconds(int retryIntervalSeconds) {
-		Init.retryIntervalSeconds = retryIntervalSeconds;
-	}
-	public static int getDriverRetries() {
-		return driverRetries;
-	}
-	public static void setDriverRetries(int driverRetries) {
-		Init.driverRetries = driverRetries;
+	public static void setProp(Properties prop) {
+		Init.prop = prop;
 	}
 
-	
 }

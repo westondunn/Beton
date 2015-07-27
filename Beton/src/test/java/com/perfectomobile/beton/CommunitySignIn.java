@@ -59,7 +59,7 @@ public class CommunitySignIn extends BasicTest {
 
 	@DataProvider (name = "logInData", parallel = false)
 	public Object[][] searchItemsData() throws Exception{
-		  ExcelDriver ed = new ExcelDriver(Init.getInputDataSheet(), "signIn", false);
+		  ExcelDriver ed = new ExcelDriver(Init.Prop().getProperty("inputDataSheet"), "signIn", false);
 		  Object[][] s = ed.getData(3);
 
 		  return s;
