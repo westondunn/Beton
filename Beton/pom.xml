@@ -13,6 +13,7 @@
 		<jxl.version>2.6.12</jxl.version>
 		<testng.version>6.8.8</testng.version>
 		<reportng.version>1.1.4</reportng.version>
+		<spring.version>4.1.7.RELEASE</spring.version>
 		<skipTests>true</skipTests>
 	</properties>
 
@@ -83,6 +84,21 @@
 			<artifactId>selenium-remote-driver</artifactId>
 			<version>${selenium.version}</version>
 		</dependency>
+		<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>4.1.7.RELEASE</version>
+		</dependency>
+       <dependency> 
+            <groupId>org.springframework</groupId> 
+            <artifactId>spring-context</artifactId> 
+            <version>${spring.version}</version>
+       </dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
