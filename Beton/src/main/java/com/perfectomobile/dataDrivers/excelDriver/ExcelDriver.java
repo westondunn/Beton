@@ -65,6 +65,37 @@ public class ExcelDriver {
 	// Open the Excel file in "path" and sets it as active workbook
 	public void setWorkbook(String path) throws Exception{
 		this.filePath = path;
+		
+		try{
+			FileInputStream inputFile = new FileInputStream(this.filePath);
+			this.workbook = new XSSFWorkbook(inputFile);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void setWorkbook(String path, boolean addWorkbook) throws Exception{
+		this.filePath = path;
+		
+		lock.lock();
+		// Check if file exists
+		File f = new File(this.filePath);
+		if(f.exists() && !f.isDirectory()){
+			if(!addWorkbook){
+				System.out.println("Workbook '" + this.filePath + "' doesn't exists"
+						+ " and addWorkbook flag is false");
+				lock.unlock();
+				throw new Exception();
+			}
+			else{
+				this.workbook = new XSSFWorkbook();
+			    FileOutputStream fileOut = new FileOutputStream(this.filePath);
+			    this.workbook.write(fileOut);
+			    fileOut.close();
+			    lock.unlock();
+			}
+		}
 		try{
 			FileInputStream inputFile = new FileInputStream(this.filePath);
 			this.workbook = new XSSFWorkbook(inputFile);
