@@ -48,18 +48,22 @@ public class ExcelDriver {
 
 	private CreationHelper createHelper;
 	
-	private static Lock lock = new Lock();
+	private static Lock lock;
 	
-	public ExcelDriver(){};
+	public ExcelDriver(){
+		this.lock = new Lock();
+	}
 	
 	public ExcelDriver(String path, String sheetName, boolean addSheet) throws Exception{
 		// Get Excel file path
 	  	//this.filePath = new File("").getAbsolutePath();
+		this.lock = new Lock();
 	  	this.filePath = path;
 	  
 	  	// Open workbook
   	  	this.setWorkbook(this.filePath);
   	  	this.setSheet(sheetName, addSheet);
+  	  	
 		
 	}
 	// Open the Excel file in "path" and sets it as active workbook
@@ -92,7 +96,7 @@ public class ExcelDriver {
 		    catch(Exception e){
 		    	e.printStackTrace();
 		    }
-		    lock.unlock();
+		   
 		}
 		try{
 			FileInputStream inputFile = new FileInputStream(this.filePath);
@@ -101,6 +105,8 @@ public class ExcelDriver {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		
+		 lock.unlock();
 	}
 	
 
