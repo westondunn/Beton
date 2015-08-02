@@ -92,8 +92,8 @@ public class ExcelDriver {
 		    catch(Exception e){
 		    	e.printStackTrace();
 		    }
-		    lock.unlock();
 		}
+		lock.unlock();
 		try{
 			FileInputStream inputFile = new FileInputStream(this.filePath);
 			this.workbook = new XSSFWorkbook(inputFile);
@@ -101,6 +101,7 @@ public class ExcelDriver {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		
 	}
 	
 
