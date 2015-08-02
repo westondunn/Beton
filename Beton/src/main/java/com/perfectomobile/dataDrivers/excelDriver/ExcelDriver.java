@@ -51,7 +51,7 @@ public class ExcelDriver {
 	private static Lock lock;
 	
 	public ExcelDriver(){
-		this.lock = new Lock();
+		this.lock= new Lock();
 	}
 	
 	public ExcelDriver(String path, String sheetName, boolean addSheet) throws Exception{
@@ -284,6 +284,7 @@ public class ExcelDriver {
 			this.setFailByCell(resultRow, this.testCycleColumnNumber);
 		}
 		this.flushWorkbook();
+		
 		lock.unlock();
 	}
 	
