@@ -2,31 +2,39 @@ package com.perfectomobile.test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 public class Init {
 
-	protected static Properties prop;	
+	protected static Properties prop;
+	protected static HashMap<String,String> sysProp;
 	
 	private Init(){}
 	
-	public static Properties Prop() {
+	public static HashMap<String, String> Prop() {
 		prop = new Properties();
+		sysProp = new HashMap<String, String>();
+		
 		try {
 			prop.load(new FileInputStream("src/main/resources/beton.properties"));
-			return prop;
+			 for (String key : prop.stringPropertyNames()) {
+			      String value = prop.getProperty(key);
+			      sysProp.put(key, value);
+			 }
+			 /* Set Hash Map */
+			setSysProp(sysProp);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		return prop;
+		return sysProp;
 	}
 	
-
-	public static Properties getProp() {
-		return prop;
+	public static HashMap<String, String> getSysProp() {
+		return sysProp;
 	}
-	public static void setProp(Properties prop) {
-		Init.prop = prop;
+	public static void setSysProp(HashMap<String, String> sysProp) {
+		Init.sysProp = sysProp;
 	}
 
 }

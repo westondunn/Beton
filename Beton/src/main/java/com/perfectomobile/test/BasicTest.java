@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
@@ -33,7 +34,7 @@ public abstract class BasicTest {
 	protected ExcelDriver resultSheet;
 	private HashMap<String,String> deviceProperties;
 	protected DesiredCapabilities caps;
-	
+	protected static HashMap<String,String> sysProp;
 	
 	/**
 	 * @param caps
@@ -41,13 +42,14 @@ public abstract class BasicTest {
 	 */
 	public BasicTest(DesiredCapabilities caps){
 		this.caps = caps;
+		sysProp = Init.getSysProp();
 	}
 	
 	
 	@DataProvider(name="factoryData", parallel=true)
 	public static Object[][] factoryData() throws Exception { 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
-		 listMap = getCapabilitiesListMapFromExcel(Init.Prop().getProperty("inputDataSheet"), "devices");
+		 listMap = getCapabilitiesListMapFromExcel(Init.Prop().get("inputDataSheet"), "devices");
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
 
 		 return s;
@@ -94,27 +96,27 @@ public abstract class BasicTest {
 		if(this.caps.getCapability("deviceName") != null){
 			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
 				DesiredCapabilities dc = DesiredCapabilities.chrome();
-				this.driver = new RemoteWebDriver(new URL(Init.Prop().getProperty("remoteDriverURL")),dc);
+				
+				this.driver = new RemoteWebDriver(new URL(sysProp.get("remoteDriverURL")),dc);
 				this.deviceDesc = "Chrome";
-				resultSheet = new ExcelDriver(Init.Prop().getProperty("outputResultSheet"), this.deviceDesc, true);
+				resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
 			 	resultSheet.setResultColumn(this.testCycle, true);
 				return;
 			}
 		}
 		
+		this.driver = PerfectoUtils.getDriver(caps, Integer.parseInt(sysProp.get("driverRetries")), Integer.parseInt(sysProp.get("retryIntervalSeconds")));
 		
-		this.driver = PerfectoUtils.getDriver(caps, Integer.parseInt(Init.Prop().getProperty("driverRetries")), Integer.parseInt(Init.Prop().getProperty("retryIntervalSeconds")));
-		//PerfectoUtils.initDevicePropertiesList(this.driver);
 		if(this.driver != null){
 			deviceProperties = PerfectoUtils.getDevicePropertiesList(driver);
 			deviceDesc = getDeviceProperty("model");
 			deviceDesc += " ";
 			deviceDesc += getDeviceProperty("description");
 			
-			resultSheet = new ExcelDriver(Init.Prop().getProperty("outputResultSheet"), this.deviceDesc, true);
+			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
 		 	resultSheet.setResultColumn(this.testCycle, true);
 		}
-		resultSheet = new ExcelDriver(Init.Prop().getProperty("outputResultSheet"), this.deviceDesc, true);
+		resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
 	 	resultSheet.setResultColumn(this.testCycle, true);
 	}
 	
