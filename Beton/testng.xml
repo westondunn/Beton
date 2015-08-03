@@ -5,7 +5,7 @@
 	<test name="Test">
 	    <parameter name="testCycle" value="Avner 3.03" />
 		<classes>
-			<class name="com.perfectomobile.test.CommunitySignIn" />
+			<class name="com.perfectomobile.beton.CommunitySignIn" />
 		</classes>
 
 	</test> <!-- Test -->
