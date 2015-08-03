@@ -1,11 +1,25 @@
 package com.perfectomobile.dataDrivers;
-
+//
 public class Lock{
-	private boolean isLocked = false;
+	private boolean isLocked;
 	
-	public synchronized void lock() throws InterruptedException{
+	
+	public Lock() {
+		this.isLocked = false;
+	}
+
+	public synchronized void lock() throws Exception{
+		int waitCycles = 3;
+		int waited = 0;
 		while(isLocked){
-			wait();
+			wait(5000);
+			if(isLocked){
+				waited++;
+				System.out.println("File is locked, waiting...");
+			}
+			if(waited == waitCycles){
+				throw new Exception("Lock wait time exceeded");
+			}
 		}
 		isLocked = true;
 	}
