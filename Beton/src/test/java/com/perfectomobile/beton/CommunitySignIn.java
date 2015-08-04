@@ -1,5 +1,7 @@
 package com.perfectomobile.beton;
 
+import java.io.IOException;
+
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -59,10 +61,15 @@ public class CommunitySignIn extends BasicTest {
 
 	@DataProvider (name = "logInData", parallel = false)
 	public Object[][] searchItemsData() throws Exception{
-		  ExcelDriver ed = new ExcelDriver(Init.Prop().getProperty("inputDataSheet"), "signIn", false);
-		  Object[][] s = ed.getData(3);
-
-		  return s;
+		 Object[][] s = null;
+		try {
+		  ExcelDriver ed = new ExcelDriver(sysProp.get("inputDataSheet"), "signIn", false);
+		  s = ed.getData(3);
+		} catch(IOException e) {
+			System.out.println("Not able to search data from excel: " + sysProp.get("inputDataSheet"));
+			System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+		}
+		return s;
 	}
 	
 	@Factory(dataProvider="factoryData")

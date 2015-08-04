@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,17 +58,7 @@ import sun.misc.BASE64Decoder;
 
 import com.google.common.base.Function;
 //import com.perfectomobile.selenium.util.EclipseConnector;
-
-
-
-
-
-
-
-
-
-
-
+import com.perfectomobile.test.Init;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -77,10 +66,10 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class PerfectoUtils {
-
 	private static final String REPOSITORY = "PUBLIC:";
-	//private static Map<String, String> deviceProperties = new HashMap<String, String>();
+	protected static HashMap<String,String> sysProp = Init.getSysProp();
 
+	
 	public static RemoteWebDriver getDriver(DesiredCapabilities cap,int retries, int retryIntervalSeconds)
 	{
 		System.out.println("Current capabilities " + cap.toString());
@@ -90,34 +79,16 @@ public class PerfectoUtils {
 		int index = retries;
 		do {
 			try {
-//					String host = System.getProperty("np.testHost", "qatestlab.perfectomobile.com");
-//					String username = System.getProperty("np.testUsername", "test_automation@gmail.com");
-//					String password = System.getProperty("np.testPassword", "Test_automation");
-				
-				String host = System.getProperty("np.testHost", "demo.perfectomobile.com");
-				String username = System.getProperty("np.testUsername", "avnerg@perfectomobile.com");
-				String password = System.getProperty("np.testPassword", "scvuanbsh");
-				
-				
-
-				cap.setCapability("user", username);
-				cap.setCapability("password", password);
-				
-//				doesn't work	
-//					EclipseConnector connector = new EclipseConnector(); 
-//					String eclipseExecutionId = connector.getExecutionId();                  
-//					cap.setCapability("eclipseExecutionId", cap); 
-//					
-				
-				driver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), cap);
-				//driver = new RemoteWebDriver(cap);
-				System.out.println("Driver Created");
+				cap.setCapability("user", sysProp.get("userName"));
+				cap.setCapability("password", sysProp.get("password"));			
+				driver = new RemoteWebDriver(new URL("https://" + sysProp.get("URL") + "/nexperience/perfectomobile/wd/hub"), cap);
+				System.out.println(sysProp.get("sysDriverMSG"));
 				return driver;
 
 			} catch (Exception e) {
 				index--;
 				System.out.println("device not found: " + cap.toString() +"\n Retries left: " + index);
-				//System.out.println();
+				
 				sleep(retryIntervalSeconds * 1000);
 				if (e.getMessage().contains("command browser open")) {
 					waitForDevice = false;
@@ -128,16 +99,6 @@ public class PerfectoUtils {
 		return null;
 
 	}
-
-//	private void uploadMedia(String resource, String repositoryKey) throws URISyntaxException, IOException {
-//		repositoryKey = REPOSITORY;
-//		String FILENAME;
-//		File file = new File(FILENAME);
-//		
-//		d.uploadMedia(repositoryKey, file);
-//		File file = loadResource(resource);
-//		_driver.uploadMedia(repositoryKey, file);
-//	}	
 
 	public static void installApp(String appLocation,RemoteWebDriver d )
 	{
@@ -687,7 +648,16 @@ public class PerfectoUtils {
 
 }
 
-	
+//private void uploadMedia(String resource, String repositoryKey) throws URISyntaxException, IOException {
+		//repositoryKey = REPOSITORY;
+		//String FILENAME;
+		//File file = new File(FILENAME);
+		//
+		//d.uploadMedia(repositoryKey, file);
+		//File file = loadResource(resource);
+		//_driver.uploadMedia(repositoryKey, file);
+//}	
+
 	//	  public static DesiredCapabilities getCapabilites(String deviceName, String platformName, String platformVersion, String manufacturer,
 //			  String deviceModel, String deviceResolution, String deviceNetwork, String deviceLocation, String deviceDescription, String browserName, String automationName) throws Exception{
 //		  

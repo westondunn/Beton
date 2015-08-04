@@ -34,6 +34,7 @@ import com.perfectomobile.dataDrivers.*;
 *  
 * @author Avner Gershtansky.
 * @version 1.1
+* 
 */
 
 public class ExcelDriver {
@@ -48,23 +49,61 @@ public class ExcelDriver {
 
 	private CreationHelper createHelper;
 	
-	private static Lock lock = new Lock();
+	private static Lock lock;
 	
-	public ExcelDriver(){};
+	public ExcelDriver(){
+		if(this.lock == null){
+			this.lock= new Lock();
+		}
+	}
 	
 	public ExcelDriver(String path, String sheetName, boolean addSheet) throws Exception{
 		// Get Excel file path
 	  	//this.filePath = new File("").getAbsolutePath();
+		if(this.lock == null){
+			this.lock= new Lock();
+		}
 	  	this.filePath = path;
 	  
 	  	// Open workbook
   	  	this.setWorkbook(this.filePath);
   	  	this.setSheet(sheetName, addSheet);
+  	  	
 		
 	}
 	// Open the Excel file in "path" and sets it as active workbook
+//	public void setWorkbook(String path) throws Exception{
+//		this.filePath = path;
+//		
+//		try{
+//			FileInputStream inputFile = new FileInputStream(this.filePath);
+//			this.workbook = new XSSFWorkbook(inputFile);
+//		}
+//		catch(Exception e){
+//			e.printStackTrace();
+//		}
+//	}
+	
 	public void setWorkbook(String path) throws Exception{
 		this.filePath = path;
+		
+		lock.lock();
+		// Check if file exists
+		File f = new File(this.filePath);
+		if(!f.exists() || f.isDirectory()){
+			this.workbook = new XSSFWorkbook();
+		    
+		    try{
+		    	FileOutputStream fileOut = new FileOutputStream(this.filePath);
+		    	this.workbook.write(fileOut);
+		    	fileOut.close();
+		    }
+		    catch(Exception e){
+		    	e.printStackTrace();
+		    }
+
+		   
+		}
 		try{
 			FileInputStream inputFile = new FileInputStream(this.filePath);
 			this.workbook = new XSSFWorkbook(inputFile);
@@ -72,6 +111,7 @@ public class ExcelDriver {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		lock.unlock();
 	}
 	
 
@@ -249,6 +289,7 @@ public class ExcelDriver {
 			this.setFailByCell(resultRow, this.testCycleColumnNumber);
 		}
 		this.flushWorkbook();
+		
 		lock.unlock();
 	}
 	
