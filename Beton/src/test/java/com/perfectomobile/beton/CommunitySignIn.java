@@ -17,7 +17,6 @@ import com.perfectomobile.webCommunityPOM.WebCommunityBaseView;
 
 public class CommunitySignIn extends BasicTest {
 
-
 	@Test (dataProvider="logInData")
 	public void testSignIn(String username, String password, String message) throws Exception{
 		boolean testFail = false;
@@ -60,7 +59,7 @@ public class CommunitySignIn extends BasicTest {
 	}
 
 	@DataProvider (name = "logInData", parallel = false)
-	public Object[][] searchItemsData() throws Exception{
+	public Object[][] searchItemsData(){
 		 Object[][] s = null;
 		try {
 		  ExcelDriver ed = new ExcelDriver(sysProp.get("inputDataSheet"), "signIn", false);
@@ -68,6 +67,9 @@ public class CommunitySignIn extends BasicTest {
 		} catch(IOException e) {
 			System.out.println("Not able to search data from excel: " + sysProp.get("inputDataSheet"));
 			System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return s;
 	}
