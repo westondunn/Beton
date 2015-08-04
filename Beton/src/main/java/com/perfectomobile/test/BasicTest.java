@@ -49,7 +49,7 @@ public abstract class BasicTest {
 	@DataProvider(name="factoryData", parallel=true)
 	public static Object[][] factoryData() throws Exception { 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
-		 listMap = getCapabilitiesListMapFromExcel(Init.Prop().get("inputDataSheet"), "devices");
+		 listMap = getCapabilitiesListMapFromExcel(Init.prop().get("inputDataSheet"), "devices");
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
 
 		 return s;
