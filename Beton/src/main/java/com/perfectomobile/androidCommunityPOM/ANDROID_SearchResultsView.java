@@ -1,18 +1,18 @@
 package com.perfectomobile.androidCommunityPOM;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.perfectomobile.utils.*;
 import com.perfectomobile.utils.PerfectoUtils.*;
 
-import io.appium.java_client.android.AndroidDriver;
 
 public class ANDROID_SearchResultsView extends ANDROID_CommunityBaseView{
 	
 	By btnNavUp = By.id("android:id/up");
 //	By btnNavUp = By.id("android:id/action_bar_title");
 	
-	public ANDROID_SearchResultsView(AndroidDriver driver) {
+	public ANDROID_SearchResultsView(RemoteWebDriver driver) {
 		super(driver);
 	}
 	
@@ -22,7 +22,7 @@ public class ANDROID_SearchResultsView extends ANDROID_CommunityBaseView{
 	}
 	
 	public ANDROID_CommunityBaseView backToSetSearch(){
-		System.out.println(btnNavUp);
+		//System.out.println(btnNavUp);
 		this.driver.findElement(btnNavUp).click();
 		return new ANDROID_CommunityBaseView(this.driver);
 	}
