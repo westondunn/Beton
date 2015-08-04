@@ -1,7 +1,5 @@
 package com.perfectomobile.androidCommunityPOM;
 
-import io.appium.java_client.android.AndroidDriver;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +14,7 @@ import com.perfectomobile.utils.VisualDriverControl;
 
 public class ANDROID_CommunityBaseView {
 	
-	AndroidDriver driver;
+	RemoteWebDriver driver;
 	
 		
 	// Page elements
@@ -35,7 +33,7 @@ public class ANDROID_CommunityBaseView {
 	By inputSearch = By.id("android:id/search_src_text");
 	
 	// Class constructor
-	public ANDROID_CommunityBaseView(AndroidDriver driver){
+	public ANDROID_CommunityBaseView(RemoteWebDriver driver){
 		this.driver = driver;
 					
 	}
@@ -50,7 +48,6 @@ public class ANDROID_CommunityBaseView {
 		//enter credentials and submit
 		try {			
 			this.driver.findElement(inputEmailAddress).sendKeys(appUser);
-//			this.driver.findElement(inputEmailAddress).click();
 			this.driver.findElement(inputPassword).sendKeys(appUserPwd);
 			this.driver.findElement(btnDone).click();	
 		} catch (Exception e) {
@@ -87,9 +84,9 @@ public class ANDROID_CommunityBaseView {
 	// close the search field 
 	public ANDROID_MenuPageView closeSearch(){
 		this.driver.findElement(closeSearch).click();
-		if(this.driver.findElement(closeSearch).isDisplayed()){ //click again if search bar has only cleared
-			this.driver.findElement(closeSearch).click();
-		}
+//		if(this.driver.findElement(closeSearch).isDisplayed()){ //click again if search bar has only cleared
+//			this.driver.findElement(closeSearch).click();
+//		}
 		return new ANDROID_MenuPageView(this.driver);
 	}
 	
@@ -97,9 +94,10 @@ public class ANDROID_CommunityBaseView {
 	public ANDROID_SearchResultsView inputSearchText(String q){
 		this.driver.findElement(btnSearch).sendKeys(q);
 		// click keyboard enter key
-		this.driver.sendKeyEvent(66);		
+		VisualDriverControl.clickByTextOffset(this.driver, "DEL", LabelPosition.BELOW, "10%");
 
 		return new ANDROID_SearchResultsView(this.driver);
 	}
+
 	
 }

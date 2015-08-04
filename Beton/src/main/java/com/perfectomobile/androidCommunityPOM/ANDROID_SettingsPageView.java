@@ -1,14 +1,14 @@
 package com.perfectomobile.androidCommunityPOM;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-import io.appium.java_client.android.AndroidDriver;
 
 public class ANDROID_SettingsPageView extends ANDROID_CommunityBaseView{
 	
 	By btnLogout = By.xpath("//*[@text='Logout']");
 	
-	public ANDROID_SettingsPageView(AndroidDriver driver) {
+	public ANDROID_SettingsPageView(RemoteWebDriver driver) {
 		super(driver);
 	}
 	
