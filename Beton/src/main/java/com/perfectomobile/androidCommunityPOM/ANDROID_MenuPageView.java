@@ -1,12 +1,9 @@
 package com.perfectomobile.androidCommunityPOM;
 
 import org.openqa.selenium.By;
-
-import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.perfectomobile.utils.PerfectoUtils;
-
-
 
 public class ANDROID_MenuPageView extends ANDROID_CommunityBaseView{
 	
@@ -25,7 +22,7 @@ public class ANDROID_MenuPageView extends ANDROID_CommunityBaseView{
 	
 	
 
-	public ANDROID_MenuPageView(AndroidDriver driver) {
+	public ANDROID_MenuPageView(RemoteWebDriver driver) {
 		super(driver);
 		PerfectoUtils.sleep(3000);
 		
@@ -40,6 +37,10 @@ public class ANDROID_MenuPageView extends ANDROID_CommunityBaseView{
 		return new ANDROID_CommunityBaseView(this.driver);
 	}
 	
+	public ANDROID_ProfilePageView gotoProfile(){
+		this.driver.findElement(btnDashboard).click();
+		return new ANDROID_ProfilePageView(this.driver);
+	}
 //	public PCStashView gotoStash(){
 //		this.driver.findElement(btnStash).click();
 //		return new PCStashView(this.driver);

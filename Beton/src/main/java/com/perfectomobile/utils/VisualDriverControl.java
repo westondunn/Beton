@@ -23,17 +23,11 @@ public class VisualDriverControl {
 		String initialContext = PerfectoUtils.getCurrentContextHandle(driver);
 		String shift;		
 		PerfectoUtils.switchToContext(driver, "VISUAL");
-		if(labelPosition.toString()=="ABOVE"){
-			shift = "Above";
-		}else{
-			shift = "";
-		}
-		
-		
+				
 		String command = "mobile:text:select";
 		Map<String, Object> params = new HashMap<>();
 		params.put("content", label);
-		params.put("shift", shift);
+		params.put("shift", labelPosition.toString());
 		params.put("offset", offset);
 		
 		driver.executeScript(command, params);
