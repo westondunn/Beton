@@ -275,7 +275,7 @@ public class PerfectoUtils {
  	public static String takeScreenshot(RemoteWebDriver driver) {
 	  
 	  String filePath = new File("").getAbsolutePath();
-	  filePath += "\\test-output\\screenshots - test";
+	  filePath += "\\test-output\\screenshots";
 	  File theDir = new File(filePath);
 
 	  // if the directory does not exist, create it
@@ -295,7 +295,7 @@ public class PerfectoUtils {
 	  String filename = filePath + getDateAndTime(0) + ".png";
 	  //System.out.println(filename);
 		try {
-			FileUtils.copyFile(scrFile, new File(filename+".png"));
+			FileUtils.copyFile(scrFile, new File(filename));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

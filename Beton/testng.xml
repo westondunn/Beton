@@ -3,15 +3,11 @@
 <suite name="testList" parallel="instances" thread-count="5">	
 	
 	<test name="Test">
-	    <parameter name="testCycle" value="Avner 3.05" />
+	    <parameter name="testCycle" value="Avner 3.07" />
 		<classes>
 			<class name="com.perfectomobile.beton.CommunitySignIn" />
 		</classes>
 
-	</test> <!-- Test -->
-	
-	
-		
-	
+	</test> <!-- Test -->	
 </suite> <!-- Suite -->
  
