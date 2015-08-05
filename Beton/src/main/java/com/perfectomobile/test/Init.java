@@ -12,7 +12,7 @@ public class Init {
 	
 	private Init(){}
 	
-	public static HashMap<String, String> Prop() {
+	public static HashMap<String, String> prop() {
 		prop = new Properties();
 		sysProp = new HashMap<String, String>();
 		
