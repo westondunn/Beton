@@ -26,7 +26,6 @@ public class CommunitySignIn_Android extends BasicTest {
 	 	  
 	 	try{
 	 		mobileView = new ANDROID_CommunityBaseView(driver);
-//	        mobileView = mobileView.init();
 
 			mobileView.login(username, password);
 			String profileName = mobileView.openMenuDrawer().gotoProfile().getName();

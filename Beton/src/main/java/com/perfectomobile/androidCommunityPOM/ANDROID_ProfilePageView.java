@@ -10,11 +10,7 @@ public class ANDROID_ProfilePageView extends ANDROID_CommunityBaseView {
 	
 	String navButton = "'Navigate up'";
 	
-	//*[@class='android.widget.LinearLayout']/group[2]/text
-	
-//	By btnNavUp = By.xpath("//*[contains(@contentDesc," + navButton + ")]/group[2]/text[1]");	//Doesn't work
-//	By btnNavUp = By.xpath("//*[@class='android.widget.LinearLayout']/group[2]/text");	//Doesn't work 
-//	By btnNavUp = By.xpath("//device/view/group[1]/view[1]/group[1]/view[1]/group[1]/group[1]");	//Doesn't work 
+
 	By btnNavUp = By.id("android:id/up");		
 	By txtName = By.id("com.bloomfire.android.perfecto:id/name");
 	By txtTitle = By.id("com.bloomfire.android.perfecto:id/title");
