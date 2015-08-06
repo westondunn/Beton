@@ -15,6 +15,8 @@
 		<reportng.version>1.1.4</reportng.version>
 		<spring.version>4.1.7.RELEASE</spring.version>
 		<skipTests>true</skipTests>
+		<testngFile>testng.xml</testngFile>
+		
 	</properties>
 
 	<build>
@@ -34,8 +36,9 @@
 				<version>2.16</version>
 				<configuration>
 					<suiteXmlFiles>
-						<suiteXmlFile>${basedir}/testng.xml</suiteXmlFile>
+						<suiteXmlFile>${basedir}/${testngFile}</suiteXmlFile>
 					</suiteXmlFiles>
+					
 					 <skipTests>${skipTests}</skipTests>
 					<testFailureIgnore>true</testFailureIgnore>
 				</configuration>
