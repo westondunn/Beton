@@ -1,23 +1,22 @@
 package com.perfectomobile.IOSCommunityPOM;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.perfectomobile.utils.PerfectoUtils;
 import com.perfectomobile.utils.PerfectoUtils.LabelPosition;
 import com.perfectomobile.utils.VisualDriverControl;
 
-import io.appium.java_client.ios.IOSDriver;
-
 
 public class IOS_CommunityBaseView {
 	
-	IOSDriver driver;
+	RemoteWebDriver driver;
 	
 	// Page elements
 	By actionBarTitle = By.id("android:id/action_bar_title");
 	By dashboardTitle = By.xpath("//*[@text='Perfecto Mobile Community']");
 	By txtSignIn = By.xpath("//*[@text='Sign In']");
-	By closeSearch = By.id("android:id/up");
+	By closeSearch = By.id("android:id/up");			
 	By inputEmailAddress = By.id("com.bloomfire.android.perfecto:id/email_address");
 	By inputPassword = By.id("com.bloomfire.android.perfecto:id/password");
 	By btnDone = By.xpath("//*[@text='Done']");
@@ -25,10 +24,10 @@ public class IOS_CommunityBaseView {
 	By inputSearch = By.id("android:id/search_src_text");
 	
 	// Class constructor
-	public IOS_CommunityBaseView(IOSDriver driver){
-		this.driver = driver;			
+	public IOS_CommunityBaseView(RemoteWebDriver driver){
+		this.driver = driver;
+					
 	}
-		
 	// init to check for BasePage load and log-in if necessary	
 	public IOS_CommunityBaseView login(String appUser, String appUserPwd){		
 		//Check if login view is open
@@ -36,11 +35,10 @@ public class IOS_CommunityBaseView {
 			this.driver.findElement(txtSignIn);			
 		}catch (Exception e){	//already signed in -- logout		
 			openMenuDrawer().gotoSettings().logout();			
-		}		
+		}
 		//enter credentials and submit
 		try {			
 			this.driver.findElement(inputEmailAddress).sendKeys(appUser);
-//			this.driver.findElement(inputEmailAddress).click();
 			this.driver.findElement(inputPassword).sendKeys(appUserPwd);
 			this.driver.findElement(btnDone).click();	
 		} catch (Exception e) {
@@ -91,5 +89,6 @@ public class IOS_CommunityBaseView {
 
 		return new IOS_SearchResultsView(this.driver);
 	}
+
 	
 }

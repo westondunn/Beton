@@ -1,9 +1,7 @@
 package com.perfectomobile.IOSCommunityPOM;
 
 import org.openqa.selenium.By;
-
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.perfectomobile.utils.PerfectoUtils;
 
@@ -25,7 +23,7 @@ public class IOS_PostPageView extends IOS_CommunityBaseView {
 	By btnOptions = By.xpath("//*[@class='android.widget.ImageButton']");	// Works
 	By txtFollow = By.xpath("//*[@text='Follow']");
 	
-	public IOS_PostPageView(IOSDriver driver) {
+	public IOS_PostPageView(RemoteWebDriver driver) {
 		super(driver);
 		PerfectoUtils.sleep(3000);
 	}

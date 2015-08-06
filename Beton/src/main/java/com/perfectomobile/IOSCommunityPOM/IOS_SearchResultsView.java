@@ -1,19 +1,17 @@
 package com.perfectomobile.IOSCommunityPOM;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import com.perfectomobile.utils.PerfectoUtils.MatchMode;
+import com.perfectomobile.utils.PerfectoUtils.ScrollNext;
+import com.perfectomobile.utils.VisualDriverControl;
 
-import com.perfectomobile.utils.*;
-import com.perfectomobile.utils.PerfectoUtils.*;
-
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
-
-public class IOS_SearchResultsView extends IOS_CommunityBaseView{
+public class IOS_SearchResultsView extends IOS_CommunityBaseView {
 	
 	By btnNavUp = By.id("android:id/up");
 //	By btnNavUp = By.id("android:id/action_bar_title");
 	
-	public IOS_SearchResultsView(IOSDriver driver) {
+	public IOS_SearchResultsView(RemoteWebDriver driver) {
 		super(driver);
 	}
 	

@@ -21,7 +21,7 @@ import org.testng.annotations.DataProvider;
 
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
 import com.perfectomobile.utils.PerfectoUtils;
-//import com.perfectomobile.selenium.util.EclipseConnector;
+
 
 public abstract class BasicTest {
 	
@@ -51,7 +51,6 @@ public abstract class BasicTest {
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
 		 listMap = getCapabilitiesListMapFromExcel(Init.prop().get("inputDataSheet"), "devices");
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
-
 		 return s;
 	}
 	

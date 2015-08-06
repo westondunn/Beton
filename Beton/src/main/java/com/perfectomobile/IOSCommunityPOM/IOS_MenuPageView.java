@@ -1,13 +1,8 @@
 package com.perfectomobile.IOSCommunityPOM;
 
 import org.openqa.selenium.By;
-
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
-
+import org.openqa.selenium.remote.RemoteWebDriver;
 import com.perfectomobile.utils.PerfectoUtils;
-
-
 
 public class IOS_MenuPageView extends IOS_CommunityBaseView{
 	
@@ -25,8 +20,7 @@ public class IOS_MenuPageView extends IOS_CommunityBaseView{
 		By btnSettings = By.xpath("//*[@text='Settings']");
 	
 	
-
-	public IOS_MenuPageView(IOSDriver driver) {
+	public IOS_MenuPageView(RemoteWebDriver driver) {
 		super(driver);
 		PerfectoUtils.sleep(3000);
 		
