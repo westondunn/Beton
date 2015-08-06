@@ -27,6 +27,7 @@ public class Init {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+		/* The sysProp is only used for the dataprovided initially as TestNG runs the data provided before the constructor */
 		return sysProp;
 	}
 	
