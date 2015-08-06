@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
@@ -21,6 +20,7 @@ import org.testng.annotations.DataProvider;
 
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
 import com.perfectomobile.utils.PerfectoUtils;
+
 
 
 public abstract class BasicTest {
@@ -49,7 +49,7 @@ public abstract class BasicTest {
 	@DataProvider(name="factoryData", parallel=true)
 	public static Object[][] factoryData() throws Exception { 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
-		 listMap = getCapabilitiesListMapFromExcel(Init.prop().get("inputDataSheet"), "devices");
+		 listMap = getCapabilitiesListMapFromExcel(Init.prop().get("inputDataSheet"), Init.prop().get("deviceSheet"));
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
 		 return s;
 	}
