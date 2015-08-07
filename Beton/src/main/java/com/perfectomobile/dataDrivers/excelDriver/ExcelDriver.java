@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -643,10 +644,11 @@ public class ExcelDriver {
 	    XSSFHyperlink link = (XSSFHyperlink)createHelper.createHyperlink(Hyperlink.LINK_FILE);
 	    //link.setAddress("C:\\Users\\AvnerG\\git\\Beton\\Beton\\test-output\\screenshots\\2015-07-27-02-04-41-IDT.png.png");
 	    scrLink = scrLink.replace("\\", "/");
-	    scrLink = scrLink.replace(" ", "\\ ");
+	    //scrLink = scrLink.replace(" ", "/ ");
+	    scrLink = URLEncoder.encode(scrLink, "UTF-8");
 	    //link.setAddress("C:/Users/AvnerG/git/Beton/Beton/test-output/screenshots/2015-07-27-02-04-41-IDT.png.png");
 	    try{
-	    	link.setAddress(scrLink + ".png");
+	    	link.setAddress(scrLink);
 		    cell.setHyperlink(link);
 	    }
 	    catch(Exception e){
