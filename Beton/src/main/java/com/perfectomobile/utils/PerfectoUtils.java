@@ -275,7 +275,7 @@ public class PerfectoUtils {
  	public static String takeScreenshot(RemoteWebDriver driver) {
 	  
 	  String filePath = new File("").getAbsolutePath();
-	  filePath += "\\test-output\\screenshots - test";
+      filePath += "\\test-output\\screenshots - test";
 	  File theDir = new File(filePath);
 
 	  // if the directory does not exist, create it
@@ -648,15 +648,6 @@ public class PerfectoUtils {
 
 }
 
-//private void uploadMedia(String resource, String repositoryKey) throws URISyntaxException, IOException {
-		//repositoryKey = REPOSITORY;
-		//String FILENAME;
-		//File file = new File(FILENAME);
-		//
-		//d.uploadMedia(repositoryKey, file);
-		//File file = loadResource(resource);
-		//_driver.uploadMedia(repositoryKey, file);
-//}	
 
 	//	  public static DesiredCapabilities getCapabilites(String deviceName, String platformName, String platformVersion, String manufacturer,
 //			  String deviceModel, String deviceResolution, String deviceNetwork, String deviceLocation, String deviceDescription, String browserName, String automationName) throws Exception{
