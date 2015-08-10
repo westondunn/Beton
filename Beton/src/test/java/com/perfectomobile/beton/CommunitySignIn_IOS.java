@@ -1,7 +1,5 @@
 package com.perfectomobile.beton;
 
-import java.io.IOException;
-
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -11,32 +9,34 @@ import org.testng.annotations.Test;
 
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
 import com.perfectomobile.test.BasicTest;
+import com.perfectomobile.test.Init;
 import com.perfectomobile.utils.PerfectoUtils;
-import com.perfectomobile.webCommunityPOM.WebCommunityBaseView;
+import com.perfectomobile.IOSCommunityPOM.IOS_CommunityBaseView;
+import com.perfectomobile.androidCommunityPOM.ANDROID_CommunityBaseView;
 
 public class CommunitySignIn_IOS extends BasicTest {
-
+	
 	@Test (dataProvider="logInData")
 	public void testSignIn(String username, String password, String message) throws Exception{
 		boolean testFail = false;
-		WebCommunityBaseView mobileView = null;
+		IOS_CommunityBaseView mobileView = null;
+		
 		if(this.driver == null){
 			Assert.fail("Device not available: " + caps);
 		}
 	 	  
 	 	try{
-	 		mobileView = new WebCommunityBaseView(driver);
-	        mobileView = mobileView.init();
+	 		mobileView = new IOS_CommunityBaseView(driver);
 
-			mobileView = mobileView.login(username, password);
-			String welcomeMessage = mobileView.getWelcomeMessage();
+			mobileView.login(username, password);
+			String profileName = mobileView.openMenuDrawer().gotoProfile().getName();
 			
-			if (welcomeMessage.equals(message)){
+			if (profileName.contains(message)){
 	        	resultSheet.setResultByColumnName(true, this.testName, username, password, message);
 	        }
 			else{
 				resultSheet.setResultByColumnName(false, this.testName, username, password, message);
-				String errorFile = reportFail(message, welcomeMessage);
+				String errorFile = reportFail(message, profileName);
 				resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
 				testFail = true;
 			}
@@ -58,21 +58,14 @@ public class CommunitySignIn_IOS extends BasicTest {
 	}
 
 	@DataProvider (name = "logInData", parallel = false)
-	public Object[][] searchItemsData(){
-		 Object[][] s = null;
-		try {
-		  ExcelDriver ed = new ExcelDriver(sysProp.get("inputDataSheet"), "signIn", false);
-		  s = ed.getData(3);
-		} catch(IOException e) {
-			System.out.println("Not able to search data from excel: " + sysProp.get("inputDataSheet"));
-			System.err.println("IndexOutOfBoundsException: " + e.getMessage());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return s;
+	public Object[][] searchItemsData() throws Exception{
+		  ExcelDriver ed = new ExcelDriver(sysProp.get("inputDataSheet"), "signIn_android", false);
+		  Object[][] s = ed.getData(3);
+
+		  return s;
 	}
 	
+
 	@Factory(dataProvider="factoryData")
 	public CommunitySignIn_IOS(DesiredCapabilities caps) {
 		super(caps);
