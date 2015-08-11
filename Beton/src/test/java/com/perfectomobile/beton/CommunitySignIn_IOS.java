@@ -59,7 +59,7 @@ public class CommunitySignIn_IOS extends BasicTest {
 
 	@DataProvider (name = "logInData", parallel = false)
 	public Object[][] searchItemsData() throws Exception{
-		  ExcelDriver ed = new ExcelDriver(sysProp.get("inputDataSheet"), "signIn_android", false);
+		  ExcelDriver ed = new ExcelDriver(sysProp.get("inputDataSheet"), "signIn", false);
 		  Object[][] s = ed.getData(3);
 
 		  return s;

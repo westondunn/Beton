@@ -1,5 +1,8 @@
 package com.perfectomobile.beton;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -25,8 +28,7 @@ public class CommunitySignIn_Android extends BasicTest {
 		}
 	 	  
 	 	try{
-	 		mobileView = new ANDROID_CommunityBaseView(driver);
-
+	 		mobileView = new ANDROID_CommunityBaseView(driver);	
 			mobileView.login(username, password);
 			String profileName = mobileView.openMenuDrawer().gotoProfile().getName();
 			
