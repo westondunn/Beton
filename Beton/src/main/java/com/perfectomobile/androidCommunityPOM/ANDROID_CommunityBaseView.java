@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.Reporter;
 
 import com.perfectomobile.utils.PerfectoUtils;
 import com.perfectomobile.utils.PerfectoUtils.*;
@@ -21,10 +22,7 @@ public class ANDROID_CommunityBaseView {
 	By actionBarTitle = By.id("android:id/action_bar_title");
 	By dashboardTitle = By.xpath("//*[@text='Perfecto Mobile Community']");
 	By txtSignIn = By.xpath("//*[@text='Sign In']");
-	By closeSearch = By.id("android:id/up");
-	
-	
-		
+	By closeSearch = By.id("android:id/up");		
 			
 	By inputEmailAddress = By.id("com.bloomfire.android.perfecto:id/email_address");
 	By inputPassword = By.id("com.bloomfire.android.perfecto:id/password");
@@ -35,7 +33,7 @@ public class ANDROID_CommunityBaseView {
 	// Class constructor
 	public ANDROID_CommunityBaseView(RemoteWebDriver driver){
 		this.driver = driver;
-					
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);			
 	}
 	// init to check for BasePage load and log-in if necessary	
 	public ANDROID_CommunityBaseView login(String appUser, String appUserPwd){		
@@ -56,14 +54,14 @@ public class ANDROID_CommunityBaseView {
 		//Check for dashboard page load
 		try{
 			PerfectoUtils.fluentWait(actionBarTitle, driver, 10);
-        	this.driver.findElements(dashboardTitle);
+        	this.driver.findElement(dashboardTitle);
         	return new ANDROID_CommunityBaseView(this.driver);
         }
         catch(Exception e){
-        	/*
+        	Reporter.log("<br>" + "---------------------->>>Login attempt failed " +  "<br>");
         	String errorFile = PerfectoUtils.takeScreenshot(driver);
 			Reporter.log("Error screenshot saved in file: " + errorFile);
-			*/
+			
         	throw new IllegalStateException();
         }
 		

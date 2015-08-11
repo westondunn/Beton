@@ -1,20 +1,16 @@
 package com.perfectomobile.utils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,11 +18,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -34,14 +28,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.regexp.recompile;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -59,11 +51,6 @@ import sun.misc.BASE64Decoder;
 import com.google.common.base.Function;
 //import com.perfectomobile.selenium.util.EclipseConnector;
 import com.perfectomobile.test.Init;
-
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 
 public class PerfectoUtils {
 	private static final String REPOSITORY = "PUBLIC:";
@@ -274,8 +261,9 @@ public class PerfectoUtils {
 	  
  	public static String takeScreenshot(RemoteWebDriver driver) {
 	  
+ 		
 	  String filePath = new File("").getAbsolutePath();
-	  filePath += "\\test-output\\screenshots";
+	  filePath += "\\test-output\\screenshots-tests";
 	  File theDir = new File(filePath);
 
 	  // if the directory does not exist, create it
@@ -398,7 +386,7 @@ public class PerfectoUtils {
 	 * 
 	 *********************************************************************/
 	
-	public static String decryptPassword(String message, String key){
+	public String decryptPassword(String message, String key){
 		try {
 	      if (message==null || key==null ) return null;
 	      BASE64Decoder decoder = new BASE64Decoder();
@@ -417,7 +405,7 @@ public class PerfectoUtils {
 	    }
 	    catch ( Exception e ) {
 	      return null;
-    }  
+    } 
   }
 
 

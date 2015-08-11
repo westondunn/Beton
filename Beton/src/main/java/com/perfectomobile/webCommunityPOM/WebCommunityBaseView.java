@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 
+// TODO: Auto-generated Javadoc
 /***
  * The Class WebCommunityBaseView.
  */
@@ -46,14 +47,14 @@ public class WebCommunityBaseView {
 	
 		
 	
-	/** 
+	/**
+	 *  
 	 * 		init: initializes the driver.
 	 * 		Navigates to community url and validates page is logged out.
 	 * 		in case its not, logs out to reach the log in screen.
 	 *
 	 * @return the web community base view
-	 * @throws IOException 
-	 * 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public WebCommunityBaseView init() throws IOException{
 				
@@ -96,13 +97,15 @@ public class WebCommunityBaseView {
 	}
 	
 	
-	/*****
+	/**
+	 * ***
 	 * login to the Community
-	 * 	gets a username and password and logins to the community
+	 * 	gets a username and password and logins to the community.
+	 *
 	 * @param username username
 	 * @param password password
 	 * @return the same page only this time the upper menu is logged in
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public WebCommunityBaseView login(String username,String password) throws IOException{
 		

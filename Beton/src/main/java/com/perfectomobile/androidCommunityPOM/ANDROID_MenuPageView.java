@@ -38,7 +38,7 @@ public class ANDROID_MenuPageView extends ANDROID_CommunityBaseView{
 	}
 	
 	public ANDROID_ProfilePageView gotoProfile(){
-		this.driver.findElement(btnDashboard).click();
+		this.driver.findElement(btnProfile).click();
 		return new ANDROID_ProfilePageView(this.driver);
 	}
 //	public PCStashView gotoStash(){

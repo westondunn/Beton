@@ -10,11 +10,14 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
-import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
+
+
 import com.perfectomobile.test.BasicTest;
 import com.perfectomobile.test.Init;
 import com.perfectomobile.utils.PerfectoUtils;
 import com.perfectomobile.androidCommunityPOM.ANDROID_CommunityBaseView;
+import com.perfectomobile.androidCommunityPOM.ANDROID_ProfilePageView;
+import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
 
 public class CommunitySignIn_Android extends BasicTest {
 
@@ -29,8 +32,11 @@ public class CommunitySignIn_Android extends BasicTest {
 	 	  
 	 	try{
 	 		mobileView = new ANDROID_CommunityBaseView(driver);	
+
 			mobileView.login(username, password);
-			String profileName = mobileView.openMenuDrawer().gotoProfile().getName();
+			//check profile name
+			ANDROID_ProfilePageView profile = mobileView.openMenuDrawer().gotoProfile();
+			String profileName = profile.getName();
 			
 			if (profileName.contains(message)){
 	        	resultSheet.setResultByColumnName(true, this.testName, username, password, message);
@@ -41,6 +47,8 @@ public class CommunitySignIn_Android extends BasicTest {
 				resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
 				testFail = true;
 			}
+			//return to dashboard
+			profile.backToDashboard();
 	 	}
 	 	catch(Exception e){
 	 		resultSheet.setResultByColumnName(false, this.testName, username, password, message);
