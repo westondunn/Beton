@@ -1,7 +1,9 @@
 /*
  * 
  */
-package com.perfectomobile.androidCommunityPOM;
+package com.perfectomobile.androidCommunityPOM_Appium;
+
+import io.appium.java_client.android.AndroidDriver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +30,7 @@ import com.perfectomobile.utils.VisualDriverControl;
 public class ANDROID_CommunityBaseView {
 	
 	/** The driver. */
-	RemoteWebDriver driver;
-	
+	AndroidDriver driver;	
 		
 	/** Page element: The action bar title. */
 	
@@ -62,10 +63,10 @@ public class ANDROID_CommunityBaseView {
 	/**
 	 * Instantiates a new ANDROID_CommunityBaseView.
 	 *
-	 * @param driver the Selenium RemoteWebDriver
+	 * @param driver the AppiumDriver
 	 */
 	// Class constructor
-	public ANDROID_CommunityBaseView(RemoteWebDriver driver){
+	public ANDROID_CommunityBaseView(AndroidDriver driver){
 		this.driver = driver;
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);			
 	}

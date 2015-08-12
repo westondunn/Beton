@@ -1,4 +1,6 @@
-package com.perfectomobile.androidCommunityPOM;
+package com.perfectomobile.androidCommunityPOM_Appium;
+
+import io.appium.java_client.android.AndroidDriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -52,9 +54,9 @@ public class ANDROID_MenuPageView extends ANDROID_CommunityBaseView{
 	/**
 	 * Instantiates a new ANDROID_MenuPageView.
 	 *
-	 * @param driver the driver
+	 * @param driver the AppiumDriver
 	 */
-	public ANDROID_MenuPageView(RemoteWebDriver driver) {
+	public ANDROID_MenuPageView(AndroidDriver driver) {
 		super(driver);
 		PerfectoUtils.sleep(3000);
 		

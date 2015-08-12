@@ -1,4 +1,6 @@
-package com.perfectomobile.androidCommunityPOM;
+package com.perfectomobile.androidCommunityPOM_Appium;
+
+import io.appium.java_client.android.AndroidDriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -18,29 +20,29 @@ public class ANDROID_SearchResultsView extends ANDROID_CommunityBaseView{
 //	By btnNavUp = By.id("android:id/action_bar_title");
 	
 	/**
- * Instantiates a new ANDROI d_ search results view.
+ * Instantiates a new ANDROID_SearchResultsView.
  *
  * @param driver the driver
  */
-public ANDROID_SearchResultsView(RemoteWebDriver driver) {
+public ANDROID_SearchResultsView(AndroidDriver driver) {
 		super(driver);
 	}
 	
 	/**
 	 * Select search result.
 	 *
-	 * @param findText the find text
-	 * @return the ANDROI d_ post page view
+	 * @param findResult the search result to select
+	 * @return the ANDROID_PostPageView object
 	 */
-	public ANDROID_PostPageView selectSearchResult(String findText){
-		VisualDriverControl.clickVisualText(this.driver, findText, true, ScrollNext.SWIPE_UP, 30, 1, 90, MatchMode.CONTAIN,96);
+	public ANDROID_PostPageView selectSearchResult(String findResult){
+		VisualDriverControl.clickVisualText(this.driver, findResult, true, ScrollNext.SWIPE_UP, 30, 1, 90, MatchMode.CONTAIN,96);
 		return new ANDROID_PostPageView(this.driver);
 	}
 	
 	/**
-	 * Back to set search.
+	 *  Go Back to set the search query.
 	 *
-	 * @return the ANDROI d_ community base view
+	 * @return the ANDROID_CommunityBaseView
 	 */
 	public ANDROID_CommunityBaseView backToSetSearch(){
 		//System.out.println(btnNavUp);
