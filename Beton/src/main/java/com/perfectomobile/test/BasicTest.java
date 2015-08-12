@@ -133,8 +133,8 @@ public abstract class BasicTest {
 //		  	// Open workbook
 //	  	  	ExcelDriver ed = new ExcelDriver();
 //	  	  	ed.setWorkbook(filePath);
-//	  	  	//ed.setSheet(this.deviceDesc, true);
-//	    	this.ed.setAutoSize();
+//	  	  	resultSheet.setSheet(this.deviceDesc, false);
+	    	resultSheet.setAutoSize();
 	        // Close the browser
 	        driver.close();
 	         
