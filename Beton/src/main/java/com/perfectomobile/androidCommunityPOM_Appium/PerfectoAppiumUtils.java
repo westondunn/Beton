@@ -68,6 +68,7 @@ public class PerfectoAppiumUtils {
 		AndroidDriver driver;
 		boolean waitForDevice = true;
 		int index = retries;
+		
 		do {
 			try {
 	//			cap.setCapability("user", sysProp.get("userName"));
