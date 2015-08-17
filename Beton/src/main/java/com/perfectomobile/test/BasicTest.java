@@ -92,7 +92,7 @@ public abstract class BasicTest {
 		isFirstRun = false;
 		System.out.println("Run started");
 		
-		if(this.caps.getCapability("deviceName") != null){
+		if(this.caps.getCapability("deviceName") != null) {
 			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
 				DesiredCapabilities dc = DesiredCapabilities.chrome();
 				
