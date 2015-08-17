@@ -70,9 +70,9 @@ public class PerfectoAppiumUtils {
 		int index = retries;
 		do {
 			try {
-				cap.setCapability("user", sysProp.get("userName"));
-				cap.setCapability("password", sysProp.get("password"));			
-				driver = new AndroidDriver(new URL("https://" + sysProp.get("URL") + "/nexperience/perfectomobile/wd/hub"), cap);
+	//			cap.setCapability("user", sysProp.get("userName"));
+	//			cap.setCapability("password", sysProp.get("password"));			
+				driver = new AndroidDriver(new URL("http://" + sysProp.get("URL") + "/wd/hub"), cap);
 				System.out.println(sysProp.get("sysDriverMSG"));
 				return driver;
 

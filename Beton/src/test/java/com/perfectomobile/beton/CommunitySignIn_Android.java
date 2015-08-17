@@ -1,5 +1,8 @@
 package com.perfectomobile.beton;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -10,10 +13,10 @@ import org.testng.annotations.Test;
 
 
 
-import com.perfectomobile.test.BasicTest;
+//import com.perfectomobile.test.BasicTest;
 import com.perfectomobile.test.BasicTest_Android;
 import com.perfectomobile.test.Init;
-import com.perfectomobile.utils.PerfectoUtils;
+import com.perfectomobile.androidCommunityPOM_Appium.PerfectoAppiumUtils;
 import com.perfectomobile.androidCommunityPOM_Appium.ANDROID_CommunityBaseView;
 import com.perfectomobile.androidCommunityPOM_Appium.ANDROID_ProfilePageView;
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
@@ -42,33 +45,33 @@ public class CommunitySignIn_Android extends BasicTest_Android {
 		}
 	 	  
 	 	try{
-	 		mobileView = new ANDROID_CommunityBaseView(driver);
-	 		//login
+	 		mobileView = new ANDROID_CommunityBaseView(driver);	
+
 			mobileView.login(username, password);
 			//check profile name
 			ANDROID_ProfilePageView profile = mobileView.openMenuDrawer().gotoProfile();
 			String profileName = profile.getName();
 			
 			if (profileName.contains(message)){
-	        	resultSheet.setResultByColumnName(true, this.testName, username, password, message);
+//	        	resultSheet.setResultByColumnName(true, this.testName, username, password, message);
 	        }
 			else{
-				resultSheet.setResultByColumnName(false, this.testName, username, password, message);
-				String errorFile = reportFail(message, profileName);
-				resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
+//				resultSheet.setResultByColumnName(false, this.testName, username, password, message);
+//				String errorFile = reportFail(message, profileName);
+//				resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
 				testFail = true;
 			}
 			//return to dashboard
 			profile.backToDashboard();
 	 	}
 	 	catch(Exception e){
-	 		resultSheet.setResultByColumnName(false, this.testName, username, password, message);
+//	 		resultSheet.setResultByColumnName(false, this.testName, username, password, message);
 			testFail = true;
-        	String errorFile = PerfectoUtils.takeScreenshot(driver);
-        	resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
-    		Reporter.log(e.toString());
-    		Reporter.log("Error screenshot saved in file: " + errorFile);
-    		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
+//        	String errorFile = PerfectoAppiumUtils.takeScreenshot(driver);
+//        	resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
+//    		Reporter.log(e.toString());
+//    		Reporter.log("Error screenshot saved in file: " + errorFile);
+//    		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
 	 	}
 		
         if(testFail){

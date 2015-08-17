@@ -2,6 +2,7 @@ package com.perfectomobile.androidCommunityPOM_Appium;
 
 import io.appium.java_client.android.AndroidDriver;
 
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -34,8 +35,20 @@ public ANDROID_SearchResultsView(AndroidDriver driver) {
 	 * @param findResult the search result to select
 	 * @return the ANDROID_PostPageView object
 	 */
-	public ANDROID_PostPageView selectSearchResult(String findResult){
-		VisualDriverControl.clickVisualText(this.driver, findResult, true, ScrollNext.SWIPE_UP, 30, 1, 90, MatchMode.CONTAIN,96);
+	public ANDROID_PostPageView selectSearchResult(String findResult) throws ElementNotVisibleException{
+//		VisualDriverControl.clickVisualText(this.driver, findResult, true, ScrollNext.SWIPE_UP, 30, 1, 90, MatchMode.CONTAIN,96);
+		int maxScroll = 10;
+		By findText = By.xpath("//*[contains(@text,'" + findResult+"')]");
+		for (int i = 0; i < maxScroll; i++) {
+			if (this.driver.findElements(findText).size() > 0) {
+				this.driver.findElement(findText).click();
+			} else if (i == maxScroll-1){
+				throw new ElementNotVisibleException("Element with the text: "+ findResult + " was not found within "+maxScroll+" page scrolls.");
+			} else {
+				this.driver.swipe(500, 1600, 500, 800, 400);
+			} 
+		}
+		
 		return new ANDROID_PostPageView(this.driver);
 	}
 	
@@ -46,6 +59,7 @@ public ANDROID_SearchResultsView(AndroidDriver driver) {
 	 */
 	public ANDROID_CommunityBaseView backToSetSearch(){
 		//System.out.println(btnNavUp);
+		PerfectoUtils.sleep(1000);
 		this.driver.findElement(btnNavUp).click();
 		return new ANDROID_CommunityBaseView(this.driver);
 	}

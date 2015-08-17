@@ -126,15 +126,7 @@ public abstract class BasicTest {
 			if(this.driver == null){
 				return;
 			}
-			// Get Excel file path
-//		  	String filePath = new File("").getAbsolutePath();
-//		  	filePath += "testResults.xlsx";
-//  	  
-//		  	// Open workbook
-//	  	  	ExcelDriver ed = new ExcelDriver();
-//	  	  	ed.setWorkbook(filePath);
-//	  	  	//ed.setSheet(this.deviceDesc, true);
-//	    	this.ed.setAutoSize();
+	    	resultSheet.setAutoSize();
 	        // Close the browser
 	        driver.close();
 	         

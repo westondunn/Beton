@@ -108,17 +108,17 @@ public abstract class BasicTest_Android {
 		
 		this.driver = PerfectoAppiumUtils.getDriver(caps, Integer.parseInt(sysProp.get("driverRetries")), Integer.parseInt(sysProp.get("retryIntervalSeconds")));
 		
-		if(this.driver != null){
-			deviceProperties = PerfectoAppiumUtils.getDevicePropertiesList(driver);
-			deviceDesc = getDeviceProperty("model");
-			deviceDesc += " ";
-			deviceDesc += getDeviceProperty("description");
-			
-			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-		 	resultSheet.setResultColumn(this.testCycle, true);
-		}
-		resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-	 	resultSheet.setResultColumn(this.testCycle, true);
+//		if(this.driver != null){
+//			deviceProperties = PerfectoAppiumUtils.getDevicePropertiesList(driver);
+//			deviceDesc = getDeviceProperty("model");
+//			deviceDesc += " ";
+//			deviceDesc += getDeviceProperty("description");
+//			
+//			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+//		 	resultSheet.setResultColumn(this.testCycle, true);
+//		}
+//		resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+//	 	resultSheet.setResultColumn(this.testCycle, true);
 	}
 	
 
