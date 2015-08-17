@@ -1,5 +1,7 @@
 package com.perfectomobile.test;
 
+import io.appium.java_client.android.AndroidDriver;
+
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,14 +20,14 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 
+import com.perfectomobile.androidCommunityPOM_Appium.PerfectoAppiumUtils;
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
-import com.perfectomobile.utils.PerfectoUtils;
 
 
 
-public abstract class BasicTest {
+public abstract class BasicTest_Android {
 	
-	protected RemoteWebDriver driver;
+	protected AndroidDriver driver;
 	protected ExcelDriver ed;
 	protected String testName;
 	protected String testCycle;
@@ -40,7 +42,7 @@ public abstract class BasicTest {
 	 * @param caps
 	 * @description constructor
 	 */
-	public BasicTest(DesiredCapabilities caps){
+	public BasicTest_Android(DesiredCapabilities caps){
 		this.caps = caps;
 		sysProp = Init.getSysProp();
 	}
@@ -50,7 +52,7 @@ public abstract class BasicTest {
 	public static Object[][] factoryData() throws Exception { 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
 		 listMap = getCapabilitiesListMapFromExcel(Init.prop().get("inputDataSheet"), Init.prop().get("deviceSheet"));
-		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
+		 Object[][] s = PerfectoAppiumUtils.getCapabilitiesArray(listMap);
 		 return s;
 	}
 	
@@ -92,31 +94,31 @@ public abstract class BasicTest {
 		isFirstRun = false;
 		System.out.println("Run started");
 		
-		if(this.caps.getCapability("deviceName") != null) {
-			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
-				DesiredCapabilities dc = DesiredCapabilities.chrome();
-				
-				this.driver = new RemoteWebDriver(new URL(sysProp.get("remoteDriverURL")),dc);
-				this.deviceDesc = "Chrome";
-				resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-			 	resultSheet.setResultColumn(this.testCycle, true);
-				return;
-			}
+		if(this.caps.getCapability("deviceName") != null){
+//			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
+//				DesiredCapabilities dc = DesiredCapabilities.chrome();
+//				
+//				this.driver = new RemoteWebDriver(new URL(sysProp.get("remoteDriverURL")),dc);
+//				this.deviceDesc = "Chrome";
+//				resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+//			 	resultSheet.setResultColumn(this.testCycle, true);
+//				return;
+//			}
 		}
 		
-		this.driver = PerfectoUtils.getDriver(caps, Integer.parseInt(sysProp.get("driverRetries")), Integer.parseInt(sysProp.get("retryIntervalSeconds")));
+		this.driver = PerfectoAppiumUtils.getDriver(caps, Integer.parseInt(sysProp.get("driverRetries")), Integer.parseInt(sysProp.get("retryIntervalSeconds")));
 		
-		if(this.driver != null){
-			deviceProperties = PerfectoUtils.getDevicePropertiesList(driver);
-			deviceDesc = getDeviceProperty("model");
-			deviceDesc += " ";
-			deviceDesc += getDeviceProperty("description");
-			
-			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-		 	resultSheet.setResultColumn(this.testCycle, true);
-		}
-		resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-	 	resultSheet.setResultColumn(this.testCycle, true);
+//		if(this.driver != null){
+//			deviceProperties = PerfectoAppiumUtils.getDevicePropertiesList(driver);
+//			deviceDesc = getDeviceProperty("model");
+//			deviceDesc += " ";
+//			deviceDesc += getDeviceProperty("description");
+//			
+//			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+//		 	resultSheet.setResultColumn(this.testCycle, true);
+//		}
+//		resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+//	 	resultSheet.setResultColumn(this.testCycle, true);
 	}
 	
 
@@ -126,7 +128,15 @@ public abstract class BasicTest {
 			if(this.driver == null){
 				return;
 			}
-	    	resultSheet.setAutoSize();
+			// Get Excel file path
+//		  	String filePath = new File("").getAbsolutePath();
+//		  	filePath += "testResults.xlsx";
+//  	  
+//		  	// Open workbook
+//	  	  	ExcelDriver ed = new ExcelDriver();
+//	  	  	ed.setWorkbook(filePath);
+//	  	  	//ed.setSheet(this.deviceDesc, true);
+//	    	this.ed.setAutoSize();
 	        // Close the browser
 	        driver.close();
 	         
@@ -152,7 +162,7 @@ public abstract class BasicTest {
 
 	protected String reportFail(String expectedResult, String actualResult){
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
-    	String errorFile = PerfectoUtils.takeScreenshot(driver);
+    	String errorFile = PerfectoAppiumUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + errorFile);
 		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
 		return errorFile;

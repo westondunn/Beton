@@ -1,4 +1,6 @@
-package com.perfectomobile.androidCommunityPOM;
+package com.perfectomobile.androidCommunityPOM_Appium;
+
+import io.appium.java_client.android.AndroidDriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -35,7 +37,7 @@ public class ANDROID_ProfilePageView extends ANDROID_CommunityBaseView {
  *
  * @param driver the driver
  */
-public ANDROID_ProfilePageView(RemoteWebDriver driver) {
+public ANDROID_ProfilePageView(AndroidDriver driver) {
 		super(driver);
 	}
 	
@@ -53,7 +55,7 @@ public ANDROID_ProfilePageView(RemoteWebDriver driver) {
 	/**
 	 * Gets the name.
 	 *
-	 * @return the name
+	 * @return the Profile User Name
 	 */
 	public String getName(){
 		String author = this.driver.findElement(txtName).getAttribute("text");
@@ -64,7 +66,7 @@ public ANDROID_ProfilePageView(RemoteWebDriver driver) {
 	/**
 	 * Gets the title.
 	 *
-	 * @return the title
+	 * @returns the Profile Users' Title
 	 */
 	public String getTitle(){
 		String author = this.driver.findElement(txtTitle).getAttribute("text");
@@ -75,7 +77,7 @@ public ANDROID_ProfilePageView(RemoteWebDriver driver) {
 	/**
 	 * Edits the profile.
 	 *
-	 * @return the ANDROI d_ post page view
+	 * @return the ANDROID_PostPageView object
 	 */
 	public ANDROID_PostPageView editProfile(){
 		//System.out.println("--------------------->>> Clicking " + btnRefresh);
