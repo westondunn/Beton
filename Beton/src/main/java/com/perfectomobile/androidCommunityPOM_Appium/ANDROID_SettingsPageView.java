@@ -1,4 +1,6 @@
-package com.perfectomobile.androidCommunityPOM;
+package com.perfectomobile.androidCommunityPOM_Appium;
+
+import io.appium.java_client.android.AndroidDriver;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -14,18 +16,18 @@ public class ANDROID_SettingsPageView extends ANDROID_CommunityBaseView{
 	By btnLogout = By.xpath("//*[@text='Logout']");
 	
 	/**
-	 * Instantiates a new ANDROI d_ settings page view.
+	 * Instantiates a new AANDROID_SettingsPageView.
 	 *
-	 * @param driver the driver
+	 * @param driver the AppiumDriver
 	 */
-	public ANDROID_SettingsPageView(RemoteWebDriver driver) {
+	public ANDROID_SettingsPageView(AndroidDriver driver) {
 		super(driver);
 	}
 	
 	/**
-	 * Logout.
+	 * Logs the current user out of the application. This automatically launches the login dialog.
 	 *
-	 * @return the ANDROI d_ community base view
+	 * @return the ANDROID_CommunityBaseView object
 	 */
 	public ANDROID_CommunityBaseView logout(){
 		this.driver.findElement(btnLogout).click();

@@ -1,7 +1,9 @@
 /*
  * 
  */
-package com.perfectomobile.androidCommunityPOM;
+package com.perfectomobile.androidCommunityPOM_Appium;
+
+import io.appium.java_client.android.AndroidDriver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +30,7 @@ import com.perfectomobile.utils.VisualDriverControl;
 public class ANDROID_CommunityBaseView {
 	
 	/** The driver. */
-	RemoteWebDriver driver;
-	
+	AndroidDriver driver;	
 		
 	/** Page element: The action bar title. */
 	
@@ -62,10 +63,10 @@ public class ANDROID_CommunityBaseView {
 	/**
 	 * Instantiates a new ANDROID_CommunityBaseView.
 	 *
-	 * @param driver the Selenium RemoteWebDriver
+	 * @param driver the AppiumDriver
 	 */
 	// Class constructor
-	public ANDROID_CommunityBaseView(RemoteWebDriver driver){
+	public ANDROID_CommunityBaseView(AndroidDriver driver){
 		this.driver = driver;
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);			
 	}
@@ -90,6 +91,7 @@ public class ANDROID_CommunityBaseView {
 		//enter credentials and submit
 		try {			
 			this.driver.findElement(inputEmailAddress).sendKeys(appUser);
+			this.driver.findElement(inputPassword).click();
 			this.driver.findElement(inputPassword).sendKeys(appUserPwd);
 			this.driver.findElement(btnDone).click();	
 		} catch (Exception e) {
@@ -140,10 +142,11 @@ public class ANDROID_CommunityBaseView {
 	 */
 	// close the search field 
 	public ANDROID_MenuPageView closeSearch(){
+		PerfectoUtils.sleep(1000);
 		this.driver.findElement(closeSearch).click();
-//		if(this.driver.findElement(closeSearch).isDisplayed()){ //click again if search bar has only cleared
-//			this.driver.findElement(closeSearch).click();
-//		}
+		if(this.driver.findElement(closeSearch).isDisplayed()){ //click again if search bar has only cleared
+			this.driver.findElement(closeSearch).click();
+		}
 		return new ANDROID_MenuPageView(this.driver);
 	}
 	
@@ -156,8 +159,9 @@ public class ANDROID_CommunityBaseView {
 	//input text into exposed search field after clicking on the search button
 	public ANDROID_SearchResultsView inputSearchText(String q){
 		this.driver.findElement(btnSearch).sendKeys(q);
-		// click keyboard enter key
-		VisualDriverControl.clickByTextOffset(this.driver, "DEL", LabelPosition.BELOW, "10%");
+		// click keyboard enter key (KEYCODE_ENTER = 66)
+		this.driver.sendKeyEvent(66);
+		//VisualDriverControl.clickByTextOffset(this.driver, "DEL", LabelPosition.BELOW, "10%");
 
 		return new ANDROID_SearchResultsView(this.driver);
 	}

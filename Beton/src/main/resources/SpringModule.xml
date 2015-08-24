@@ -12,7 +12,7 @@
 		</property>
 	</bean> 
 
-	<bean id="dataSource" class="com.perfectomobile.beton.TestClass"> 
+	<bean id="dataSource" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
 		<property name="userName" value="${userName}" />
 		<!-- <property name="device" value="${device}" />
 		<property name="xpath" value="${xpath}" /> -->
