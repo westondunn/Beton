@@ -154,7 +154,7 @@ public abstract class BasicTest {
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
     	String errorFile = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + errorFile);
-		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
+		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		return errorFile;
 	}
 	
