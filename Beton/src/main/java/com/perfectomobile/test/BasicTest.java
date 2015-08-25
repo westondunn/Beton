@@ -156,6 +156,7 @@ public abstract class BasicTest {
 		Reporter.log("Error screenshot saved in file: " + errorFile);
 		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		return errorFile;
+		//
 	}
 	
 	public void switchToContext(RemoteWebDriver driver, String context) {
