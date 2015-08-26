@@ -48,7 +48,7 @@ public class CommunitySignIn extends BasicTest {
         	resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
     		Reporter.log(e.toString());
     		Reporter.log("Error screenshot saved in file: " + errorFile);
-    		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
+    		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
 	 	}
 		
         if(testFail){
