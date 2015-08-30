@@ -156,7 +156,27 @@ public abstract class BasicTest {
 		Reporter.log("Error screenshot saved in file: " + errorFile);
 		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		return errorFile;
-		//
+	}
+	protected String reportFail(String message){
+    	Reporter.log("Test failed: " + message);
+    	String errorFile = PerfectoUtils.takeScreenshot(driver);
+		Reporter.log("Error screenshot saved in file: " + errorFile);
+		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
+		return errorFile;
+	}
+	protected String reportPass(String message){
+    	Reporter.log("Test passed: " + message);
+    	String screenshot = PerfectoUtils.takeScreenshot(driver);
+		Reporter.log("Screenshot saved in file: " + screenshot);
+		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
+		return screenshot;
+	}
+	protected String reportMessage(String message){
+    	Reporter.log(message);
+    	String screenshot = PerfectoUtils.takeScreenshot(driver);
+		Reporter.log("Screenshot saved in file: " + screenshot);
+		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
+		return screenshot;
 	}
 	
 	public void switchToContext(RemoteWebDriver driver, String context) {
