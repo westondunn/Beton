@@ -3,9 +3,10 @@
 <suite name="testList" parallel="instances" thread-count="5">	
 	
 	<test name="Test">
-	    <parameter name="testCycle" value="Raj 3.08" />
+	    <parameter name="testCycle" value="Avner 1.15" />
 		<classes>
 			<class name="com.perfectomobile.beton.CommunitySignIn" />
+			<!-- <class name="com.perfectomobile.beton.KeywordDrivenTest" />  -->
 		</classes>
 
 	</test> <!-- Test -->	
