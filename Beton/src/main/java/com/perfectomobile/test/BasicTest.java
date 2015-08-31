@@ -11,6 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteExecuteMethod;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
@@ -150,33 +151,57 @@ public abstract class BasicTest {
 		return deviceProperties;
 	}
 
-	protected String reportFail(String expectedResult, String actualResult){
+	protected void reportFail(String expectedResult, String actualResult, String... params){
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
     	String errorFile = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + errorFile);
 		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		return errorFile;
+		try {
+			resultSheet.setResultByColumnName(false, params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.fail();
 	}
-	protected String reportFail(String message){
+	protected void reportFail(String message, String... params){
     	Reporter.log("Test failed: " + message);
     	String errorFile = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + errorFile);
 		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		return errorFile;
+		try {
+			resultSheet.setResultByColumnName(false, params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Assert.fail();
+		}
+		Assert.fail();
 	}
-	protected String reportPass(String message){
+	protected void reportPass(String message, String... params){
     	Reporter.log("Test passed: " + message);
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		return screenshot;
+		try {
+			resultSheet.setResultByColumnName(true, params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	protected String reportMessage(String message){
+	protected void reportMessage(String message, String... params){
     	Reporter.log(message);
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		return screenshot;
+		try {
+			resultSheet.setResultByColumnName(true, params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void switchToContext(RemoteWebDriver driver, String context) {
