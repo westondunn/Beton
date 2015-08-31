@@ -94,7 +94,7 @@ public class PerfectoUtils {
 		d.executeScript("mobile:application:install", params);
 	}
 	
-	public static void startApp(String appName,RemoteWebDriver d )
+	public static void startApp(String appName, RemoteWebDriver d )
 	{
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("name", appName);

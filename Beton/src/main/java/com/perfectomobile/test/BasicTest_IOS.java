@@ -1,5 +1,7 @@
 package com.perfectomobile.test;
 
+import io.appium.java_client.android.AndroidDriver;
+
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -7,11 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteExecuteMethod;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
@@ -19,14 +21,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 
+import com.perfectomobile.androidCommunityPOM_Appium.PerfectoAppiumUtils;
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
-import com.perfectomobile.utils.PerfectoUtils;
 
-
-
-public abstract class BasicTest {
+public abstract class BasicTest_IOS {
 	
-	protected RemoteWebDriver driver;
+	protected AndroidDriver driver;
 	protected ExcelDriver ed;
 	protected String testName;
 	protected String testCycle;
@@ -41,7 +41,7 @@ public abstract class BasicTest {
 	 * @param caps
 	 * @description constructor
 	 */
-	public BasicTest(DesiredCapabilities caps){
+	public BasicTest_IOS(DesiredCapabilities caps){
 		this.caps = caps;
 		sysProp = Init.getSysProp();
 	}
@@ -51,7 +51,7 @@ public abstract class BasicTest {
 	public static Object[][] factoryData() throws Exception { 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
 		 listMap = getCapabilitiesListMapFromExcel(Init.prop().get("inputDataSheet"), Init.prop().get("deviceSheet"));
-		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
+		 Object[][] s = PerfectoAppiumUtils.getCapabilitiesArray(listMap);
 		 return s;
 	}
 	
@@ -93,31 +93,13 @@ public abstract class BasicTest {
 		isFirstRun = false;
 		System.out.println("Run started");
 		
-		if(this.caps.getCapability("deviceName") != null) {
-			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
-				DesiredCapabilities dc = DesiredCapabilities.chrome();
-				
-				this.driver = new RemoteWebDriver(new URL(sysProp.get("remoteDriverURL")),dc);
-				this.deviceDesc = "Chrome";
-				resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-			 	resultSheet.setResultColumn(this.testCycle, true);
-				return;
-			}
+		if(this.caps.getCapability("deviceName") != null){
+
 		}
 		
-		this.driver = PerfectoUtils.getDriver(caps, Integer.parseInt(sysProp.get("driverRetries")), Integer.parseInt(sysProp.get("retryIntervalSeconds")));
+		this.driver = PerfectoAppiumUtils.getDriver(caps, Integer.parseInt(sysProp.get("driverRetries")), Integer.parseInt(sysProp.get("retryIntervalSeconds")));
 		
-		if(this.driver != null){
-			deviceProperties = PerfectoUtils.getDevicePropertiesList(driver);
-			deviceDesc = getDeviceProperty("model");
-			deviceDesc += " ";
-			deviceDesc += getDeviceProperty("description");
-			
-			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-		 	resultSheet.setResultColumn(this.testCycle, true);
-		}
-		resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-	 	resultSheet.setResultColumn(this.testCycle, true);
+
 	}
 	
 
@@ -127,7 +109,15 @@ public abstract class BasicTest {
 			if(this.driver == null){
 				return;
 			}
-	    	resultSheet.setAutoSize();
+			// Get Excel file path
+//		  	String filePath = new File("").getAbsolutePath();
+//		  	filePath += "testResults.xlsx";
+//  	  
+//		  	// Open workbook
+//	  	  	ExcelDriver ed = new ExcelDriver();
+//	  	  	ed.setWorkbook(filePath);
+//	  	  	//ed.setSheet(this.deviceDesc, true);
+//	    	this.ed.setAutoSize();
 	        // Close the browser
 	        driver.close();
 	         
@@ -151,62 +141,12 @@ public abstract class BasicTest {
 		return deviceProperties;
 	}
 
-	protected String reportFail(String expectedResult, String actualResult, String... params){
+	protected String reportFail(String expectedResult, String actualResult){
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
-    	String screenshot = PerfectoUtils.takeScreenshot(driver);
-		Reporter.log("Error screenshot saved in file: " + screenshot);
-		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		try {
-			resultSheet.setResultByColumnName(false, params);
-			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Assert.fail();
-		}
-		Assert.fail();
-		return screenshot;
-	}
-	protected void reportFailWithMessage(String message, String... params){
-    	Reporter.log("Test failed: " + message);
-    	String screenshot = PerfectoUtils.takeScreenshot(driver);
-		Reporter.log("Error screenshot saved in file: " + screenshot);
-		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		try {
-			resultSheet.setResultByColumnName(false, params);
-			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Assert.fail();
-		}
-		Assert.fail();
-	}
-	protected void reportPass(String message, String... params){
-    	Reporter.log("Test passed: " + message);
-    	String screenshot = PerfectoUtils.takeScreenshot(driver);
-		Reporter.log("Screenshot saved in file: " + screenshot);
-		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		try {
-			resultSheet.setResultByColumnName(true, params);
-			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	protected void reportMessage(String message, String... params){
-    	Reporter.log(message);
-    	String screenshot = PerfectoUtils.takeScreenshot(driver);
-		Reporter.log("Screenshot saved in file: " + screenshot);
-		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		try {
-			resultSheet.setResultByColumnName(true, params);
-			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	String errorFile = PerfectoAppiumUtils.takeScreenshot(driver);
+		Reporter.log("Error screenshot saved in file: " + errorFile);
+		Reporter.log("<br> <img src=" + errorFile + ".png style=\"max-width:50%;max-height:50%\" /> <br>");
+		return errorFile;
 	}
 	
 	public void switchToContext(RemoteWebDriver driver, String context) {
