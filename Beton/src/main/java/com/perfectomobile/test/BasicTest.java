@@ -153,11 +153,12 @@ public abstract class BasicTest {
 
 	protected void reportFail(String expectedResult, String actualResult, String... params){
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
-    	String errorFile = PerfectoUtils.takeScreenshot(driver);
-		Reporter.log("Error screenshot saved in file: " + errorFile);
-		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
+    	String screenshot = PerfectoUtils.takeScreenshot(driver);
+		Reporter.log("Error screenshot saved in file: " + screenshot);
+		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		try {
 			resultSheet.setResultByColumnName(false, params);
+			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -167,11 +168,12 @@ public abstract class BasicTest {
 	}
 	protected void reportFailWithMessage(String message, String... params){
     	Reporter.log("Test failed: " + message);
-    	String errorFile = PerfectoUtils.takeScreenshot(driver);
-		Reporter.log("Error screenshot saved in file: " + errorFile);
-		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
+    	String screenshot = PerfectoUtils.takeScreenshot(driver);
+		Reporter.log("Error screenshot saved in file: " + screenshot);
+		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		try {
 			resultSheet.setResultByColumnName(false, params);
+			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -186,6 +188,7 @@ public abstract class BasicTest {
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		try {
 			resultSheet.setResultByColumnName(true, params);
+			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -198,6 +201,7 @@ public abstract class BasicTest {
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		try {
 			resultSheet.setResultByColumnName(true, params);
+			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
