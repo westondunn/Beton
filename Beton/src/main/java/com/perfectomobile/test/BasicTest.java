@@ -165,7 +165,7 @@ public abstract class BasicTest {
 		}
 		Assert.fail();
 	}
-	protected void reportFail(String message, String... params){
+	protected void reportFailWithMessage(String message, String... params){
     	Reporter.log("Test failed: " + message);
     	String errorFile = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + errorFile);
