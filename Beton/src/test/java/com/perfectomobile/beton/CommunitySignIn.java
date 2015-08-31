@@ -36,12 +36,14 @@ public class CommunitySignIn extends BasicTest {
 	        }
 			else{
 				resultSheet.setResultByColumnName(false, this.testName, username, password, message);
-				String errorFile = reportFail(message, welcomeMessage);
-				resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
-				testFail = true;
+				reportFail(message, welcomeMessage,this.testName, username, password, message);
+				//resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
+				//testFail = true;
 			}
 	 	}
 	 	catch(Exception e){
+	 		reportFail(e.toString(),this.testName, username, password, message);
+	 		/*
 	 		resultSheet.setResultByColumnName(false, this.testName, username, password, message);
 			testFail = true;
         	String errorFile = PerfectoUtils.takeScreenshot(driver);
@@ -49,6 +51,7 @@ public class CommunitySignIn extends BasicTest {
     		Reporter.log(e.toString());
     		Reporter.log("Error screenshot saved in file: " + errorFile);
     		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
+    		*/
 	 	}
 		
         if(testFail){
