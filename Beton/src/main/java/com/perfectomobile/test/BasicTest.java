@@ -24,18 +24,65 @@ import com.perfectomobile.utils.PerfectoUtils;
 
 
 
+/**
+ * BasicTest is the abstract base class for all tests which are
+ * implemented with the Beton framework.
+ * The BasicTest class is responsible for:
+ * <ul>
+ * 	<li> Reading the capabilities file and instantiate drivers per capabilities sets
+ *  <li> Dispatching the tests
+ * </ul>
+ * <p>
+ * BasicTest provides methods for the following:
+ * <ul>
+ * 	<li> Storing/Reading system properties
+ * 	<li> Reading device properties
+ * 	<li> Writing test results to DB (currently Excel only)
+ *  <li> Writing test results to HTML report
+ * </ul>
+ * 
+ * @author Avner Gershtansky
+ *
+ */
 public abstract class BasicTest {
 	
+	/**
+	 * The {@link RemoteWebDriver} driver is used for communication with the device under test
+	 */
 	protected RemoteWebDriver driver;
+	/**
+	 * The {@link ExcelDriver} ed is used for reading test data, mostly via dataProviders
+	 */
 	protected ExcelDriver ed;
+	/**
+	 * The name of the test function
+	 */
 	protected String testName;
+	/**
+	 * The name/number of test cycle or release version
+	 */
 	protected String testCycle;
+	/**
+	 * The device description as it's stored on the Perfecto Mobile cloud
+	 */
 	protected String deviceDesc;
 	private boolean isFirstRun = true;
+	/**
+	 * The {@link ExcelDriver} resultSheet is used for writing test results to Excel DB
+	 */
 	protected ExcelDriver resultSheet;
+	/**
+	 * The {@link HashMap} deviceProperties stores all device properties from the Perfecto Mobile Cloud
+	 */
 	private HashMap<String,String> deviceProperties;
+	/**
+	 * The {@link DesiredCapabilities} caps stores the capabilities for every device under test
+	 */
 	protected DesiredCapabilities caps;
-	protected static HashMap<String,String> sysProp;
+	/**
+	 * The {@link HashMap} sysProp stores system properties for the test
+	 */
+	public static HashMap<String,String> sysProp;
 	
 	/**
 	 * @param caps
@@ -46,7 +93,16 @@ public abstract class BasicTest {
 		sysProp = Init.getSysProp();
 	}
 	
-	
+	/**
+	 * Reads the capabilities from the Excel sheet, to be passed to the test factory
+	 * The files path and sheet name are taken from the properties file entries:
+	 * <ul>
+	 * 	<li> inputDataSheet - File path
+	 *  <li> deviceSheet - Sheet name, inside the Excel file
+	 * </ul>
+	 * @return 2-Dim object with lists of capabilities
+	 * @throws Exception
+	 */
 	@DataProvider(name="factoryData", parallel=true)
 	public static Object[][] factoryData() throws Exception { 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
@@ -142,15 +198,31 @@ public abstract class BasicTest {
         
 		driver.quit();
 	}
-	
+	/**
+	 * Gets a device property from Perfecto Mobile cloud
+	 * @param key Property name
+	 * @return The {@link String} value of the given property
+	 */
 	public String getDeviceProperty(String key){
 		return deviceProperties.get(key);
 	}
-	
+	/**
+	 * Gets the list of all device properties from Perfecto Mobile cloud
+	 * @return The {@link HashMap} instance of all the properties keys and values
+	 */
 	public HashMap<String, String> getDeviceProperties(){
 		return deviceProperties;
 	}
 
+	/**
+	 * Reports a failure of a test, to the HTML report and Excel DB.
+	 * A screenshot of the failure is saved and embedded in the HTML report.
+	 * A link to the screenshot is saved in the Excel resultSheet.
+	 * @param expectedResult The {@link String} value of the expected result, which would have passed the test
+	 * @param actualResult The {@link String} value of the actual result, which is not equal to the expected result
+	 * @param params A {@link String} array (String[]), with the test name and parameters.
+	 * @return A {@link String} path to the stored screenshot.
+	 */
 	protected String reportFail(String expectedResult, String actualResult, String... params){
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
@@ -167,6 +239,14 @@ public abstract class BasicTest {
 		Assert.fail();
 		return screenshot;
 	}
+	
+	/**
+	 * Reports a failure of a test, to the HTML report and Excel DB.
+	 * A screenshot of the failure is saved and embedded in the HTML report.
+	 * A link to the screenshot is saved in the Excel resultSheet.
+	 * @param messgage A {@link String} message with description of the failure.
+	 * @param params A {@link String} array (String[]), with the test name and parameters.
+	 */
 	protected void reportFailWithMessage(String message, String... params){
     	Reporter.log("Test failed: " + message);
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
@@ -182,6 +262,14 @@ public abstract class BasicTest {
 		}
 		Assert.fail();
 	}
+	
+/**
+ * Reports a success of a test, to the HTML report and Excel DB.
+ * A screenshot of the checkpoint is saved and embedded in the HTML report.
+ * A link to the screenshot is saved in the Excel resultSheet.
+ * @param messgage A {@link String} message with description of the test.
+ * @param params A {@link String} array (String[]), with the test name and parameters.
+ */
 	protected void reportPass(String message, String... params){
     	Reporter.log("Test passed: " + message);
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
@@ -195,18 +283,17 @@ public abstract class BasicTest {
 			e.printStackTrace();
 		}
 	}
+/**
+ * Reports a transaction of a test, to the HTML report.
+ * A screenshot of the transaction is saved and embedded in the HTML report.
+ * @param messgage A {@link String} message with description of the transaction.
+ * @param params A {@link String} array (String[]), with the test name and parameters.
+ */
 	protected void reportMessage(String message, String... params){
     	Reporter.log(message);
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
-		try {
-			resultSheet.setResultByColumnName(true, params);
-			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public void switchToContext(RemoteWebDriver driver, String context) {
