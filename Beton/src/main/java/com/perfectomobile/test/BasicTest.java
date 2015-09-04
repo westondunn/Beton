@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.RemoteExecuteMethod;
@@ -141,24 +143,72 @@ public abstract class BasicTest {
 	
 	@BeforeMethod
 	public void beforeMethod(Method method) throws Exception{
-		this.testName = method.getName();		
+		this.testName = method.getName();
 		
 		if(!isFirstRun){
 			return;
 		}
+		this.driver = null;
 		isFirstRun = false;
 		System.out.println("Run started");
 		
 		if(this.caps.getCapability("deviceName") != null) {
+			String browser = this.caps.getCapability("deviceName").toString().toLowerCase();
+			switch (browser){
+			case "chrome":
+				try{
+					DesiredCapabilities cDc = DesiredCapabilities.chrome();
+					this.driver = new RemoteWebDriver(new URL(sysProp.get("remoteDriverURL")),cDc);
+					this.deviceDesc = "Chrome";
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+				break;
+			case "iexplorer":
+				try{
+					DesiredCapabilities ieCapabilities=DesiredCapabilities.internetExplorer();
+				    ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+				    ieCapabilities.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION,true);
+				    driver=new InternetExplorerDriver(ieCapabilities);
+					this.deviceDesc = "iExplorer";
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+				break;
+			case "firefox":
+				try{
+					driver = new RemoteWebDriver(
+							new URL(sysProp.get("remoteDriverURL")), 
+	                        DesiredCapabilities.firefox());
+					this.deviceDesc = "Firefox";
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+				break;
+				default: break;
+					
+			}
+			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+		 	resultSheet.setResultColumn(this.testCycle, true);
+		 	return;
+			/*
 			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
 				DesiredCapabilities dc = DesiredCapabilities.chrome();
-				
-				this.driver = new RemoteWebDriver(new URL(sysProp.get("remoteDriverURL")),dc);
-				this.deviceDesc = "Chrome";
-				resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-			 	resultSheet.setResultColumn(this.testCycle, true);
-				return;
+				try{
+					this.driver = new RemoteWebDriver(new URL(sysProp.get("remoteDriverURL")),dc);
+					this.deviceDesc = "Chrome";
+					resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+				 	resultSheet.setResultColumn(this.testCycle, true);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			 	return;
 			}
+			*/
 		}
 		
 		this.driver = PerfectoUtils.getDriver(caps, Integer.parseInt(sysProp.get("driverRetries")), Integer.parseInt(sysProp.get("retryIntervalSeconds")));
