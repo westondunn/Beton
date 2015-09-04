@@ -74,7 +74,7 @@ public class PerfectoUtils {
 
 			} catch (Exception e) {
 				index--;
-				System.out.println("device not found: " + cap.toString() +"\n Retries left: " + index);
+				System.out.println("device wasn't allocated successfully: " + cap.toString() +"\n Retries left: " + index);
 				
 				sleep(retryIntervalSeconds * 1000);
 				if (e.getMessage().contains("command browser open")) {
@@ -94,7 +94,7 @@ public class PerfectoUtils {
 		d.executeScript("mobile:application:install", params);
 	}
 	
-	public static void startApp(String appName,RemoteWebDriver d )
+	public static void startApp(String appName, RemoteWebDriver d )
 	{
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("name", appName);

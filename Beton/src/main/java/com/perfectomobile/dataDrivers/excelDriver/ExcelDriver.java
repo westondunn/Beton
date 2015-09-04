@@ -154,7 +154,15 @@ public class ExcelDriver {
 		this.sheetName = WorkbookUtil.createSafeSheetName(sheetName);
 		
 		lock.lock();
-		this.refreshSheet();
+		try{
+			this.refreshSheet();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			lock.unlock();
+			return;
+		}
+		
 		
 		XSSFSheet tempSheet = this.workbook.getSheet(this.sheetName);
 		if(tempSheet == null){
@@ -206,7 +214,14 @@ public class ExcelDriver {
 		this.resultColumn = columnName;
 		
 		lock.lock();
-		refreshSheet();
+		try{
+			this.refreshSheet();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			lock.unlock();
+			return;
+		}
 		// If sheet is not empty
 		if(this.sheet.getPhysicalNumberOfRows() != 0 ){
 			
@@ -266,7 +281,14 @@ public class ExcelDriver {
 		stepParams = stepParams.substring(0, stepParams.lastIndexOf(","));
 		
 		lock.lock();
-		this.refreshSheet();
+		try{
+			this.refreshSheet();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			lock.unlock();
+			return;
+		}
 		int tempResultRow = findCellRowByValue(stepParams);
 		
 		// If step doesn't exsist in sheet
@@ -625,7 +647,14 @@ public class ExcelDriver {
 		stepParams = stepParams.substring(0, stepParams.lastIndexOf(","));
 		
 		lock.lock();
-		this.refreshSheet();
+		try{
+			this.refreshSheet();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			lock.unlock();
+			return;
+		}
 	    int row = findCellRowByValue(stepParams);
 	    if(row == -1){
 	    	System.out.println("Result row isn't found");
@@ -757,7 +786,14 @@ public class ExcelDriver {
 
 		if(this.sheet.getPhysicalNumberOfRows() != 0){
 			lock.lock();
-			this.refreshSheet();
+			try{
+				this.refreshSheet();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				lock.unlock();
+				return;
+			}
 			Row row = this.sheet.getRow(this.sheet.getFirstRowNum());
 			for(Cell cell : row){
 				this.sheet.autoSizeColumn(cell.getColumnIndex());

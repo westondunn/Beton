@@ -15,28 +15,9 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 
 public class HeadlessTest_Raj {
-	 AppiumDriver<WebElement> driver;
+	public static AppiumDriver<WebElement> driver;
 
-	@Test
-	public void test_Android(ITestContext context) throws Exception{
-		
-//	 	WebElement el = driver.findElement(By.name("Animation"));
-//	
-//	 	Assert.assertEquals("Animation", el.getText());
-//
-//        el = driver.findElementByClassName("android.widget.TextView");
-//        
-//        Assert.assertEquals("API Demos", el.getText());
-//        
-//        el = driver.findElement(By.name("App"));
-//        el.click();
-//        List<WebElement> els = driver.findElementsByClassName("android.widget.TextView");
-//        
-//        Assert.assertEquals("Activity", els.get(2).getText());
-        
-       driver.get("www.perfectomobile.com");
 
-	}
 	@Test
 	public void test_IOS(ITestContext context) throws Exception{
 		
@@ -53,7 +34,7 @@ public class HeadlessTest_Raj {
 //        List<WebElement> els = driver.findElementsByClassName("android.widget.TextView");
 //        
 //        Assert.assertEquals("Activity", els.get(2).getText());
-        
+        driver.closeApp();
        driver.get("www.perfectomobile.com");
 
 	}
@@ -74,21 +55,27 @@ public class HeadlessTest_Raj {
         
         
         /* works for Android */
-        if (context.getCurrentXmlTest().getParameter("Run_Mode").equals("IOS")) {
+        if (context.getCurrentXmlTest().getParameter("Run_Mode").equals("Android")) {
 	        cap.setCapability("user", context.getCurrentXmlTest().getParameter("user"));
 			cap.setCapability("password", context.getCurrentXmlTest().getParameter("password"));		
-			cap.setCapability("udid", context.getCurrentXmlTest().getParameter("deviceID"));
+			cap.setCapability("udid", context.getCurrentXmlTest().getParameter("deviceID_android"));
 			cap.setCapability("deviceName", context.getCurrentXmlTest().getParameter("deviceID_android"));	
 			cap.setCapability(CapabilityType.BROWSER_NAME, "chrome");
-			driver = new AndroidDriver<WebElement>(new URL("https://" + context.getCurrentXmlTest().getParameter("URL") + "/nexperience/perfectomobile/wd/hub"), cap);
+			driver = new AndroidDriver(new URL("https://" + context.getCurrentXmlTest().getParameter("URL") + "/nexperience/perfectomobile/wd/hub"), cap);
 			System.out.println("Driver Created Succesfully");
         }
 		   /* works for IOS */
         if (context.getCurrentXmlTest().getParameter("Run_Mode").equals("IOS")) {
 	        cap.setCapability("user", context.getCurrentXmlTest().getParameter("user"));
 			cap.setCapability("password", context.getCurrentXmlTest().getParameter("password"));		
-			cap.setCapability("udid", context.getCurrentXmlTest().getParameter("deviceID"));
-			cap.setCapability("deviceName", context.getCurrentXmlTest().getParameter("deviceID_iphone"));	
+			cap.setCapability("udid", context.getCurrentXmlTest().getParameter("deviceID_iphone"));
+			//cap.setCapability("deviceName", context.getCurrentXmlTest().getParameter("deviceID_iphone"));
+		//	cap.setCapability("automationName","Appium");
+			//cap.setCapability("app", "Settings");
+			cap.setCapability("bundleID", "Settings");
+			
+		//	
+			
 			//cap.setCapability(CapabilityType.BROWSER_NAME, "safari");  /* Tried Safari and it doesn't work */
 			driver = new IOSDriver<WebElement>(new URL("https://" + context.getCurrentXmlTest().getParameter("URL") + "/nexperience/perfectomobile/wd/hub"), cap);
 			System.out.println("IOS Iphone Driver Created Succesfully");

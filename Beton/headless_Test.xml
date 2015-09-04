@@ -14,9 +14,10 @@
 	
 	<test name="Android_Raj">
 		<!-- Run_Mode:= Android/IOS -->
-		<parameter name="Run_Mode"  value="Android"/>
+		<parameter name="Run_Mode"  value="IOS"/>
 	    <parameter name="deviceID_iphone" value="41EEF156EA10EDAB41632651F7AD2A4C4CB502ED"/> 
 	    <parameter name="deviceID_android" value="30E9D3E3"/> 
+	    <parameter name="appName" value="Maps"/> 
     	<parameter name="browserType" value="Safari"/> 
    		<parameter name="deviceCategory" value="iphone"/>
     	<parameter name="deviceOSVersion" value="ios7"/>
@@ -30,30 +31,11 @@
 	    </packages> -->  
 	    
 		<classes>
-			<class name="com.perfectomobile.beton.HeadlessAndriodTest" />
+			<class name="com.perfectomobile.beton.headless.HeadlessTest_Raj" />
 		</classes>
 
 	</test> 
 	
-	<test name="IOS_Raj">
-	    <parameter name="deviceID_iphone" value="41EEF156EA10EDAB41632651F7AD2A4C4CB502ED"/> 
-    	<parameter name="browserType" value="Safari"/> 
-   		<parameter name="deviceCategory" value="iphone"/>
-    	<parameter name="deviceOSVersion" value="ios7"/>
-    	<parameter name="installApp" value="false"/>
-    	<parameter name="thresholdSleep" value="0"/>
-    	<parameter name="thresholdCheck" value="0"/>
-    	<parameter name="proxy" value="false"/>
-    	
-      <!--   <packages>
-	      <package name="com.perfectomobile.beton"/>
-	    </packages> -->  
-	    
-		<classes>
-			<class name="com.perfectomobile.beton.HeadlessAndriodTest" />
-		</classes>
-
-	</test> 
 	
 </suite> 
  
