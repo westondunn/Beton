@@ -29,26 +29,26 @@ public class PerfectoCommunityAppium {
 		DesiredCapabilities capabilities = new DesiredCapabilities("", "", Platform.ANY);
 		
 		//Pointing to Perfeco Mobile Cloud
-//		String host = args[0];
-//		String url = "https://" + host + "/nexperience/perfectomobile/wd/hub";
-//		String device = args[3];
-//		capabilities.setCapability("user", args[1]);
-//		capabilities.setCapability("password", args[2]);		
+		String host = args[0];
+		String url = "https://" + host + "/nexperience/perfectomobile/wd/hub";
+		String device = args[3];
+		capabilities.setCapability("user", args[1]);
+		capabilities.setCapability("password", args[2]);		
 		
 		//Pointing to Local Appium
-		String url = "http://127.0.0.1:4723/wd/hub";
-		String device = "htc-htc6525lvw-FA465SF03657";	//local device via USB
+//		String url = "http://127.0.0.1:4723/wd/hub";
+//		String device = "htc-htc6525lvw-FA465SF03657";	//local device via USB
 		
 		
 		
 				
-		capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
+		capabilities.setCapability(CapabilityType.BROWSER_NAME, "chrome");
 		capabilities.setCapability("deviceName", device);
 		capabilities.setCapability("platformVersion", "5.01");
 		capabilities.setCapability("automationName","Appium");
 		capabilities.setCapability("platformName", "Android");
-		capabilities.setCapability("appPackage", "com.bloomfire.android.perfecto");
-		capabilities.setCapability("appActivity", "com.bloomfire.android.MainActivity");
+//		capabilities.setCapability("appPackage", "com.bloomfire.android.perfecto");
+//		capabilities.setCapability("appActivity", "com.bloomfire.android.MainActivity");
 
 		
 		
@@ -64,25 +64,20 @@ public class PerfectoCommunityAppium {
 		AndroidDriver driver = new AndroidDriver(new URL(url), capabilities);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
+		String caps = driver.getCapabilities().toString();
+		
 		try {
 			
 			System.out.println("Current Context: " + PerfectoUtils.getCurrentContextHandle(driver));
 //			System.out.println("Current Activity: " + driver.currentActivity());			
 
-			ANDROID_CommunityBaseView communityBase = new ANDROID_CommunityBaseView(driver);
-			communityBase.login("brianc@perfectomobile.com", "Perfecto99");
-//			communityBase.clickSearchButton().inputSearchText("selenium").selectSearchResult("Jenkins");
-//			VisualDriverControl.findBoundedVisualImageElement(driver, "PRIVATE:images/communityFileButton.png",75,90);
-//			VisualDriverControl.findVisualImageElement(driver, "C:\\temp\\communityFileButton.png");
-			ANDROID_PostPageView currentPost = communityBase.clickSearchButton().inputSearchText("selenium").selectSearchResult("Eclipse");
-			currentPost.getAuthor();
-			currentPost.getDescription();
-//			currentPost.followPost();
-			currentPost.backToSearchResults().backToSetSearch().closeSearch().openMenuDrawer().gotoSettings().logout();
+			driver.get("shop.lego.com");
+					
+					//http://mobileqa.lego.com/);
+				
 			
 			
-//			System.out.println(driver.getAppStrings());
-			sleep(10000);
+			sleep(600000);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
