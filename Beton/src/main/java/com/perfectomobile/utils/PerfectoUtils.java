@@ -52,11 +52,27 @@ import com.google.common.base.Function;
 //import com.perfectomobile.selenium.util.EclipseConnector;
 import com.perfectomobile.test.Init;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PerfectoUtils.
+ */
 public class PerfectoUtils {
+	
+	/** The Constant REPOSITORY. */
 	private static final String REPOSITORY = "PUBLIC:";
+	
+	/** The sys prop. */
 	protected static HashMap<String,String> sysProp = Init.getSysProp();
 
 	
+	/**
+	 * Gets the driver.
+	 *
+	 * @param cap the DesiredCapabilities
+	 * @param retries the integer number retries
+	 * @param retryIntervalSeconds the integer number of retry interval seconds
+	 * @return the driver
+	 */
 	public static RemoteWebDriver getDriver(DesiredCapabilities cap,int retries, int retryIntervalSeconds)
 	{
 		System.out.println("Current capabilities " + cap.toString());
@@ -87,6 +103,12 @@ public class PerfectoUtils {
 
 	}
 
+	/**
+	 * Install app.
+	 *
+	 * @param appLocation the app location
+	 * @param d the driver
+	 */
 	public static void installApp(String appLocation,RemoteWebDriver d )
 	{
 		Map<String,String> params = new HashMap<String,String>();
@@ -94,6 +116,12 @@ public class PerfectoUtils {
 		d.executeScript("mobile:application:install", params);
 	}
 	
+	/**
+	 * Start app.
+	 *
+	 * @param appName the app name
+	 * @param d the driver
+	 */
 	public static void startApp(String appName, RemoteWebDriver d )
 	{
 		Map<String,String> params = new HashMap<String,String>();
@@ -101,12 +129,25 @@ public class PerfectoUtils {
 		d.executeScript("mobile:application:open", params);
 	}
 	
+	/**
+	 * Uninstall app.
+	 *
+	 * @param appName the app name
+	 * @param d the driver
+	 */
 	public static void uninstallApp(String appName,RemoteWebDriver d ){
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("name", appName);
 		d.executeScript("mobile:application:uninstall", params);
 	}
 	
+	/**
+	 * Swipe.
+	 *
+	 * @param start the start
+	 * @param end the end
+	 * @param d the driver
+	 */
 	public static void swipe(String start,String end,RemoteWebDriver d )
 	{
 		Map<String,String> params = new HashMap<String,String>();
@@ -117,6 +158,11 @@ public class PerfectoUtils {
 
 	}
 	
+	/**
+	 * Sleep.
+	 *
+	 * @param millis the millis
+	 */
 	public static void sleep(long millis) {
 		try {
 			Thread.sleep(millis);
@@ -125,6 +171,12 @@ public class PerfectoUtils {
 
 	}
 
+	/**
+	 * Switch to context.
+	 *
+	 * @param driver the driver
+	 * @param context the context
+	 */
 	public static void switchToContext(RemoteWebDriver driver, String context) {
 		RemoteExecuteMethod executeMethod = new RemoteExecuteMethod(driver);
 		Map<String,String> params = new HashMap<String,String>();
@@ -132,6 +184,14 @@ public class PerfectoUtils {
 		executeMethod.execute(DriverCommand.SWITCH_TO_CONTEXT, params);
 	}
 
+	/**
+	 * Download report.
+	 *
+	 * @param driver the driver
+	 * @param type the type
+	 * @param fileName the file name
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static void downloadReport(RemoteWebDriver driver, String type, String fileName) throws IOException {
 		try { 
 			String command = "mobile:report:download"; 
@@ -146,6 +206,15 @@ public class PerfectoUtils {
 			System.out.println("Got exception " + ex); }
 	}
 	
+	/**
+	 * Download attachment.
+	 *
+	 * @param driver the driver
+	 * @param type the type
+	 * @param fileName the file name
+	 * @param suffix the suffix
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static void downloadAttachment(RemoteWebDriver driver, String type, String fileName, String suffix) throws IOException {
 		try {
 			String command = "mobile:report:attachment";
@@ -176,18 +245,40 @@ public class PerfectoUtils {
 		}
 	}
 
+	/**
+	 * Gets the current context handle.
+	 *
+	 * @param driver the driver
+	 * @return the current context handle
+	 */
 	public static String getCurrentContextHandle(RemoteWebDriver driver) {		  
 		RemoteExecuteMethod executeMethod = new RemoteExecuteMethod(driver);
 		String context =  (String) executeMethod.execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE, null);
 		return context;
 	}
 
+	/**
+	 * Gets the context handles.
+	 *
+	 * @param driver the driver
+	 * @return the List of context handles
+	 */
 	public static List<String> getContextHandles(RemoteWebDriver driver) {		  
 		RemoteExecuteMethod executeMethod = new RemoteExecuteMethod(driver);
 		List<String> contexts =  (List<String>) executeMethod.execute(DriverCommand.GET_CONTEXT_HANDLES, null);
 		return contexts;
 	}
 	
+	/**
+	 * checkVisual
+	 * <ul>
+	 * 	<li>Performs a visual context evaluation to identify the existence of a text string on a page
+	 * <ul>
+	 *
+	 * @param driver the driver
+	 * @param needle the needle
+	 * @return true, if successful
+	 */
 	public static boolean checkVisual(RemoteWebDriver driver, String needle){
 		String previousContext = getCurrentContextHandle(driver);
 		// Switch to visual driver, to perform text checkpoint
@@ -208,6 +299,19 @@ public class PerfectoUtils {
 		
 	}
 	
+	/**
+	 * fluentWait
+	 * <ul>
+	 * 	<li>Uses Selenium FluentWait method
+	 * 	<li>Looks for an element identifier locator defined as a By type for an overall period of time define by the timeout, polling every 250 ms
+	 * 	<li>Returns the WebElement once found or null if not found inside timeout limit
+	 * <ul>
+	 * 
+	 * @param locator the By locator
+	 * @param driver the RemoteWebDriver driver
+	 * @param timeout the long timeout
+	 * @return the web element
+	 */
 	/* Wait until the objects loads until the timeout */
 	public static WebElement fluentWait(final By locator, RemoteWebDriver driver, long timeout) {
 		 
@@ -231,6 +335,12 @@ public class PerfectoUtils {
 		
 	  }
 	  
+	/**
+	 * Gets the date and time.
+	 *
+	 * @param offset the offset
+	 * @return the date and time
+	 */
 	public static String getDateAndTime(int offset){
 		  Calendar c = Calendar.getInstance();
 		  c.setTime(new Date());
@@ -239,6 +349,12 @@ public class PerfectoUtils {
 		  return dateFormat.format(c.getTime());
 	  }
 	    
+	/**
+	 * Gets the screenshot on error.
+	 *
+	 * @param driver the driver
+	 * @return the screenshot on error
+	 */
 	public static void getScreenshotOnError(RemoteWebDriver driver) {
 		  
 		String errorFile = takeScreenshot(driver);
@@ -247,6 +363,13 @@ public class PerfectoUtils {
 		  
 	  }
 	  	  
+	/**
+	 * Gets the screen shot.
+	 *
+	 * @param driver the driver
+	 * @param name the name
+	 * @return the screen shot
+	 */
 	public static void getScreenShot(RemoteWebDriver driver,String name ){
 			driver   = (RemoteWebDriver) new Augmenter().augment( driver );
 			File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
@@ -259,7 +382,13 @@ public class PerfectoUtils {
 			}
 		}
 	  
- 	public static String takeScreenshot(RemoteWebDriver driver) {
+ 	/**
+	  * Take screenshot.
+	  *
+	  * @param driver the driver
+	  * @return the string
+	  */
+	 public static String takeScreenshot(RemoteWebDriver driver) {
 	  
  		
 	  String filePath = new File("").getAbsolutePath();
@@ -292,7 +421,13 @@ public class PerfectoUtils {
 	  return filename;
  	}
 	  
- 	public static DesiredCapabilities generateCapabilitiesObject(HashMap<String,String> map){
+ 	/**
+	  * Generate capabilities object.
+	  *
+	  * @param map the map
+	  * @return the desired capabilities
+	  */
+	 public static DesiredCapabilities generateCapabilitiesObject(HashMap<String,String> map){
 	  
 	  String browserName = map.get("browserName"); 
 	  if(browserName == null){
@@ -305,7 +440,13 @@ public class PerfectoUtils {
 	  return capabilities;
  	}
 	  
- 	public static Object[][] getCapabilitiesArray(ArrayList<HashMap<String,String>> mapsArray){
+ 	/**
+	  * Gets the capabilities array.
+	  *
+	  * @param mapsArray the maps array
+	  * @return the capabilities array
+	  */
+	 public static Object[][] getCapabilitiesArray(ArrayList<HashMap<String,String>> mapsArray){
 	    Object[][] returnArray;
 	    int arraySize = mapsArray.size();
 	    returnArray = new Object[arraySize][1];
@@ -315,6 +456,12 @@ public class PerfectoUtils {
 	    return returnArray;
 	 	}
 
+	/**
+	 * Checks if is device.
+	 *
+	 * @param driver the driver
+	 * @return true, if is device
+	 */
 	public static boolean isDevice(RemoteWebDriver driver){
 		//first check if driver is a mobile device:
 	    Capabilities capabilities = driver.getCapabilities();
@@ -325,6 +472,12 @@ public class PerfectoUtils {
 	    return true;
     }
 
+	/**
+	 * Gets the device properties list.
+	 *
+	 * @param driver the driver
+	 * @return the device properties list
+	 */
 	public static HashMap<String, String> getDevicePropertiesList(RemoteWebDriver driver) {
 	    //hashmap to contain device properties
 	    HashMap<String, String> deviceProperties = new HashMap<String, String>();
@@ -367,24 +520,38 @@ public class PerfectoUtils {
         return deviceProperties;
 	 }
 	
-    /*****************************************************************************
-    * gets a specific device property out of the Dictionary.
-    * returns the value of the property
-    * for example:
-    * getDeviceProperty("Model") will return the model of the device(ie iPhone-6)
-    ******************************************************************************/
+    /**
+     * ***************************************************************************
+     * gets a specific device property out of the Dictionary.
+     * returns the value of the property
+     * for example:
+     * getDeviceProperty("Model") will return the model of the device(ie iPhone-6)
+     * ****************************************************************************
+     *
+     * @param driver the driver
+     * @param Property the property
+     * @return the device property
+     */
     public static String getDeviceProperty(RemoteWebDriver driver, String Property){
     	HashMap<String, String> deviceProperties = getDevicePropertiesList(driver);
         return (deviceProperties.get(Property));
     }
 
-    /********************************************************************
-	 * 
-	 * decryptPassword(String message, String key)
-	 * 
-	 * 		Uses provided key to decrypt provided message encrypted using the same key
-	 * 
-	 *********************************************************************/
+    /**
+     * ******************************************************************
+     * 
+     * decryptPassword(String message, String key)
+     * <ul>
+     * 	<li> Uses provided key to decrypt provided message encrypted using the same key
+     * <ul>
+     * @author Brian Clark
+     * 
+     * *******************************************************************.
+     *
+     * @param message the encrypted message to decrypt
+     * @param key the key used to encrypt the message
+     * @return the unencrypted stringstring
+     */
 	
 	public String decryptPassword(String message, String key){
 		try {
@@ -409,45 +576,60 @@ public class PerfectoUtils {
   }
 
 
-	/*******************************************************************************
-	 * 
-	 * Properties available are: 
-	 * 
-	 * deviceId; manufacturer; model; distributer; description; firmware; imsi; wifiMacAddress; 
-	 * link; operator; phoneNumber; location; lastCradleId; language; status; mode; available; 
-	 * reserved; inUse; allocatedTo; operabilityRating; cradleId; position; os; osVersion; 
-	 * resolution; additionalParams 
-	 *
-	 ********************************************************************************/
-	public static String getDeviceProperty(RemoteWebDriver driver, Properties property){		
-		
-		String host = driver.getCapabilities().asMap().get("host").toString();
-		String user = driver.getCapabilities().asMap().get("user").toString();
-		String pwd = driver.getCapabilities().asMap().get("password").toString();
-		String deviceID = driver.getCapabilities().asMap().get("deviceName").toString();
-		String res = null;
-		try {
-			URL url = new URL("https://"+host+"/services/handsets/"+deviceID+"?operation=info&user="+user+"&password="+pwd);
-		  //make connection
-	        HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
-	        urlc.setRequestMethod("GET");
-	        urlc.setRequestProperty("Accept", "application/xml");
-	        InputStream xml = urlc.getInputStream();
-	        
-	        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder db = dbf.newDocumentBuilder();
-	        Document doc = db.parse(xml);
-	        doc.getDocumentElement().normalize();
-	        NodeList found =  doc.getElementsByTagName(property.toString());
-	        if(found.getLength() == 1){
-	        	res = found.item(0).getTextContent();
-	        }	        
-		} catch (IOException | ParserConfigurationException | SAXException e) {
-			e.printStackTrace();
-		}
-		return res;		
-	}
+//	/**
+//	 * *****************************************************************************
+//	 * 
+//	 * Properties available are: 
+//	 * <ul>
+//	 * 	<li>deviceId; manufacturer; model; distributer; description; firmware; imsi; wifiMacAddress; 
+//	 * 		link; operator; phoneNumber; location; lastCradleId; language; status; mode; available; 
+//	 * 		reserved; inUse; allocatedTo; operabilityRating; cradleId; position; os; osVersion; 
+//	 * 		resolution; additionalParams 
+//	 * <ul>
+//	 * @author Brian Clark
+//	 * ******************************************************************************.
+//	 *
+//	 * @param driver the driver
+//	 * @param property the Properties Enum
+//	 * @return the device property
+//	 */
+//	public static String getDeviceProperty(RemoteWebDriver driver, Properties property){		
+//		
+//		String host = driver.getCapabilities().asMap().get("host").toString();
+//		String user = driver.getCapabilities().asMap().get("user").toString();
+//		String pwd = driver.getCapabilities().asMap().get("password").toString();
+//		String deviceID = driver.getCapabilities().asMap().get("deviceName").toString();
+//		String res = null;
+//		try {
+//			URL url = new URL("https://"+host+"/services/handsets/"+deviceID+"?operation=info&user="+user+"&password="+pwd);
+//		  //make connection
+//	        HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+//	        urlc.setRequestMethod("GET");
+//	        urlc.setRequestProperty("Accept", "application/xml");
+//	        InputStream xml = urlc.getInputStream();
+//	        
+//	        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//	        DocumentBuilder db = dbf.newDocumentBuilder();
+//	        Document doc = db.parse(xml);
+//	        doc.getDocumentElement().normalize();
+//	        NodeList found =  doc.getElementsByTagName(property.toString());
+//	        if(found.getLength() == 1){
+//	        	res = found.item(0).getTextContent();
+//	        }	        
+//		} catch (IOException | ParserConfigurationException | SAXException e) {
+//			e.printStackTrace();
+//		}
+//		return res;		
+//	}
 	
+	/**
+	 * Upload local file to media repo.
+	 *
+	 * @param driver the driver
+	 * @param file the file
+	 * @param repoPath the repo path
+	 * @return the string
+	 */
 	public static String uploadLocalFileToMediaRepo(RemoteWebDriver driver, String file, String repoPath){
 
 		int index = file.lastIndexOf("\\");
@@ -526,108 +708,239 @@ public class PerfectoUtils {
 
 	
 	
-	/************************************************************************************************************
-	*	>>>>>>>>>>>>>>>>>>>>>>>>>	ENUMS	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	*************************************************************************************************************/
+	/**
+	 * **********************************************************************************************************
+	 * 	>>>>>>>>>>>>>>>>>>>>>>>>>	ENUMS	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	 * ***********************************************************************************************************.
+	 */
 	
 	public static enum LabelPosition {// Above;Below;Left;Right
 		
+		/** The above. */
 		ABOVE("Above"),
+		
+		/** The below. */
 		BELOW("Below"),
+		
+		/** The left. */
 		LEFT("Left"),
+		
+		/** The right. */
 		RIGHT("Right");
 	
+		/** The label position. */
 		private final String labelPosition;
 	
+		/**
+		 * Instantiates a new label position.
+		 *
+		 * @param position the position
+		 */
 		LabelPosition(String position) {
 	        this.labelPosition = position;
 	    }
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 	        return this.labelPosition;
 	    }
 	}
 	
+	/**
+	 * The Enum MatchMode.
+	 */
 	public static enum MatchMode {//all caps -- contain,equal,startwith,endwith,first,last,index
 		
+		/** The contain. */
 		CONTAIN("contain"),
+		
+		/** The equal. */
 		EQUAL("equal"),
+		
+		/** The startwith. */
 		STARTWITH("startwith"),
+		
+		/** The endwith. */
 		ENDWITH("endwith"),
+		
+		/** The first. */
 		FIRST("first"),
+		
+		/** The last. */
 		LAST("last"),
+		
+		/** The index. */
 		INDEX("index");
 	
+		/** The match mode. */
 		private final String matchMode;
 	
+		/**
+		 * Instantiates a new match mode.
+		 *
+		 * @param mode the mode
+		 */
 		MatchMode(String mode) {
 	        this.matchMode = mode;
 	    }
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 	        return this.matchMode;
 	    }
 	}
 	
+	/**
+	 * The Enum ScrollNext.
+	 */
 	public static enum ScrollNext {//all caps -- SWIPE_UP,SWIPE_DOWN,SWIPE_RIGHT,SWIPE_LEFT,UP,DOWN,RIGHT,LEFT
 		
+		/** The swipe up. */
 		SWIPE_UP("SWIPE_UP"),
+		
+		/** The swipe down. */
 		SWIPE_DOWN("SWIPE_DOWN"),
+		
+		/** The swipe right. */
 		SWIPE_RIGHT("SWIPE_RIGHT"),
+		
+		/** The up. */
 		UP("UP"),
+		
+		/** The down. */
 		DOWN("DOWN"),
+		
+		/** The right. */
 		RIGHT("RIGHT");
 	
+		/** The scroll next. */
 		private final String scrollNext;
 	
+		/**
+		 * Instantiates a new scroll next.
+		 *
+		 * @param direction the direction
+		 */
 		ScrollNext(String direction) {
 	        this.scrollNext = direction;
 	    }	
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 	        return this.scrollNext;
 	    }
 	}
 	
+	/**
+	 * The Enum Properties.
+	 */
 	public static enum Properties {//all caps
 	
+		/** The device id. */
 		DEVICE_ID("deviceId"),
+		
+		/** The manufacturer. */
 		MANUFACTURER("manufacturer"),
+		
+		/** The model. */
 		MODEL("model"),
+		
+		/** The distributer. */
 		DISTRIBUTER("distributer"),
+		
+		/** The description. */
 		DESCRIPTION("description"),
+		
+		/** The firmware. */
 		FIRMWARE("firmware"),
+		
+		/** The imsi. */
 		IMSI("imsi"),
+		
+		/** The wifi mac address. */
 		WIFI_MAC_ADDRESS("wifiMacAddress"), 
+		
+		/** The link. */
 		LINK("link"),
+		
+		/** The operator. */
 		OPERATOR("operator"),
+		
+		/** The phone number. */
 		PHONE_NUMBER("phoneNumber"),
+		
+		/** The location. */
 		LOCATION("location"),
+		
+		/** The last cradel id. */
 		LAST_CRADEL_ID("lastCradleId"),
+		
+		/** The language. */
 		LANGUAGE("language"),
+		
+		/** The status. */
 		STATUS("status"),
+		
+		/** The mode. */
 		MODE("mode"),
+		
+		/** The available. */
 		AVAILABLE("available"), 
+		
+		/** The reserverd. */
 		RESERVERD("reserved"),
+		
+		/** The in use. */
 		IN_USE("inUse"),
+		
+		/** The allocated to. */
 		ALLOCATED_TO("allocatedTo"),
+		
+		/** The operability rating. */
 		OPERABILITY_RATING("operabilityRating"),
+		
+		/** The cradel id. */
 		CRADEL_ID("cradleId"),
+		
+		/** The position. */
 		POSITION("position"),
+		
+		/** The os. */
 		OS("os"),
+		
+		/** The os version. */
 		OS_VERSION("osVersion"), 
+		
+		/** The resolution. */
 		RESOLUTION("resolution"),
+		
+		/** The additional params. */
 		ADDITIONAL_PARAMS("additionalParams");
 		
+		/** The property name. */
 		private final String propertyName;
 		
+		/**
+		 * Instantiates a new properties.
+		 *
+		 * @param name the name
+		 */
 		Properties(String name) {
 		    this.propertyName = name;
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 		    return this.propertyName;
