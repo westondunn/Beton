@@ -274,7 +274,7 @@ public abstract class BasicTest {
 	 * @return A {@link String} path to the stored screenshot.
 	 */
 	protected String reportFail(String expectedResult, String actualResult, String... params){
-    	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
+    	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult + ".");
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
     	Reporter.log("Resource name: " + this.deviceDesc +".");
 		Reporter.log("Error screenshot saved in file: " + screenshot);
@@ -299,7 +299,7 @@ public abstract class BasicTest {
 	 * @param params A {@link String} array (String[]), with the test name and parameters.
 	 */
 	protected void reportFailWithMessage(String message, String... params){
-    	Reporter.log("Test failed: " + message);
+    	Reporter.log("Test failed: " + message + ".");
     	Reporter.log("Resource name: " + this.deviceDesc + ".");
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + screenshot);
@@ -323,7 +323,7 @@ public abstract class BasicTest {
 	 * @param params A {@link String} array (String[]), with the test name and parameters.
 	 */
 	protected void reportPass(String message, String... params){
-    	Reporter.log("Test passed: " + message);
+    	Reporter.log("Test passed: " + message + ".");
     	Reporter.log("Resource name: " + this.deviceDesc + ".");
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Screenshot saved in file: " + screenshot);
@@ -343,7 +343,7 @@ public abstract class BasicTest {
 	 * @param params A {@link String} array (String[]), with the test name and parameters.
 	 */
 	protected void reportMessage(String message, String... params){
-    	Reporter.log(message);
+    	Reporter.log(message + ".");
     	Reporter.log("Resource name: " + this.deviceDesc + ".");
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Screenshot saved in file: " + screenshot);
