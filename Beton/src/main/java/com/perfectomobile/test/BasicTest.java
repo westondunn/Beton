@@ -276,6 +276,7 @@ public abstract class BasicTest {
 	protected String reportFail(String expectedResult, String actualResult, String... params){
     	Reporter.log("Value is: " + actualResult + ", Should be: " + expectedResult);
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
+    	Reporter.log("Resource name: " + this.deviceDesc +".");
 		Reporter.log("Error screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		try {
@@ -299,6 +300,7 @@ public abstract class BasicTest {
 	 */
 	protected void reportFailWithMessage(String message, String... params){
     	Reporter.log("Test failed: " + message);
+    	Reporter.log("Resource name: " + this.deviceDesc + ".");
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Error screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
@@ -322,6 +324,7 @@ public abstract class BasicTest {
 	 */
 	protected void reportPass(String message, String... params){
     	Reporter.log("Test passed: " + message);
+    	Reporter.log("Resource name: " + this.deviceDesc + ".");
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
@@ -341,6 +344,7 @@ public abstract class BasicTest {
 	 */
 	protected void reportMessage(String message, String... params){
     	Reporter.log(message);
+    	Reporter.log("Resource name: " + this.deviceDesc + ".");
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
