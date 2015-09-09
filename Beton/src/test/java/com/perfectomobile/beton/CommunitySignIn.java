@@ -23,7 +23,7 @@ public class CommunitySignIn extends BasicTest {
 		if(this.driver == null){
 			Assert.fail("Device not available: " + caps);
 		}
-	 	  
+	 	  addRowToDetailedSheet(false, username, password, message);
 	 	try{
 	 		mobileView = new WebCommunityBaseView(driver);
 	        mobileView = mobileView.init();
@@ -32,26 +32,22 @@ public class CommunitySignIn extends BasicTest {
 			String welcomeMessage = mobileView.getWelcomeMessage();
 			
 			if (welcomeMessage.equals(message)){
-	        	resultSheet.setResultByColumnName(true, this.testName, username, password, message);
+				reportPass("passed", this.testName, username, password, message);
+				addRowToDetailedSheet(true, username, password, message);
+	        	//resultSheet.setResultByColumnName(true, );
 	        }
 			else{
-				resultSheet.setResultByColumnName(false, this.testName, username, password, message);
+				//resultSheet.setResultByColumnName(false, this.testName, username, password, message);
 				reportFail(message, welcomeMessage,this.testName, username, password, message);
+				addRowToDetailedSheet(false, username, password, message);
 				//resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
 				//testFail = true;
 			}
 	 	}
 	 	catch(Exception e){
 	 		reportFail(e.toString(),this.testName, username, password, message);
-	 		/*
-	 		resultSheet.setResultByColumnName(false, this.testName, username, password, message);
-			testFail = true;
-        	String errorFile = PerfectoUtils.takeScreenshot(driver);
-        	resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
-    		Reporter.log(e.toString());
-    		Reporter.log("Error screenshot saved in file: " + errorFile);
-    		Reporter.log("<br> <img src=" + errorFile + " style=\"max-width:50%;max-height:50%\" /> <br>");
-    		*/
+	 		addRowToDetailedSheet(false, username, password, message);
+
 	 	}
 		
         if(testFail){

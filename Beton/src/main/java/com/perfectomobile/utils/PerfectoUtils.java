@@ -350,6 +350,21 @@ public class PerfectoUtils {
 	  }
 	    
 	/**
+	 * Gets the date and time according to a pattern and an offset.
+	 * 
+	 * @param format The format of the requested response. e.g. "yyyy-MM-dd HH-mm-ss"
+	 * @param offset The offset in days from today.
+	 * @return The date and time with the requested format
+	 */
+	public static String getDateAndTimeByFormat(String format, int offset){
+		  Calendar c = Calendar.getInstance();
+		  c.setTime(new Date());
+		  c.add(Calendar.DATE, offset);
+		  DateFormat dateFormat = new SimpleDateFormat(format);
+		  return dateFormat.format(c.getTime());
+	  }
+	
+	/**
 	 * Gets the screenshot on error.
 	 *
 	 * @param driver the driver

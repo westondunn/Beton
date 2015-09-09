@@ -23,6 +23,7 @@ import org.testng.annotations.DataProvider;
 
 import com.perfectomobile.dataDrivers.excelDriver.ExcelDriver;
 import com.perfectomobile.utils.PerfectoUtils;
+import com.perfectomobile.utils.PerfectoUtils.Properties;
 
 
 
@@ -73,10 +74,21 @@ public abstract class BasicTest {
 	 * The {@link ExcelDriver} resultSheet is used for writing test results to Excel DB
 	 */
 	protected ExcelDriver resultSheet;
+	
+	/**
+	 * The {@link ExcelDriver} sheet is used for writing the full detail test results to Excel DB
+	 */
+	protected ExcelDriver detailedResultSheet;
+	
 	/**
 	 * The {@link HashMap} deviceProperties stores all device properties from the Perfecto Mobile Cloud
 	 */
 	private HashMap<String,String> deviceProperties;
+	
+	/**
+	 * The {@link HashMap} testProperties stores all test properties, include device properties
+	 */
+	private HashMap<String, String> testProperties;
 	/**
 	 * The {@link DesiredCapabilities} caps stores the capabilities for every device under test
 	 */
@@ -193,22 +205,10 @@ public abstract class BasicTest {
 			}
 			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
 		 	resultSheet.setResultColumn(this.testCycle, true);
+		 	
+		 	detailedResultSheet = new ExcelDriver(sysProp.get("detailedResultWorkbook"), "fullDetails", true);
+		 	addColumnsToDetailedSheet();
 		 	return;
-			/*
-			if(this.caps.getCapability("deviceName").toString().toLowerCase().equals("chrome")){
-				DesiredCapabilities dc = DesiredCapabilities.chrome();
-				try{
-					this.driver = new RemoteWebDriver(new URL(sysProp.get("remoteDriverURL")),dc);
-					this.deviceDesc = "Chrome";
-					resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-				 	resultSheet.setResultColumn(this.testCycle, true);
-				}
-				catch(Exception e){
-					e.printStackTrace();
-				}
-			 	return;
-			}
-			*/
 		}
 		
 		this.driver = PerfectoUtils.getDriver(caps, Integer.parseInt(sysProp.get("driverRetries")), Integer.parseInt(sysProp.get("retryIntervalSeconds")));
@@ -217,13 +217,18 @@ public abstract class BasicTest {
 			deviceProperties = PerfectoUtils.getDevicePropertiesList(driver);
 			deviceDesc = getDeviceProperty("model");
 			deviceDesc += " ";
-			deviceDesc += getDeviceProperty("description");
+			String deviceDescription = getDeviceProperty("description");
+			if(deviceDescription != null){
+				deviceDesc += deviceDescription;
+			}
 			
-			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
-		 	resultSheet.setResultColumn(this.testCycle, true);
+//			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+//		 	resultSheet.setResultColumn(this.testCycle, true);
 		}
 		resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
 	 	resultSheet.setResultColumn(this.testCycle, true);
+	 	detailedResultSheet = new ExcelDriver(sysProp.get("detailedResultWorkbook"), "fullDetails", true);
+	 	addColumnsToDetailedSheet();
 	}
 	
 
@@ -348,6 +353,103 @@ public abstract class BasicTest {
     	String screenshot = PerfectoUtils.takeScreenshot(driver);
 		Reporter.log("Screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
+	}
+	
+	/**
+	 * Adds a the test result to the Excel db sheet.
+	 * Row includes:
+	 * <ul>
+	 * 	<li> Date and time
+	 *  <li> Server URL
+	 *  <li> User
+	 *  <li> Resource type (Desktop/mobile)
+	 *  <li> Manufacturer (Mobile only)
+	 *  <li> model (Mobile only)
+	 *  <li> OS type
+	 *  <li> OS version (Mobile only)
+	 *  <li> Carrier (Only for mobile)
+	 *  <li> Browser version (Desktop only) 
+	 *  <li> Test name
+	 *  <li> Test params
+	 *  <li> Test cycle
+	 *  <li> Test result
+	 * </ul>
+	 * <p>
+	 *  
+	 */
+	protected void addColumnsToDetailedSheet(){
+		if(driver == null){
+			return;
+		}
+		Map<String, ?> map = driver.getCapabilities().asMap();
+		testProperties = new HashMap<String, String>();
+
+		
+		if(map.get("deviceName") == null){ //desktop browser
+			testProperties.put("host", sysProp.get("remoteDriverURL"));
+			testProperties.put("resourceType", "desktop");
+			for(Map.Entry<String, ?> entry : map.entrySet()){
+				testProperties.put(entry.getKey(), entry.getValue().toString());
+			}
+		}
+		else{
+			testProperties = PerfectoUtils.getDevicePropertiesList(driver);
+			testProperties.put("resourceType", "mobile");
+		}
+		testProperties.put("time", "");
+		testProperties.put("testCycle", "");
+		testProperties.put("testResult", "");
+		testProperties.put("testName", "");
+		testProperties.put("testParameters", "");
+				
+		try {
+			detailedResultSheet.addColumnsFromMap(testProperties);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void addRowToDetailedSheet(boolean isPassed, String... testParams) throws Exception{
+		String params = "";
+		for(String s : testParams){
+			params += s + ", ";
+		}
+		params = params.substring(0, params.lastIndexOf(","));
+		String time = PerfectoUtils.getDateAndTimeByFormat("yyyy-MM-dd HH:mm:ss", 0);
+		String testResult = isPassed? "pass" : "fail";
+		testProperties.put("testParameters", params);
+		testProperties.put("testName", this.testName);
+		testProperties.put("time", time);
+		testProperties.put("testCycle", this.testCycle);
+		testProperties.put("testResult", testResult);
+		detailedResultSheet.addResultsToDetailedSheet(testProperties);
+		
+	}
+	public void writeResultsToExcel(String testName, String[] params, boolean result){
+		String url, user, resourceType, manufacturer, model, OSType,
+		OSVersion, carrier, browserName, browserVersion, platform;
+		String time = PerfectoUtils.getDateAndTimeByFormat("yyyy-MM-dd HH-mm-ss", 0);
+		browserName = driver.getCapabilities().getBrowserName();
+		Map<String, ?> map = driver.getCapabilities().asMap();
+		String deviceName = driver.getCapabilities().getCapability("deviceName").toString();
+		
+		if(map.get("deviceName") != null){ // If mobile device
+			url = sysProp.get("URL");
+			user = sysProp.get("userName");
+			resourceType = "mobile";
+			manufacturer = getDeviceProperty("manufacturer");
+			model = getDeviceProperty("model");
+			OSType = getDeviceProperty("os");
+			OSVersion = getDeviceProperty("os_version");
+			carrier = getDeviceProperty("carrier");
+		}
+		else{ // else - desktop browser
+			url = sysProp.get("remoteDriverURL");
+			resourceType = "desktop";
+			browserVersion = driver.getCapabilities().getVersion();
+			platform = driver.getCapabilities().getPlatform().toString();
+		}
+		
 	}
 	
 	/**
