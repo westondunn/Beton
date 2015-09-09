@@ -12,7 +12,7 @@ public class Lock{
 		int waitCycles = 10;
 		int waited = 0;
 		while(isLocked){
-			wait(2000);
+			wait(10000);
 			if(isLocked){
 				waited++;
 				System.out.println("File is locked, waiting...");
