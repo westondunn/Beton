@@ -9,10 +9,10 @@ public class Lock{
 	}
 
 	public synchronized void lock() throws Exception{
-		int waitCycles = 3;
+		int waitCycles = 10;
 		int waited = 0;
 		while(isLocked){
-			wait(5000);
+			wait(2000);
 			if(isLocked){
 				waited++;
 				System.out.println("File is locked, waiting...");
