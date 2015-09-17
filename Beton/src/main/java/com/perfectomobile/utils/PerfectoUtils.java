@@ -345,7 +345,7 @@ public class PerfectoUtils {
 		  Calendar c = Calendar.getInstance();
 		  c.setTime(new Date());
 		  c.add(Calendar.DATE, offset);
-		  DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-z");
+		  DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS-z");
 		  return dateFormat.format(c.getTime());
 	  }
 	    
