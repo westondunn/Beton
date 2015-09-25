@@ -59,8 +59,8 @@ public class WebCommunityBaseView {
 	public WebCommunityBaseView init() throws IOException{
 				
 		//set timeouts
-		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		
 		//open url
 		driver.get(url);

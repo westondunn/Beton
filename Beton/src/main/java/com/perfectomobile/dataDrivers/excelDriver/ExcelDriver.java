@@ -9,6 +9,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFHyperlink;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -264,6 +265,73 @@ public class ExcelDriver {
 				throw new Exception();
 			}
 		}
+	}
+	public void addColumnsFromMap(Map<String, String> map) throws Exception{
+		
+		lock.lock();
+		try{
+			this.refreshSheet();
+			if(this.sheet.getPhysicalNumberOfRows() != 0 ){	
+				XSSFRow row = this.sheet.getRow(0);
+				boolean isColumnExist = false;
+				int lastColumn = row.getPhysicalNumberOfCells();
+				if(lastColumn == 1){
+					lastColumn = 0;
+				}
+				
+				for(Map.Entry<String, String> entry : map.entrySet()){
+					for(Cell cell : row){
+						if(entry.getKey().toLowerCase().equals(cell.toString().toLowerCase())){
+							isColumnExist = true;
+							break;
+						}
+					}
+					if(!isColumnExist){
+						setCellAsString(0, lastColumn, entry.getKey());
+						lastColumn++;
+					}
+					isColumnExist = false;
+				}
+			}
+			else{
+				int lastColumn = 0;
+				for(Map.Entry<String, String> entry : map.entrySet()){
+					setCellAsString(0, lastColumn, entry.getKey());
+					lastColumn++;
+				}
+			}
+			this.flushWorkbook();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			lock.unlock();
+			return;
+		}
+		lock.unlock();
+	}
+	
+	public void addResultsToDetailedSheet(HashMap<String, String> properties)
+			throws Exception{
+		
+		lock.lock();
+		try{
+			this.refreshSheet();
+			int lastRow = this.sheet.getPhysicalNumberOfRows();
+			XSSFRow row = this.sheet.getRow(lastRow);
+			for(Map.Entry<String, String> entry : properties.entrySet()){
+				this.setCellByColName(lastRow, entry.getKey(), entry.getValue());
+			}
+
+			this.flushWorkbook();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			lock.unlock();
+			return;
+		}
+
+		lock.unlock();
+		
 	}
 	
 	public void setResultByColumnName(boolean isPass, String... params) throws Exception{
@@ -745,8 +813,12 @@ public class ExcelDriver {
 			createHelper = this.workbook.getCreationHelper();
 		}
 		int col = this.getColIndexByName(colName);
+		if(this.sheet.getRow(row) == null){
+			this.sheet.createRow(row);
+		}
 		Cell cell = this.sheet.getRow(row).createCell(col);
 		cell.setCellValue(createHelper.createRichTextString(cellVal));
+		
 	}
 	public void setCellAsString(int row, int col, String cellVal){
 		if(this.createHelper == null){
