@@ -10,11 +10,11 @@
 	
 	
 	<!-- Run_Mode:= Android/IOS -->
-	<parameter name="Run_Mode"  value="Android"/>
+<!-- 	<parameter name="Run_Mode"  value="Android"/> -->
 	
 	<test name="Android_Raj">
 		<!-- Run_Mode:= Android/IOS -->
-		<parameter name="Run_Mode"  value="IOS"/>
+		<parameter name="Run_Mode"  value="Android"/>
 	    <parameter name="deviceID_iphone" value="41EEF156EA10EDAB41632651F7AD2A4C4CB502ED"/> 
 	    <parameter name="deviceID_android" value="30E9D3E3"/> 
 	    <parameter name="appName" value="Maps"/> 
