@@ -407,7 +407,9 @@ public class PerfectoUtils {
 	  
  		
 	  String filePath = new File("").getAbsolutePath();
-	  filePath += "\\test-output\\screenshots-tests";
+	  
+	  //filePath += "\\test-output\\screenshots-tests";
+	  filePath += sysProp.get("screenshotsFolder") + "/";
 	  File theDir = new File(filePath);
 
 	  // if the directory does not exist, create it
@@ -422,7 +424,7 @@ public class PerfectoUtils {
 			  return null;
 		  }        
 	  }
-	  filePath+= "\\";		  
+	  //filePath+= "/";		  
 	  File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 	  String filename = filePath + getDateAndTime(0) + ".png";
 	  //System.out.println(filename);
