@@ -3,7 +3,6 @@
 <suite name="testList" parallel="classes" thread-count="5">	
 	
 	<test name="Test">
-	    <parameter name="testCycle" value="2.82" />
 		<classes>
 			<class name="com.perfectomobile.beton.EmptyTest" />
 			<!-- <class name="com.perfectomobile.beton.CommunitySignIn" /> -->
