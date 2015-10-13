@@ -813,6 +813,13 @@ public class ExcelDriver {
 			createHelper = this.workbook.getCreationHelper();
 		}
 		int col = this.getColIndexByName(colName);
+		
+		if(col == -1){
+			int newCellIndex = this.sheet.getRow(0).getLastCellNum();
+			setCellAsString(0, newCellIndex, colName);
+			col = newCellIndex;
+		}
+		
 		if(this.sheet.getRow(row) == null){
 			this.sheet.createRow(row);
 		}
