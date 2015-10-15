@@ -320,6 +320,10 @@ public class ExcelDriver {
 			XSSFRow row = this.sheet.getRow(lastRow);
 			for(Map.Entry<String, String> entry : properties.entrySet()){
 				this.setCellByColName(lastRow, entry.getKey(), entry.getValue());
+				if(entry.getKey().equals("screenshot")){
+					int col = getColIndexByName(entry.getKey());
+					addScreenshotByRowAndColumnIndexesAsLink(lastRow, col, entry.getValue());
+				}
 			}
 
 			this.flushWorkbook();

@@ -16,8 +16,9 @@ import com.perfectomobile.webCommunityPOM.WebCommunityBaseView;
 
 public class CommunitySignIn extends BasicTest {
 
+
 	@Test (dataProvider="logInData")
-	public void testSignIn(String username, String password, String message) throws Exception{
+	public void signIn(String username, String password, String greetingMsg) throws Exception{
 		boolean testFail = false;
 		WebCommunityBaseView mobileView = null;
 		if(this.driver == null){
@@ -30,29 +31,23 @@ public class CommunitySignIn extends BasicTest {
 			mobileView = mobileView.login(username, password);
 			String welcomeMessage = mobileView.getWelcomeMessage();
 			
-			if (welcomeMessage.equals(message)){
-				//reportPass("passed", this.testName, username, password, message);
+			if (welcomeMessage.equals(greetingMsg)){
+				reportPass("passed", this.testName, username, password, greetingMsg);
 				//addRowToDetailedSheet(true, username, password, message);
 	        	//resultSheet.setResultByColumnName(true, );
 	        }
 			else{
-				//resultSheet.setResultByColumnName(false, this.testName, username, password, message);
-				//reportFail(message, welcomeMessage,this.testName, username, password, message);
-				//addRowToDetailedSheet(false, username, password, message);
-				//resultSheet.addScreenshotByRowNameAsLink(errorFile, this.testName, username, password, message);
-				//testFail = true;
+				reportFail(greetingMsg, welcomeMessage,this.testName, username, password, greetingMsg);
+
 			}
 	 	}
 	 	catch(Exception e){
-	 		//reportFail(e.toString(),this.testName, username, password, message);
-	 		//addRowToDetailedSheet(false, username, password, message);
 
 	 	}
 		
         if(testFail){
         	Assert.fail();
         }
-
 	}
 
 	@DataProvider (name = "logInData", parallel = false)
