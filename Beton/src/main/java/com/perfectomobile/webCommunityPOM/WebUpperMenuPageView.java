@@ -1,4 +1,4 @@
-package com.perfectomobile.webCommunityPOM;
+package com.perfectomobile.web_community_pom;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -203,8 +203,12 @@ public class WebUpperMenuPageView{
 	public String getWelcomeMessage(){
 		
 		try {
-			return driver.findElement(welcomeMessage).getText();
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			String returnValue = driver.findElement(welcomeMessage).getText();
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			return returnValue;
 		} catch (Exception e) {
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			return "";
 		}
 	}
@@ -226,6 +230,7 @@ public class WebUpperMenuPageView{
 			//element.clear();
 			element.sendKeys(text);
 			this.driver.getKeyboard().pressKey(Keys.ENTER);
+			PerfectoUtils.sleep(1000);
 						
 			return new WebSearchResultsPageView(this.driver);
 			

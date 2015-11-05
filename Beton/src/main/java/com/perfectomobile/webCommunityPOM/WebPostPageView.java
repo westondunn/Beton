@@ -1,4 +1,4 @@
-package com.perfectomobile.webCommunityPOM;
+package com.perfectomobile.web_community_pom;
 
 import java.io.IOException;
 import org.openqa.selenium.By;
@@ -52,7 +52,8 @@ public class WebPostPageView extends WebCommunityBaseView {
 	 */
 	public String getPostTitle(){
 		try {
-			return this.driver.findElement(postTitle).getText();
+			//return this.driver.findElement(postTitle).getText();
+			return PerfectoUtils.fluentWait(postTitle, this.driver, 20).getText();
 		} catch (Exception e) {
 			return "ERROR";
 		}
