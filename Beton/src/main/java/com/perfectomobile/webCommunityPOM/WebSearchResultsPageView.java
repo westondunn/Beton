@@ -1,4 +1,4 @@
-package com.perfectomobile.web_community_pom;
+package com.perfectomobile.webCommunityPOM;
 
 import java.io.IOException;
 
