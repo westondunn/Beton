@@ -14,40 +14,27 @@ import com.perfectomobile.test.BasicTest;
 import com.perfectomobile.utils.PerfectoUtils;
 import com.perfectomobile.webCommunityPOM.WebCommunityBaseView;
 
-public class CommunitySignIn extends BasicTest {
-
+public class EmptyTest extends BasicTest {
 
 	@Test (dataProvider="logInData")
-	public void signIn(String username, String password, String greetingMsg) throws Exception{
+	public void testEmpty(String username, String password, String message) throws Exception{
 		boolean testFail = false;
-		WebCommunityBaseView mobileView = null;
+		//WebCommunityBaseView mobileView = null;
 		if(this.driver == null){
 			Assert.fail("Device not available: " + caps);
 		}
 	 	try{
-	 		mobileView = new WebCommunityBaseView(driver);
-	        mobileView = mobileView.init();
-
-			mobileView = mobileView.login(username, password);
-			String welcomeMessage = mobileView.getWelcomeMessage();
-			
-			if (welcomeMessage.equals(greetingMsg)){
-				reportPass("passed", this.testName, username, password, greetingMsg);
-				//addRowToDetailedSheet(true, username, password, message);
-	        	//resultSheet.setResultByColumnName(true, );
-	        }
-			else{
-				reportFail(greetingMsg, welcomeMessage,this.testName, username, password, greetingMsg);
-
-			}
+	 		System.out.println("test");
+	 		reportPass("test pass", "param1", "param2");
 	 	}
 	 	catch(Exception e){
-
+	 		e.printStackTrace();
 	 	}
 		
         if(testFail){
         	Assert.fail();
         }
+
 	}
 
 	@DataProvider (name = "logInData", parallel = false)
@@ -67,7 +54,7 @@ public class CommunitySignIn extends BasicTest {
 	}
 	
 	@Factory(dataProvider="factoryData")
-	public CommunitySignIn(DesiredCapabilities caps) {
+	public EmptyTest(DesiredCapabilities caps) {
 		super(caps);
 	}
 }

@@ -149,7 +149,8 @@ public abstract class BasicTest {
 	 */
 	@BeforeClass
 	public void beforeClass(ITestContext context){
-		this.testCycle = context.getCurrentXmlTest().getParameter("testCycle");
+		//this.testCycle = context.getCurrentXmlTest().getParameter("testCycle");
+		this.testCycle = sysProp.get("testCycle");
 	}
 	
 	
@@ -285,8 +286,9 @@ public abstract class BasicTest {
 		Reporter.log("Error screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		try {
-			resultSheet.setResultByColumnName(false, params);
-			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
+			addRowToDetailedSheet(false, screenshot, params);
+//			resultSheet.setResultByColumnName(false, params);
+//			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -310,8 +312,9 @@ public abstract class BasicTest {
 		Reporter.log("Error screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		try {
-			resultSheet.setResultByColumnName(false, params);
-			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
+			addRowToDetailedSheet(false, screenshot, params);
+//			resultSheet.setResultByColumnName(false, params);
+//			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -334,8 +337,9 @@ public abstract class BasicTest {
 		Reporter.log("Screenshot saved in file: " + screenshot);
 		Reporter.log("<br> <img src=" + screenshot + " style=\"max-width:50%;max-height:50%\" /> <br>");
 		try {
-			resultSheet.setResultByColumnName(true, params);
-			resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
+			addRowToDetailedSheet(true, screenshot, params);
+			//resultSheet.setResultByColumnName(true, params);
+			//resultSheet.addScreenshotByRowNameAsLink(screenshot, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -409,7 +413,7 @@ public abstract class BasicTest {
 			e.printStackTrace();
 		}
 	}
-	public void addRowToDetailedSheet(boolean isPassed, String... testParams) throws Exception{
+	public void addRowToDetailedSheet(boolean isPassed, String screenshot, String... testParams) throws Exception{
 		String params = "";
 		for(String s : testParams){
 			params += s + ", ";
@@ -422,6 +426,7 @@ public abstract class BasicTest {
 		testProperties.put("time", time);
 		testProperties.put("testCycle", this.testCycle);
 		testProperties.put("testResult", testResult);
+		testProperties.put("screenshot", screenshot);
 		detailedResultSheet.addResultsToDetailedSheet(testProperties);
 		
 	}

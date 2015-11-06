@@ -3,7 +3,11 @@ package com.perfectomobile.webCommunityPOM;
 import java.io.IOException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 
 import com.perfectomobile.utils.PerfectoUtils;
@@ -14,7 +18,8 @@ import com.perfectomobile.utils.PerfectoUtils;
 public class WebSearchResultsPageView extends WebCommunityBaseView {
 	
 	/** The search page. */
-	private By searchPage = By.xpath("//*[@class='search-results']|//*[contains(text(),'No results to display')]");
+	//private By searchPage = By.xpath("//*[@class='search-results']|//*[contains(text(),'No results to display')]");
+	private By searchPage = By.xpath("//*[@class='contribution-card in']|//*[contains(text(),'No results to display')]");
 	
 	/** The search results. */
 	private String searchResults = "//li[starts-with(@class,'contribution-card')]";
@@ -99,7 +104,13 @@ public class WebSearchResultsPageView extends WebCommunityBaseView {
 	public WebPostPageView clickPost(int index){
 		By xpath = By.xpath(postsResults + "[" + index + "]") ;
 		try {
-			this.driver.findElement(xpath).click();
+			//this.driver.findElement(xpath).click();
+			WebElement element = PerfectoUtils.fluentWait(xpath, this.driver, 20);
+			//WebDriverWait wait = new WebDriverWait(driver, 10);
+			//wait.until(ExpectedConditions.visibilityOf(element));
+			//PerfectoUtils.sleep(4000);
+			element.click();
+			
 			return new WebPostPageView(driver);
 		} catch (Exception e) {
 			System.out.println("didnt find post number " + index);

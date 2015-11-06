@@ -320,6 +320,10 @@ public class ExcelDriver {
 			XSSFRow row = this.sheet.getRow(lastRow);
 			for(Map.Entry<String, String> entry : properties.entrySet()){
 				this.setCellByColName(lastRow, entry.getKey(), entry.getValue());
+				if(entry.getKey().equals("screenshot")){
+					int col = getColIndexByName(entry.getKey());
+					addScreenshotByRowAndColumnIndexesAsLink(lastRow, col, entry.getValue());
+				}
 			}
 
 			this.flushWorkbook();
@@ -813,6 +817,13 @@ public class ExcelDriver {
 			createHelper = this.workbook.getCreationHelper();
 		}
 		int col = this.getColIndexByName(colName);
+		
+		if(col == -1){
+			int newCellIndex = this.sheet.getRow(0).getLastCellNum();
+			setCellAsString(0, newCellIndex, colName);
+			col = newCellIndex;
+		}
+		
 		if(this.sheet.getRow(row) == null){
 			this.sheet.createRow(row);
 		}
