@@ -409,7 +409,7 @@ public class PerfectoUtils {
 	  String filePath = new File("").getAbsolutePath();
 	  
 	  //filePath += "\\test-output\\screenshots-tests";
-	  filePath += sysProp.get("screenshotsFolder") + "/";
+	  filePath += sysProp.get("screenshotsFolder");
 	  File theDir = new File(filePath);
 
 	  // if the directory does not exist, create it
