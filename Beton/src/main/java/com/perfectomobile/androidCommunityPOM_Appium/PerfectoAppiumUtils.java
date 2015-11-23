@@ -69,7 +69,7 @@ public class PerfectoAppiumUtils {
 		boolean waitForDevice = true;
 		int index = retries;
 		
-		do {
+		do { 
 			try {
 	//			cap.setCapability("user", sysProp.get("userName"));
 	//			cap.setCapability("password", sysProp.get("password"));			
