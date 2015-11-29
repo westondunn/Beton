@@ -166,8 +166,8 @@ public abstract class BasicTest {
 		System.out.println("Run started");
 		
 		if(this.caps.getCapability("deviceName") != null) {
-			String browser = this.caps.getCapability("deviceName").toString().toLowerCase();
-			switch (browser){
+			String deviceName = this.caps.getCapability("deviceName").toString();
+			switch (deviceName.toLowerCase()){
 			case "chrome":
 				try{
 					DesiredCapabilities cDc = DesiredCapabilities.chrome();

@@ -83,8 +83,12 @@ public class PerfectoUtils {
 		do {
 			try {
 				cap.setCapability("user", sysProp.get("perfectoUserName"));
-				cap.setCapability("password", sysProp.get("perfectoPassword"));			
-				driver = new RemoteWebDriver(new URL("https://" + sysProp.get("perfectoURL") + "/nexperience/perfectomobile/wd/hub"), cap);
+				String password = sysProp.get("perfectoPassword"); 
+				if(password.startsWith("~")){
+					password = decryptPassword(password.substring(1), "beton");
+				}
+				cap.setCapability("password", password);
+				driver = new RemoteWebDriver(new URL(sysProp.get("perfectoURL")), cap);
 				System.out.println(sysProp.get("sysDriverMSG"));
 				return driver;
 
@@ -570,7 +574,7 @@ public class PerfectoUtils {
      * @return the unencrypted stringstring
      */
 	
-	public String decryptPassword(String message, String key){
+	public static String decryptPassword(String message, String key){
 		try {
 	      if (message==null || key==null ) return null;
 	      BASE64Decoder decoder = new BASE64Decoder();
