@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="testList" parallel="instances" thread-count="5">	
+<suite name="testList" parallel="none" thread-count="5">	
 	
 	<test name="Test">
 		<classes>
-			<class name="com.perfectomobile.beton.EmptyTest" /> 
-			<class name="com.perfectomobile.beton.CommunitySignIn" />
+		<class name="com.perfectomobile.beton.EmptyTwo" />
+		<!-- 	<class name="com.perfectomobile.beton.CommunitySignIn" /> -->
 		<!-- 
 			<class name="com.perfectomobile.beton.KeywordDrivenTest" />
 		 -->

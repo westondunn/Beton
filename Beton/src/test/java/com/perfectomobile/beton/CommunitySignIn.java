@@ -54,10 +54,10 @@ public class CommunitySignIn extends BasicTest {
 	public Object[][] searchItemsData(){
 		 Object[][] s = null;
 		try {
-		  ExcelDriver ed = new ExcelDriver(sysProp.get("inputDataSheet"), sysProp.get("signInSheet"), false);
+		  ExcelDriver ed = new ExcelDriver(sysProp.get("inputWorkbook"), sysProp.get("signInSheet"), false);
 		  s = ed.getData(3);
 		} catch(IOException e) {
-			System.out.println("Not able to search data from excel: " + sysProp.get("inputDataSheet"));
+			System.out.println("Not able to search data from excel: " + sysProp.get("inputWorkbook"));
 			System.err.println("IndexOutOfBoundsException: " + e.getMessage());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
