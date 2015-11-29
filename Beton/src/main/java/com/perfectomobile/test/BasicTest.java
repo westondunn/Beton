@@ -120,7 +120,7 @@ public abstract class BasicTest {
 	@DataProvider(name="factoryData", parallel=true)
 	public static Object[][] factoryData() throws Exception { 		
 		 ArrayList<HashMap<String,String>> listMap = new ArrayList<HashMap<String,String>>();
-		 listMap = getCapabilitiesListMapFromExcel(Init.prop().get("inputDataSheet"), Init.prop().get("deviceSheet"));
+		 listMap = getCapabilitiesListMapFromExcel(Init.prop().get("inputWorkbook"), Init.prop().get("deviceSheet"));
 		 Object[][] s = PerfectoUtils.getCapabilitiesArray(listMap);
 		 return s;
 	}
@@ -204,7 +204,7 @@ public abstract class BasicTest {
 				default: break;
 					
 			}
-			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+			resultSheet = new ExcelDriver(sysProp.get("outputWorkbook"), this.deviceDesc, true);
 		 	resultSheet.setResultColumn(this.testCycle, true);
 		 	
 		 	detailedResultSheet = new ExcelDriver(sysProp.get("detailedResultWorkbook"), "fullDetails", true);
@@ -226,7 +226,7 @@ public abstract class BasicTest {
 //			resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
 //		 	resultSheet.setResultColumn(this.testCycle, true);
 		}
-		resultSheet = new ExcelDriver(sysProp.get("outputResultSheet"), this.deviceDesc, true);
+		resultSheet = new ExcelDriver(sysProp.get("outputWorkbook"), this.deviceDesc, true);
 	 	resultSheet.setResultColumn(this.testCycle, true);
 	 	detailedResultSheet = new ExcelDriver(sysProp.get("detailedResultWorkbook"), "fullDetails", true);
 	 	addColumnsToDetailedSheet();
