@@ -711,6 +711,7 @@ public class ExcelDriver {
 	    }
 	    this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
 	    Hyperlink link = this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
+	    scrLink = scrLink.replace("\\", "/");
 	    link.setAddress(scrLink);
 	    this.sheet.getRow(row).getCell(col).setHyperlink(link);
 	    //cell.setCellStyle(hlink_style);
