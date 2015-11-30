@@ -93,26 +93,36 @@ public class ExcelDriver {
 		
 		lock.lock();
 		// Check if file exists
-		File f = new File(this.filePath);
+		File f = null;
+		try{
+			f = new File(this.filePath);
+		}
+		catch(Exception e){
+			lock.unlock();
+	    	e.printStackTrace();
+		}
 		if(!f.exists() || f.isDirectory()){
-			this.workbook = new XSSFWorkbook();
 		    
 		    try{
+		    	this.workbook = new XSSFWorkbook();
 		    	FileOutputStream fileOut = new FileOutputStream(this.filePath);
 		    	this.workbook.write(fileOut);
 		    	fileOut.close();
 		    }
 		    catch(Exception e){
+		    	lock.unlock();
 		    	e.printStackTrace();
 		    }
 
 		   
 		}
 		try{
+			
 			FileInputStream inputFile = new FileInputStream(this.filePath);
 			this.workbook = new XSSFWorkbook(inputFile);
 		}
 		catch(Exception e){
+			lock.unlock();
 			e.printStackTrace();
 		}
 		lock.unlock();
@@ -701,6 +711,7 @@ public class ExcelDriver {
 	    }
 	    this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
 	    Hyperlink link = this.createHelper.createHyperlink(Hyperlink.LINK_FILE);
+	    scrLink = scrLink.replace("\\", "/");
 	    link.setAddress(scrLink);
 	    this.sheet.getRow(row).getCell(col).setHyperlink(link);
 	    //cell.setCellStyle(hlink_style);
