@@ -1,5 +1,8 @@
 package com.perfectomobile.utils;
 
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -88,7 +91,22 @@ public class PerfectoUtils {
 					password = decryptPassword(password.substring(1), "beton");
 				}
 				cap.setCapability("password", password);
-				driver = new RemoteWebDriver(new URL(sysProp.get("perfectoURL")), cap);
+				Object automationNameObj = cap.getCapability("automationName");
+				Object platformNameObj = cap.getCapability("platformName");
+				if(automationNameObj != null && automationNameObj.toString().toLowerCase().equals("appium")){
+					if(platformNameObj != null && platformNameObj.toString().toLowerCase().equals("ios")){
+						driver = new IOSDriver(new URL(sysProp.get("perfectoURL")), cap);
+					}
+					else if(platformNameObj != null && platformNameObj.toString().toLowerCase().equals("android")){
+						driver = new AndroidDriver(new URL(sysProp.get("perfectoURL")), cap);
+					}
+					else{
+						throw new Exception("Illegal to use automationName=Appium without platformName");
+					}
+				}
+				else{
+					driver = new RemoteWebDriver(new URL(sysProp.get("perfectoURL")), cap);
+				}
 				System.out.println(sysProp.get("sysDriverMSG"));
 				return driver;
 
