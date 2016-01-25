@@ -4,9 +4,10 @@
 	
 	<test name="Test">
 		<classes>
+		    <class name="com.perfectomobile.beton.TestClass" />
+		 <!-- 
 		<class name="com.perfectomobile.beton.CommunitySignIn" />
-		<!-- 
-			<class name="com.perfectomobile.beton.KeywordDrivenTest" />
+		<class name="com.perfectomobile.beton.KeywordDrivenTest" />
 		 -->
 		</classes>
 
