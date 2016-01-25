@@ -32,14 +32,14 @@ public class AppiumDriverTestCase {
 
 		System.out.println("Run started");
 		
-		DesiredCapabilities capabilities = new DesiredCapabilities("", "", Platform.ANY);
+		DesiredCapabilities capabilities = new DesiredCapabilities("safari", "", Platform.ANY);
 		String host = "demo.perfectomobile.com";		
 		capabilities.setCapability("user", "rajp@perfectomobile.com");
 		capabilities.setCapability("password", "Perfecto12!");
 		capabilities.setCapability("deviceName", "30E9D3E3");
 		
 		//capabilities.setCapability("", "settings");
-		capabilities.setCapability("appPackage", "com.android.settings");
+		//capabilities.setCapability("appPackage", "com.android.settings");
 		
 		
 		// Use the automationName capability to defined the required framework - Appium (this is the default) or PerfectoMobile.
