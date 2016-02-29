@@ -257,4 +257,3 @@ public class AppiumDriverTestCase {
 	}
 
 }
->>>>>>> branch 'master' of https://github.com/PerfectoMobileSA/Beton
