@@ -44,7 +44,7 @@ import com.perfectomobile.test.Init;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
-import java.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -584,7 +584,7 @@ public class PerfectoUtils {
 	public static String decryptPassword(String message, String key){
 		try {
 	      if (message==null || key==null ) return null;
-	      Base64.Decoder decoder = Base64.getDecoder();
+	      Base64 decoder = new Base64();
 	      char[] keys=key.toCharArray();
 	      char[] mesg=new String(decoder.decode(message)).toCharArray();
 

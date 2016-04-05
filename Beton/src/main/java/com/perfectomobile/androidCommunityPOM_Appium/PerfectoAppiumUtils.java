@@ -49,7 +49,7 @@ import com.google.common.base.Function;
 import com.perfectomobile.test.Init;
 
 import io.appium.java_client.android.AndroidDriver;
-import java.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 
 public class PerfectoAppiumUtils {
@@ -389,7 +389,7 @@ public class PerfectoAppiumUtils {
 	public String decryptPassword(String message, String key){
 		try {
 	      if (message==null || key==null ) return null;
-	      Base64.Decoder decoder = Base64.getDecoder();
+	      Base64 decoder = new Base64();
 	      char[] keys=key.toCharArray();
 	      char[] mesg=new String(decoder.decode(message)).toCharArray();
 
